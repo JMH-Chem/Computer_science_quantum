@@ -4,6 +4,9 @@
 
 v0.3에서 덧붙인 내용은 현재 설치된 PySCF의 API·모듈과 이 저장소의 구현·테스트를 기준으로 한 적용 현황입니다. 새 외부 엔진을 설치하거나 독립 프로그램 간 벤치마크를 완료했다는 의미가 아닙니다.
 
+후속 작업에서는 Psi4 1.11을 별도 설치해 분자 8개를 실제 비교했습니다. 이 조사 문서와
+구분한 [독립 수치 검증 기록](independent-validation.md)에 입력·결과·제한을 보존합니다.
+
 ## 비교 기준
 
 프로그램마다 지원하는 물리 문제와 표현이 다릅니다. 기능 이름만 비교하지 않고 다음 항목을 함께 기록합니다.
@@ -20,7 +23,7 @@ v0.3에서 덧붙인 내용은 현재 설치된 PySCF의 API·모듈과 이 저�
 | 프로그램 | 계산 구조와 강점 | 이 프로젝트의 선택 |
 | --- | --- | --- |
 | [PySCF](https://github.com/pyscf/pyscf) | Python 계산 흐름과 C 수치 핵심. 분자와 주기계 모듈, 적분·SCF·DFT·상관·응답 모듈을 조합한다. callback에서 실제 반복 상태를 얻을 수 있다. | 현재 계산 엔진. 분자·주기계 어댑터와 공통 작업 시스템 위에 상관·응답·Hessian 작업을 연결했다. |
-| [Psi4](https://github.com/psi4/psi4) | C++ 계산 핵심과 Python driver. `energy`, `gradient`, `optimize`, `frequency` 같은 작업 인터페이스와 분자 상관 계산에 강점이 있다. | 향후 분자 방법 확장과 독립 수치 검증 후보. 현재 연결하지 않는다. |
+| [Psi4](https://github.com/psi4/psi4) | C++ 계산 핵심과 Python driver. `energy`, `gradient`, `optimize`, `frequency` 같은 작업 인터페이스와 분자 상관 계산에 강점이 있다. | 별도 환경에서 HF·MP2·CCSD·PBE 8개 독립 비교에 사용. 앱의 사용자 선택 엔진으로 연결한 것은 아니다. |
 | [Quantum ESPRESSO](https://github.com/QEF/q-e) | PWscf, PHonon, TD-DFPT 등 패키지와 FFT·선형대수·KS solver·가상퍼텐셜 라이브러리로 구성된다. 평면파 기반 주기계와 응답·재료 계산을 다룬다. | 평면파 재료 어댑터의 비교 기준. PySCF 주기계와 같은 기저라고 표현하지 않는다. |
 | [GPAW](https://gitlab.com/gpaw/gpaw) | ASE와 연결되는 Python 중심 PAW 코드. 실공간 격자, 평면파, 원자 중심 궤도 표현을 제공한다. | PAW·평면파·실공간 확장 후보. 별도 설치·수렴 검증이 필요하다. |
 | [CP2K](https://github.com/cp2k/cp2k) | Fortran 중심이며 Quickstep의 GPW/GAPW 접근, 주기계와 분자 동역학, MPI·스레드·GPU 경로를 제공한다. Gaussian 궤도와 보조 격자/평면파의 역할을 구분해야 한다. | 큰 시스템·동역학 확장 후보. 첫 버전에 함께 번들하지 않는다. |

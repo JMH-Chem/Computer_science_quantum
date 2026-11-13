@@ -22,7 +22,7 @@ PySCF의 Apache 라이선스만 확인하고 Libxc, libcint, BLAS 등 실제 바
 
 | 프로그램 | 공개 저장소에서 확인할 조건 | 현재 처리 |
 | --- | --- | --- |
-| Psi4 | LGPL-3.0 계열 및 문서 조건 | 조사만 수행 |
+| Psi4 | 설치한 conda 패키지 메타데이터: LGPL-3.0-only AND BSD-3-Clause AND MIT | 별도 환경의 선택적 수치 검증에 사용. 앱 wheel에는 포함하지 않음 |
 | Quantum ESPRESSO | GPL-2.0-or-later 및 하위 구성요소 | 조사만 수행 |
 | GPAW | GPL-3.0-or-later | 조사만 수행 |
 | CP2K | GPL 계열과 파일·의존성별 조건 | 조사만 수행 |

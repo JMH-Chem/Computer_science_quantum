@@ -1,0 +1,2821 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-13T17:12:53.836595+00:00",
+  "status": "passed",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+  "runner_provenance": {
+    "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+    "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+    "unchanged": true
+  },
+  "scope": "Independent-engine verification for these small, closed-shell molecular cases only; not experimental accuracy or all-method certification.",
+  "timing_note": "App wall_seconds includes BSE resolution, properties and artifact writing through the app adapter; Psi4 wall_seconds measures energy(). These are different workflows, not a speed comparison. process_wall_seconds also includes imports; peak RSS includes interpreter and imports.",
+  "dft_note": "PBE grids differ between engines. Separate 5e-6 Eh cross-engine and 2e-6 Eh within-engine refinement criteria are predeclared.",
+  "cases": [
+    {
+      "case": "h2_rhf_sto3g",
+      "status": "passed",
+      "comparison": "matched_hamiltonian",
+      "differences": {
+        "energy_hartree": {
+          "app_minus_psi4": 1.8207657603852567e-14,
+          "absolute_difference": 1.8207657603852567e-14,
+          "tolerance": 1e-08,
+          "passed": true
+        },
+        "nuclear_repulsion_hartree": {
+          "app_minus_psi4": 0.0,
+          "absolute_difference": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "input": {
+        "schema_version": 1,
+        "case": "h2_rhf_sto3g",
+        "spec": {
+          "domain": "molecule",
+          "task": "single_point",
+          "method": "HF",
+          "basis": "sto-3g",
+          "atoms": [
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0,
+                0.74
+              ]
+            }
+          ],
+          "charge": 0,
+          "spin": 0,
+          "restricted": true,
+          "ecp": null,
+          "threads": 1,
+          "memory_mb": 1500,
+          "conv_tol": 1e-11,
+          "max_cycle": 100,
+          "frozen_orbitals": 0,
+          "functional": "PBE",
+          "grid_level": 5
+        },
+        "criteria": {
+          "energy_hartree": 1e-08,
+          "nuclear_repulsion_hartree": 1e-10
+        },
+        "comparison": "matched_hamiltonian",
+        "psi4_grid": null,
+        "expected_electrons": 2,
+        "angstrom_per_bohr": 0.52917721092,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.3983973321781458
+          ]
+        ],
+        "coordinate_note": "Psi4 receives the PySCF-converted Bohr geometry explicitly; neither engine reorients it.",
+        "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+        "basis_provider": {
+          "name": "Basis Set Exchange",
+          "version": "0.12"
+        },
+        "basis_sha256": "01f4d54e9b3dfce98f2165ba92f6231b3b7f9653e53a1771ec7f8612124e529d",
+        "gbs_sha256": "654af175b5b3373894cb3c7bd40b53797a2f89687678b15fa882f65dfb393da8",
+        "common_settings": {
+          "spherical": true,
+          "ecp": false,
+          "density_fitting": false,
+          "charge": 0,
+          "spin": 0,
+          "frozen_orbitals": 0,
+          "reference": "RHF"
+        },
+        "input_sha256": "02d5406ec75f0fbba5a3a23aa778f6a6696008624aef5282c6cb1b5db3acee41"
+      },
+      "app": {
+        "engine": "Quantum Lab / PySCF",
+        "version": "2.15.0",
+        "app_version": "0.3.0",
+        "libxc_version": "7.1.2",
+        "converged": true,
+        "scf_converged": true,
+        "energy_hartree": -1.116759307507584,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 0.7151043390810812,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.3983973321781458
+          ]
+        ],
+        "basis_functions": 2,
+        "electron_count": 2,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.12132769700019708,
+        "run_environment": {
+          "quantum_lab_version": "0.3.0",
+          "python_version": "3.12.14",
+          "python_implementation": "cpython",
+          "operating_system": "Linux",
+          "architecture": "x86_64",
+          "packages": {
+            "pyscf": "2.15.0",
+            "numpy": "2.5.4",
+            "scipy": "1.18.1",
+            "ase": "3.29.0",
+            "geometric": "1.1.1",
+            "basis-set-exchange": "0.12"
+          },
+          "source_sha256": {
+            "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+            "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+            "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+            "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+            "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+            "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+            "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+            "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+            "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+            "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+            "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+            "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+            "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+            "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+            "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+            "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+            "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+            "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+            "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+            "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+            "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+          },
+          "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+        },
+        "package_path": "<repository>/src/quantum_lab",
+        "imported_module_paths": {
+          "quantum_lab": "<repository>/src/quantum_lab/__init__.py",
+          "quantum_lab.engines": "<repository>/src/quantum_lab/engines/__init__.py",
+          "quantum_lab.engines.correlated": "<repository>/src/quantum_lab/engines/correlated.py",
+          "quantum_lab.storage": "<repository>/src/quantum_lab/storage.py",
+          "quantum_lab.engines.properties": "<repository>/src/quantum_lab/engines/properties.py",
+          "quantum_lab.engines.molecular": "<repository>/src/quantum_lab/engines/molecular.py",
+          "quantum_lab.provenance": "<repository>/src/quantum_lab/provenance.py"
+        },
+        "source_files_unchanged": true,
+        "finish_source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "settings": {
+          "spec": {
+            "domain": "molecule",
+            "task": "single_point",
+            "method": "HF",
+            "basis": "sto-3g",
+            "atoms": [
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0,
+                  0.74
+                ]
+              }
+            ],
+            "charge": 0,
+            "spin": 0,
+            "restricted": true,
+            "ecp": null,
+            "threads": 1,
+            "memory_mb": 1500,
+            "conv_tol": 1e-11,
+            "max_cycle": 100,
+            "frozen_orbitals": 0,
+            "functional": "PBE",
+            "grid_level": 5
+          },
+          "spherical": true,
+          "density_fitting": false,
+          "dft_grid": null
+        },
+        "status": "completed",
+        "input_sha256": "02d5406ec75f0fbba5a3a23aa778f6a6696008624aef5282c6cb1b5db3acee41",
+        "basis_sha256": "01f4d54e9b3dfce98f2165ba92f6231b3b7f9653e53a1771ec7f8612124e529d",
+        "gbs_sha256": "654af175b5b3373894cb3c7bd40b53797a2f89687678b15fa882f65dfb393da8",
+        "python": "3.12.14",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 96.42578125,
+        "process_exit_code": 0,
+        "process_wall_seconds": 0.9171579969997765
+      },
+      "psi4": {
+        "engine": "Psi4",
+        "version": "1.11",
+        "converged": true,
+        "scf_converged": true,
+        "convergence_evidence": "Psi4 energy() returned with FAIL_ON_MAXITER enabled; exceptions fail the case.",
+        "energy_hartree": -1.116759307507602,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 0.7151043390810812,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.3983973321781458
+          ]
+        ],
+        "basis_functions": 2,
+        "electron_count": 2,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.11906560700026603,
+        "settings": {
+          "basis": "QLAB_SHARED",
+          "puream": true,
+          "reference": "RHF",
+          "scf_type": "PK",
+          "mp2_type": "CONV",
+          "cc_type": "CONV",
+          "freeze_core": false,
+          "frozen_docc": [
+            0
+          ],
+          "e_convergence": 1e-11,
+          "d_convergence": 1e-10,
+          "r_convergence": 1e-09,
+          "maxiter": 100,
+          "fail_on_maxiter": true
+        },
+        "status": "completed",
+        "input_sha256": "02d5406ec75f0fbba5a3a23aa778f6a6696008624aef5282c6cb1b5db3acee41",
+        "basis_sha256": "01f4d54e9b3dfce98f2165ba92f6231b3b7f9653e53a1771ec7f8612124e529d",
+        "gbs_sha256": "654af175b5b3373894cb3c7bd40b53797a2f89687678b15fa882f65dfb393da8",
+        "python": "3.12.16",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 144.125,
+        "process_exit_code": 0,
+        "process_wall_seconds": 0.9726350429991726
+      }
+    },
+    {
+      "case": "water_rhf_def2svp",
+      "status": "passed",
+      "comparison": "matched_hamiltonian",
+      "differences": {
+        "energy_hartree": {
+          "app_minus_psi4": -7.105427357601002e-14,
+          "absolute_difference": 7.105427357601002e-14,
+          "tolerance": 1e-08,
+          "passed": true
+        },
+        "nuclear_repulsion_hartree": {
+          "app_minus_psi4": 0.0,
+          "absolute_difference": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "input": {
+        "schema_version": 1,
+        "case": "water_rhf_def2svp",
+        "spec": {
+          "domain": "molecule",
+          "task": "single_point",
+          "method": "HF",
+          "basis": "def2-svp",
+          "atoms": [
+            {
+              "symbol": "O",
+              "position": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                -0.757,
+                0.587
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0.757,
+                0.587
+              ]
+            }
+          ],
+          "charge": 0,
+          "spin": 0,
+          "restricted": true,
+          "ecp": null,
+          "threads": 1,
+          "memory_mb": 1500,
+          "conv_tol": 1e-11,
+          "max_cycle": 100,
+          "frozen_orbitals": 0,
+          "functional": "PBE",
+          "grid_level": 5
+        },
+        "criteria": {
+          "energy_hartree": 1e-08,
+          "nuclear_repulsion_hartree": 1e-10
+        },
+        "comparison": "matched_hamiltonian",
+        "psi4_grid": null,
+        "expected_electrons": 10,
+        "angstrom_per_bohr": 0.52917721092,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "coordinate_note": "Psi4 receives the PySCF-converted Bohr geometry explicitly; neither engine reorients it.",
+        "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+        "basis_provider": {
+          "name": "Basis Set Exchange",
+          "version": "0.12"
+        },
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "common_settings": {
+          "spherical": true,
+          "ecp": false,
+          "density_fitting": false,
+          "charge": 0,
+          "spin": 0,
+          "frozen_orbitals": 0,
+          "reference": "RHF"
+        },
+        "input_sha256": "4e22e7b66f98339ce8dfa8e3eac15165ffd183399d5db1fd2080fa2724dad093"
+      },
+      "app": {
+        "engine": "Quantum Lab / PySCF",
+        "version": "2.15.0",
+        "app_version": "0.3.0",
+        "libxc_version": "7.1.2",
+        "converged": true,
+        "scf_converged": true,
+        "energy_hartree": -75.96097516698589,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.1376553509999212,
+        "run_environment": {
+          "quantum_lab_version": "0.3.0",
+          "python_version": "3.12.14",
+          "python_implementation": "cpython",
+          "operating_system": "Linux",
+          "architecture": "x86_64",
+          "packages": {
+            "pyscf": "2.15.0",
+            "numpy": "2.5.4",
+            "scipy": "1.18.1",
+            "ase": "3.29.0",
+            "geometric": "1.1.1",
+            "basis-set-exchange": "0.12"
+          },
+          "source_sha256": {
+            "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+            "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+            "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+            "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+            "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+            "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+            "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+            "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+            "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+            "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+            "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+            "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+            "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+            "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+            "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+            "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+            "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+            "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+            "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+            "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+            "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+          },
+          "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+        },
+        "package_path": "<repository>/src/quantum_lab",
+        "imported_module_paths": {
+          "quantum_lab": "<repository>/src/quantum_lab/__init__.py",
+          "quantum_lab.engines": "<repository>/src/quantum_lab/engines/__init__.py",
+          "quantum_lab.engines.correlated": "<repository>/src/quantum_lab/engines/correlated.py",
+          "quantum_lab.storage": "<repository>/src/quantum_lab/storage.py",
+          "quantum_lab.engines.properties": "<repository>/src/quantum_lab/engines/properties.py",
+          "quantum_lab.engines.molecular": "<repository>/src/quantum_lab/engines/molecular.py",
+          "quantum_lab.provenance": "<repository>/src/quantum_lab/provenance.py"
+        },
+        "source_files_unchanged": true,
+        "finish_source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "settings": {
+          "spec": {
+            "domain": "molecule",
+            "task": "single_point",
+            "method": "HF",
+            "basis": "def2-svp",
+            "atoms": [
+              {
+                "symbol": "O",
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  -0.757,
+                  0.587
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0.757,
+                  0.587
+                ]
+              }
+            ],
+            "charge": 0,
+            "spin": 0,
+            "restricted": true,
+            "ecp": null,
+            "threads": 1,
+            "memory_mb": 1500,
+            "conv_tol": 1e-11,
+            "max_cycle": 100,
+            "frozen_orbitals": 0,
+            "functional": "PBE",
+            "grid_level": 5
+          },
+          "spherical": true,
+          "density_fitting": false,
+          "dft_grid": null
+        },
+        "status": "completed",
+        "input_sha256": "4e22e7b66f98339ce8dfa8e3eac15165ffd183399d5db1fd2080fa2724dad093",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.14",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 97.23828125,
+        "process_exit_code": 0,
+        "process_wall_seconds": 0.7663172470001882
+      },
+      "psi4": {
+        "engine": "Psi4",
+        "version": "1.11",
+        "converged": true,
+        "scf_converged": true,
+        "convergence_evidence": "Psi4 energy() returned with FAIL_ON_MAXITER enabled; exceptions fail the case.",
+        "energy_hartree": -75.96097516698582,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.3370007980001901,
+        "settings": {
+          "basis": "QLAB_SHARED",
+          "puream": true,
+          "reference": "RHF",
+          "scf_type": "PK",
+          "mp2_type": "CONV",
+          "cc_type": "CONV",
+          "freeze_core": false,
+          "frozen_docc": [
+            0
+          ],
+          "e_convergence": 1e-11,
+          "d_convergence": 1e-10,
+          "r_convergence": 1e-09,
+          "maxiter": 100,
+          "fail_on_maxiter": true
+        },
+        "status": "completed",
+        "input_sha256": "4e22e7b66f98339ce8dfa8e3eac15165ffd183399d5db1fd2080fa2724dad093",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.16",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 185.94140625,
+        "process_exit_code": 0,
+        "process_wall_seconds": 1.0168898689998969
+      }
+    },
+    {
+      "case": "formaldehyde_rhf_def2svp",
+      "status": "passed",
+      "comparison": "matched_hamiltonian",
+      "differences": {
+        "energy_hartree": {
+          "app_minus_psi4": 2.2737367544323206e-13,
+          "absolute_difference": 2.2737367544323206e-13,
+          "tolerance": 1e-08,
+          "passed": true
+        },
+        "nuclear_repulsion_hartree": {
+          "app_minus_psi4": 0.0,
+          "absolute_difference": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "input": {
+        "schema_version": 1,
+        "case": "formaldehyde_rhf_def2svp",
+        "spec": {
+          "domain": "molecule",
+          "task": "single_point",
+          "method": "HF",
+          "basis": "def2-svp",
+          "atoms": [
+            {
+              "symbol": "C",
+              "position": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "symbol": "O",
+              "position": [
+                0,
+                0,
+                1.208
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0.943,
+                -0.588
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                -0.943,
+                -0.588
+              ]
+            }
+          ],
+          "charge": 0,
+          "spin": 0,
+          "restricted": true,
+          "ecp": null,
+          "threads": 1,
+          "memory_mb": 1500,
+          "conv_tol": 1e-11,
+          "max_cycle": 100,
+          "frozen_orbitals": 0,
+          "functional": "PBE",
+          "grid_level": 5
+        },
+        "criteria": {
+          "energy_hartree": 1e-08,
+          "nuclear_repulsion_hartree": 1e-10
+        },
+        "comparison": "matched_hamiltonian",
+        "psi4_grid": null,
+        "expected_electrons": 16,
+        "angstrom_per_bohr": 0.52917721092,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.2827891584745945
+          ],
+          [
+            0.0,
+            1.7820117354648533,
+            -1.1111589612442563
+          ],
+          [
+            0.0,
+            -1.7820117354648533,
+            -1.1111589612442563
+          ]
+        ],
+        "coordinate_note": "Psi4 receives the PySCF-converted Bohr geometry explicitly; neither engine reorients it.",
+        "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+        "basis_provider": {
+          "name": "Basis Set Exchange",
+          "version": "0.12"
+        },
+        "basis_sha256": "44519f6014aa114eff54e1f9f658877e0cfb7d15b0f5d395407ae3592e10c24a",
+        "gbs_sha256": "490279bf117f67fc68e7df15738ba73e109e5428c8c858390d7c876e2f4866a8",
+        "common_settings": {
+          "spherical": true,
+          "ecp": false,
+          "density_fitting": false,
+          "charge": 0,
+          "spin": 0,
+          "frozen_orbitals": 0,
+          "reference": "RHF"
+        },
+        "input_sha256": "917602238f62e76a19268bd10d8c40f650ab6d3b0784d7bb3394885cc2f556a3"
+      },
+      "app": {
+        "engine": "Quantum Lab / PySCF",
+        "version": "2.15.0",
+        "app_version": "0.3.0",
+        "libxc_version": "7.1.2",
+        "converged": true,
+        "scf_converged": true,
+        "energy_hartree": -113.7779875649754,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 31.195533300773853,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.2827891584745945
+          ],
+          [
+            0.0,
+            1.7820117354648533,
+            -1.1111589612442563
+          ],
+          [
+            0.0,
+            -1.7820117354648533,
+            -1.1111589612442563
+          ]
+        ],
+        "basis_functions": 38,
+        "electron_count": 16,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.2237970790001782,
+        "run_environment": {
+          "quantum_lab_version": "0.3.0",
+          "python_version": "3.12.14",
+          "python_implementation": "cpython",
+          "operating_system": "Linux",
+          "architecture": "x86_64",
+          "packages": {
+            "pyscf": "2.15.0",
+            "numpy": "2.5.4",
+            "scipy": "1.18.1",
+            "ase": "3.29.0",
+            "geometric": "1.1.1",
+            "basis-set-exchange": "0.12"
+          },
+          "source_sha256": {
+            "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+            "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+            "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+            "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+            "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+            "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+            "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+            "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+            "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+            "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+            "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+            "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+            "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+            "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+            "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+            "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+            "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+            "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+            "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+            "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+            "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+          },
+          "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+        },
+        "package_path": "<repository>/src/quantum_lab",
+        "imported_module_paths": {
+          "quantum_lab": "<repository>/src/quantum_lab/__init__.py",
+          "quantum_lab.engines": "<repository>/src/quantum_lab/engines/__init__.py",
+          "quantum_lab.engines.correlated": "<repository>/src/quantum_lab/engines/correlated.py",
+          "quantum_lab.storage": "<repository>/src/quantum_lab/storage.py",
+          "quantum_lab.engines.properties": "<repository>/src/quantum_lab/engines/properties.py",
+          "quantum_lab.engines.molecular": "<repository>/src/quantum_lab/engines/molecular.py",
+          "quantum_lab.provenance": "<repository>/src/quantum_lab/provenance.py"
+        },
+        "source_files_unchanged": true,
+        "finish_source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "settings": {
+          "spec": {
+            "domain": "molecule",
+            "task": "single_point",
+            "method": "HF",
+            "basis": "def2-svp",
+            "atoms": [
+              {
+                "symbol": "C",
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "symbol": "O",
+                "position": [
+                  0,
+                  0,
+                  1.208
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0.943,
+                  -0.588
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  -0.943,
+                  -0.588
+                ]
+              }
+            ],
+            "charge": 0,
+            "spin": 0,
+            "restricted": true,
+            "ecp": null,
+            "threads": 1,
+            "memory_mb": 1500,
+            "conv_tol": 1e-11,
+            "max_cycle": 100,
+            "frozen_orbitals": 0,
+            "functional": "PBE",
+            "grid_level": 5
+          },
+          "spherical": true,
+          "density_fitting": false,
+          "dft_grid": null
+        },
+        "status": "completed",
+        "input_sha256": "917602238f62e76a19268bd10d8c40f650ab6d3b0784d7bb3394885cc2f556a3",
+        "basis_sha256": "44519f6014aa114eff54e1f9f658877e0cfb7d15b0f5d395407ae3592e10c24a",
+        "gbs_sha256": "490279bf117f67fc68e7df15738ba73e109e5428c8c858390d7c876e2f4866a8",
+        "python": "3.12.14",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 99.33203125,
+        "process_exit_code": 0,
+        "process_wall_seconds": 0.8684045970003353
+      },
+      "psi4": {
+        "engine": "Psi4",
+        "version": "1.11",
+        "converged": true,
+        "scf_converged": true,
+        "convergence_evidence": "Psi4 energy() returned with FAIL_ON_MAXITER enabled; exceptions fail the case.",
+        "energy_hartree": -113.77798756497563,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 31.195533300773853,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.2827891584745945
+          ],
+          [
+            0.0,
+            1.7820117354648533,
+            -1.1111589612442563
+          ],
+          [
+            0.0,
+            -1.7820117354648533,
+            -1.1111589612442563
+          ]
+        ],
+        "basis_functions": 38,
+        "electron_count": 16,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.4056431069993778,
+        "settings": {
+          "basis": "QLAB_SHARED",
+          "puream": true,
+          "reference": "RHF",
+          "scf_type": "PK",
+          "mp2_type": "CONV",
+          "cc_type": "CONV",
+          "freeze_core": false,
+          "frozen_docc": [
+            0
+          ],
+          "e_convergence": 1e-11,
+          "d_convergence": 1e-10,
+          "r_convergence": 1e-09,
+          "maxiter": 100,
+          "fail_on_maxiter": true
+        },
+        "status": "completed",
+        "input_sha256": "917602238f62e76a19268bd10d8c40f650ab6d3b0784d7bb3394885cc2f556a3",
+        "basis_sha256": "44519f6014aa114eff54e1f9f658877e0cfb7d15b0f5d395407ae3592e10c24a",
+        "gbs_sha256": "490279bf117f67fc68e7df15738ba73e109e5428c8c858390d7c876e2f4866a8",
+        "python": "3.12.16",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 187.78125,
+        "process_exit_code": 0,
+        "process_wall_seconds": 1.2741149359999326
+      }
+    },
+    {
+      "case": "water_mp2_def2svp",
+      "status": "passed",
+      "comparison": "matched_hamiltonian",
+      "differences": {
+        "energy_hartree": {
+          "app_minus_psi4": 1.3490364381141262e-10,
+          "absolute_difference": 1.3490364381141262e-10,
+          "tolerance": 1e-07,
+          "passed": true
+        },
+        "nuclear_repulsion_hartree": {
+          "app_minus_psi4": 0.0,
+          "absolute_difference": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "reference_energy_hartree": {
+          "app_minus_psi4": -7.105427357601002e-14,
+          "absolute_difference": 7.105427357601002e-14,
+          "tolerance": 1e-08,
+          "passed": true
+        },
+        "correlation_energy_hartree": {
+          "app_minus_psi4": 1.3497469808498863e-10,
+          "absolute_difference": 1.3497469808498863e-10,
+          "tolerance": 1e-07,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "input": {
+        "schema_version": 1,
+        "case": "water_mp2_def2svp",
+        "spec": {
+          "domain": "molecule",
+          "task": "single_point",
+          "method": "MP2",
+          "basis": "def2-svp",
+          "atoms": [
+            {
+              "symbol": "O",
+              "position": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                -0.757,
+                0.587
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0.757,
+                0.587
+              ]
+            }
+          ],
+          "charge": 0,
+          "spin": 0,
+          "restricted": true,
+          "ecp": null,
+          "threads": 1,
+          "memory_mb": 1500,
+          "conv_tol": 1e-11,
+          "max_cycle": 100,
+          "frozen_orbitals": 0,
+          "functional": "PBE",
+          "grid_level": 5
+        },
+        "criteria": {
+          "energy_hartree": 1e-07,
+          "nuclear_repulsion_hartree": 1e-10,
+          "reference_energy_hartree": 1e-08,
+          "correlation_energy_hartree": 1e-07
+        },
+        "comparison": "matched_hamiltonian",
+        "psi4_grid": null,
+        "expected_electrons": 10,
+        "angstrom_per_bohr": 0.52917721092,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "coordinate_note": "Psi4 receives the PySCF-converted Bohr geometry explicitly; neither engine reorients it.",
+        "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+        "basis_provider": {
+          "name": "Basis Set Exchange",
+          "version": "0.12"
+        },
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "common_settings": {
+          "spherical": true,
+          "ecp": false,
+          "density_fitting": false,
+          "charge": 0,
+          "spin": 0,
+          "frozen_orbitals": 0,
+          "reference": "RHF"
+        },
+        "input_sha256": "e78ad3ea618114b5a7e1b38eff11fd6265a3b5de406dbdf9830ae327303128f8"
+      },
+      "app": {
+        "engine": "Quantum Lab / PySCF",
+        "version": "2.15.0",
+        "app_version": "0.3.0",
+        "libxc_version": "7.1.2",
+        "converged": true,
+        "scf_converged": true,
+        "energy_hartree": -76.16459001532087,
+        "reference_energy_hartree": -75.96097516698589,
+        "correlation_energy_hartree": -0.20361484833497911,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.15528943100071047,
+        "run_environment": {
+          "quantum_lab_version": "0.3.0",
+          "python_version": "3.12.14",
+          "python_implementation": "cpython",
+          "operating_system": "Linux",
+          "architecture": "x86_64",
+          "packages": {
+            "pyscf": "2.15.0",
+            "numpy": "2.5.4",
+            "scipy": "1.18.1",
+            "ase": "3.29.0",
+            "geometric": "1.1.1",
+            "basis-set-exchange": "0.12"
+          },
+          "source_sha256": {
+            "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+            "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+            "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+            "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+            "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+            "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+            "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+            "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+            "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+            "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+            "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+            "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+            "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+            "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+            "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+            "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+            "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+            "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+            "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+            "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+            "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+          },
+          "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+        },
+        "package_path": "<repository>/src/quantum_lab",
+        "imported_module_paths": {
+          "quantum_lab": "<repository>/src/quantum_lab/__init__.py",
+          "quantum_lab.engines": "<repository>/src/quantum_lab/engines/__init__.py",
+          "quantum_lab.engines.correlated": "<repository>/src/quantum_lab/engines/correlated.py",
+          "quantum_lab.storage": "<repository>/src/quantum_lab/storage.py",
+          "quantum_lab.engines.properties": "<repository>/src/quantum_lab/engines/properties.py",
+          "quantum_lab.engines.molecular": "<repository>/src/quantum_lab/engines/molecular.py",
+          "quantum_lab.provenance": "<repository>/src/quantum_lab/provenance.py"
+        },
+        "source_files_unchanged": true,
+        "finish_source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "settings": {
+          "spec": {
+            "domain": "molecule",
+            "task": "single_point",
+            "method": "MP2",
+            "basis": "def2-svp",
+            "atoms": [
+              {
+                "symbol": "O",
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  -0.757,
+                  0.587
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0.757,
+                  0.587
+                ]
+              }
+            ],
+            "charge": 0,
+            "spin": 0,
+            "restricted": true,
+            "ecp": null,
+            "threads": 1,
+            "memory_mb": 1500,
+            "conv_tol": 1e-11,
+            "max_cycle": 100,
+            "frozen_orbitals": 0,
+            "functional": "PBE",
+            "grid_level": 5
+          },
+          "spherical": true,
+          "density_fitting": false,
+          "dft_grid": null
+        },
+        "status": "completed",
+        "input_sha256": "e78ad3ea618114b5a7e1b38eff11fd6265a3b5de406dbdf9830ae327303128f8",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.14",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 97.41015625,
+        "process_exit_code": 0,
+        "process_wall_seconds": 0.8667431220001163
+      },
+      "psi4": {
+        "engine": "Psi4",
+        "version": "1.11",
+        "converged": true,
+        "scf_converged": true,
+        "convergence_evidence": "Psi4 energy() returned with FAIL_ON_MAXITER enabled; exceptions fail the case.",
+        "energy_hartree": -76.16459001545577,
+        "reference_energy_hartree": -75.96097516698582,
+        "correlation_energy_hartree": -0.2036148484699538,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.38161022199983563,
+        "settings": {
+          "basis": "QLAB_SHARED",
+          "puream": true,
+          "reference": "RHF",
+          "scf_type": "PK",
+          "mp2_type": "CONV",
+          "cc_type": "CONV",
+          "freeze_core": false,
+          "frozen_docc": [
+            0
+          ],
+          "e_convergence": 1e-11,
+          "d_convergence": 1e-10,
+          "r_convergence": 1e-09,
+          "maxiter": 100,
+          "fail_on_maxiter": true
+        },
+        "status": "completed",
+        "input_sha256": "e78ad3ea618114b5a7e1b38eff11fd6265a3b5de406dbdf9830ae327303128f8",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.16",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 187.1640625,
+        "process_exit_code": 0,
+        "process_wall_seconds": 1.2707814329996836
+      }
+    },
+    {
+      "case": "water_mp2_frozen1_def2svp",
+      "status": "passed",
+      "comparison": "matched_hamiltonian",
+      "differences": {
+        "energy_hartree": {
+          "app_minus_psi4": 1.3453416158881737e-10,
+          "absolute_difference": 1.3453416158881737e-10,
+          "tolerance": 1e-07,
+          "passed": true
+        },
+        "nuclear_repulsion_hartree": {
+          "app_minus_psi4": 0.0,
+          "absolute_difference": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "reference_energy_hartree": {
+          "app_minus_psi4": -7.105427357601002e-14,
+          "absolute_difference": 7.105427357601002e-14,
+          "tolerance": 1e-08,
+          "passed": true
+        },
+        "correlation_energy_hartree": {
+          "app_minus_psi4": 1.3460521586239338e-10,
+          "absolute_difference": 1.3460521586239338e-10,
+          "tolerance": 1e-07,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "input": {
+        "schema_version": 1,
+        "case": "water_mp2_frozen1_def2svp",
+        "spec": {
+          "domain": "molecule",
+          "task": "single_point",
+          "method": "MP2",
+          "basis": "def2-svp",
+          "atoms": [
+            {
+              "symbol": "O",
+              "position": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                -0.757,
+                0.587
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0.757,
+                0.587
+              ]
+            }
+          ],
+          "charge": 0,
+          "spin": 0,
+          "restricted": true,
+          "ecp": null,
+          "threads": 1,
+          "memory_mb": 1500,
+          "conv_tol": 1e-11,
+          "max_cycle": 100,
+          "frozen_orbitals": 1,
+          "functional": "PBE",
+          "grid_level": 5
+        },
+        "criteria": {
+          "energy_hartree": 1e-07,
+          "nuclear_repulsion_hartree": 1e-10,
+          "reference_energy_hartree": 1e-08,
+          "correlation_energy_hartree": 1e-07
+        },
+        "comparison": "matched_hamiltonian",
+        "psi4_grid": null,
+        "expected_electrons": 10,
+        "angstrom_per_bohr": 0.52917721092,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "coordinate_note": "Psi4 receives the PySCF-converted Bohr geometry explicitly; neither engine reorients it.",
+        "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+        "basis_provider": {
+          "name": "Basis Set Exchange",
+          "version": "0.12"
+        },
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "common_settings": {
+          "spherical": true,
+          "ecp": false,
+          "density_fitting": false,
+          "charge": 0,
+          "spin": 0,
+          "frozen_orbitals": 1,
+          "reference": "RHF"
+        },
+        "input_sha256": "08e1e03518ff4470148f27c23a79b570526c738c0579bc1c59acb7c046b7c8be"
+      },
+      "app": {
+        "engine": "Quantum Lab / PySCF",
+        "version": "2.15.0",
+        "app_version": "0.3.0",
+        "libxc_version": "7.1.2",
+        "converged": true,
+        "scf_converged": true,
+        "energy_hartree": -76.16213007010643,
+        "reference_energy_hartree": -75.96097516698589,
+        "correlation_energy_hartree": -0.20115490312053907,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 1,
+        "wall_seconds": 0.13763241400010884,
+        "run_environment": {
+          "quantum_lab_version": "0.3.0",
+          "python_version": "3.12.14",
+          "python_implementation": "cpython",
+          "operating_system": "Linux",
+          "architecture": "x86_64",
+          "packages": {
+            "pyscf": "2.15.0",
+            "numpy": "2.5.4",
+            "scipy": "1.18.1",
+            "ase": "3.29.0",
+            "geometric": "1.1.1",
+            "basis-set-exchange": "0.12"
+          },
+          "source_sha256": {
+            "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+            "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+            "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+            "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+            "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+            "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+            "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+            "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+            "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+            "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+            "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+            "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+            "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+            "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+            "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+            "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+            "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+            "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+            "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+            "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+            "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+          },
+          "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+        },
+        "package_path": "<repository>/src/quantum_lab",
+        "imported_module_paths": {
+          "quantum_lab": "<repository>/src/quantum_lab/__init__.py",
+          "quantum_lab.engines": "<repository>/src/quantum_lab/engines/__init__.py",
+          "quantum_lab.engines.correlated": "<repository>/src/quantum_lab/engines/correlated.py",
+          "quantum_lab.storage": "<repository>/src/quantum_lab/storage.py",
+          "quantum_lab.engines.properties": "<repository>/src/quantum_lab/engines/properties.py",
+          "quantum_lab.engines.molecular": "<repository>/src/quantum_lab/engines/molecular.py",
+          "quantum_lab.provenance": "<repository>/src/quantum_lab/provenance.py"
+        },
+        "source_files_unchanged": true,
+        "finish_source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "settings": {
+          "spec": {
+            "domain": "molecule",
+            "task": "single_point",
+            "method": "MP2",
+            "basis": "def2-svp",
+            "atoms": [
+              {
+                "symbol": "O",
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  -0.757,
+                  0.587
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0.757,
+                  0.587
+                ]
+              }
+            ],
+            "charge": 0,
+            "spin": 0,
+            "restricted": true,
+            "ecp": null,
+            "threads": 1,
+            "memory_mb": 1500,
+            "conv_tol": 1e-11,
+            "max_cycle": 100,
+            "frozen_orbitals": 1,
+            "functional": "PBE",
+            "grid_level": 5
+          },
+          "spherical": true,
+          "density_fitting": false,
+          "dft_grid": null
+        },
+        "status": "completed",
+        "input_sha256": "08e1e03518ff4470148f27c23a79b570526c738c0579bc1c59acb7c046b7c8be",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.14",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 97.375,
+        "process_exit_code": 0,
+        "process_wall_seconds": 0.7700246860003972
+      },
+      "psi4": {
+        "engine": "Psi4",
+        "version": "1.11",
+        "converged": true,
+        "scf_converged": true,
+        "convergence_evidence": "Psi4 energy() returned with FAIL_ON_MAXITER enabled; exceptions fail the case.",
+        "energy_hartree": -76.16213007024096,
+        "reference_energy_hartree": -75.96097516698582,
+        "correlation_energy_hartree": -0.2011549032551443,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 1,
+        "wall_seconds": 0.35307532800015906,
+        "settings": {
+          "basis": "QLAB_SHARED",
+          "puream": true,
+          "reference": "RHF",
+          "scf_type": "PK",
+          "mp2_type": "CONV",
+          "cc_type": "CONV",
+          "freeze_core": false,
+          "frozen_docc": [
+            1
+          ],
+          "e_convergence": 1e-11,
+          "d_convergence": 1e-10,
+          "r_convergence": 1e-09,
+          "maxiter": 100,
+          "fail_on_maxiter": true
+        },
+        "status": "completed",
+        "input_sha256": "08e1e03518ff4470148f27c23a79b570526c738c0579bc1c59acb7c046b7c8be",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.16",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 185.26171875,
+        "process_exit_code": 0,
+        "process_wall_seconds": 1.2223154719995364
+      }
+    },
+    {
+      "case": "water_ccsd_sto3g",
+      "status": "passed",
+      "comparison": "matched_hamiltonian",
+      "differences": {
+        "energy_hartree": {
+          "app_minus_psi4": 1.5347723092418164e-12,
+          "absolute_difference": 1.5347723092418164e-12,
+          "tolerance": 1e-07,
+          "passed": true
+        },
+        "nuclear_repulsion_hartree": {
+          "app_minus_psi4": 0.0,
+          "absolute_difference": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        },
+        "reference_energy_hartree": {
+          "app_minus_psi4": 2.1316282072803006e-13,
+          "absolute_difference": 2.1316282072803006e-13,
+          "tolerance": 1e-08,
+          "passed": true
+        },
+        "correlation_energy_hartree": {
+          "app_minus_psi4": 1.3193682257828243e-12,
+          "absolute_difference": 1.3193682257828243e-12,
+          "tolerance": 1e-07,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "input": {
+        "schema_version": 1,
+        "case": "water_ccsd_sto3g",
+        "spec": {
+          "domain": "molecule",
+          "task": "single_point",
+          "method": "CCSD",
+          "basis": "sto-3g",
+          "atoms": [
+            {
+              "symbol": "O",
+              "position": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                -0.757,
+                0.587
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0.757,
+                0.587
+              ]
+            }
+          ],
+          "charge": 0,
+          "spin": 0,
+          "restricted": true,
+          "ecp": null,
+          "threads": 1,
+          "memory_mb": 1500,
+          "conv_tol": 1e-11,
+          "max_cycle": 100,
+          "frozen_orbitals": 0,
+          "functional": "PBE",
+          "grid_level": 5
+        },
+        "criteria": {
+          "energy_hartree": 1e-07,
+          "nuclear_repulsion_hartree": 1e-10,
+          "reference_energy_hartree": 1e-08,
+          "correlation_energy_hartree": 1e-07
+        },
+        "comparison": "matched_hamiltonian",
+        "psi4_grid": null,
+        "expected_electrons": 10,
+        "angstrom_per_bohr": 0.52917721092,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "coordinate_note": "Psi4 receives the PySCF-converted Bohr geometry explicitly; neither engine reorients it.",
+        "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+        "basis_provider": {
+          "name": "Basis Set Exchange",
+          "version": "0.12"
+        },
+        "basis_sha256": "041b7182c1a4a0bb152c3ae881f649517a0f45d3ae6c3e0f8c71b4e8db761f82",
+        "gbs_sha256": "e8000c6d577e8699a742fe2ec2b3ad60fa9b48fe513b158f1d5df3e933b8912b",
+        "common_settings": {
+          "spherical": true,
+          "ecp": false,
+          "density_fitting": false,
+          "charge": 0,
+          "spin": 0,
+          "frozen_orbitals": 0,
+          "reference": "RHF"
+        },
+        "input_sha256": "69d737769f07fc94a9ce90c063bde448d7b3763b427c5cfa722402e6ae8959da"
+      },
+      "app": {
+        "engine": "Quantum Lab / PySCF",
+        "version": "2.15.0",
+        "app_version": "0.3.0",
+        "libxc_version": "7.1.2",
+        "converged": true,
+        "scf_converged": true,
+        "energy_hartree": -75.01253065083482,
+        "reference_energy_hartree": -74.96306315413325,
+        "correlation_energy_hartree": -0.049467496701566915,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 7,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.18256015699989803,
+        "run_environment": {
+          "quantum_lab_version": "0.3.0",
+          "python_version": "3.12.14",
+          "python_implementation": "cpython",
+          "operating_system": "Linux",
+          "architecture": "x86_64",
+          "packages": {
+            "pyscf": "2.15.0",
+            "numpy": "2.5.4",
+            "scipy": "1.18.1",
+            "ase": "3.29.0",
+            "geometric": "1.1.1",
+            "basis-set-exchange": "0.12"
+          },
+          "source_sha256": {
+            "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+            "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+            "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+            "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+            "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+            "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+            "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+            "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+            "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+            "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+            "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+            "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+            "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+            "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+            "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+            "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+            "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+            "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+            "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+            "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+            "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+          },
+          "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+        },
+        "package_path": "<repository>/src/quantum_lab",
+        "imported_module_paths": {
+          "quantum_lab": "<repository>/src/quantum_lab/__init__.py",
+          "quantum_lab.engines": "<repository>/src/quantum_lab/engines/__init__.py",
+          "quantum_lab.engines.correlated": "<repository>/src/quantum_lab/engines/correlated.py",
+          "quantum_lab.storage": "<repository>/src/quantum_lab/storage.py",
+          "quantum_lab.engines.properties": "<repository>/src/quantum_lab/engines/properties.py",
+          "quantum_lab.engines.molecular": "<repository>/src/quantum_lab/engines/molecular.py",
+          "quantum_lab.provenance": "<repository>/src/quantum_lab/provenance.py"
+        },
+        "source_files_unchanged": true,
+        "finish_source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "settings": {
+          "spec": {
+            "domain": "molecule",
+            "task": "single_point",
+            "method": "CCSD",
+            "basis": "sto-3g",
+            "atoms": [
+              {
+                "symbol": "O",
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  -0.757,
+                  0.587
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0.757,
+                  0.587
+                ]
+              }
+            ],
+            "charge": 0,
+            "spin": 0,
+            "restricted": true,
+            "ecp": null,
+            "threads": 1,
+            "memory_mb": 1500,
+            "conv_tol": 1e-11,
+            "max_cycle": 100,
+            "frozen_orbitals": 0,
+            "functional": "PBE",
+            "grid_level": 5
+          },
+          "spherical": true,
+          "density_fitting": false,
+          "dft_grid": null
+        },
+        "status": "completed",
+        "input_sha256": "69d737769f07fc94a9ce90c063bde448d7b3763b427c5cfa722402e6ae8959da",
+        "basis_sha256": "041b7182c1a4a0bb152c3ae881f649517a0f45d3ae6c3e0f8c71b4e8db761f82",
+        "gbs_sha256": "e8000c6d577e8699a742fe2ec2b3ad60fa9b48fe513b158f1d5df3e933b8912b",
+        "python": "3.12.14",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 97.23046875,
+        "process_exit_code": 0,
+        "process_wall_seconds": 0.8176576020005086
+      },
+      "psi4": {
+        "engine": "Psi4",
+        "version": "1.11",
+        "converged": true,
+        "scf_converged": true,
+        "convergence_evidence": "Psi4 energy() returned with FAIL_ON_MAXITER enabled; exceptions fail the case.",
+        "energy_hartree": -75.01253065083635,
+        "reference_energy_hartree": -74.96306315413347,
+        "correlation_energy_hartree": -0.049467496702886284,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 7,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 0.6707969340004638,
+        "settings": {
+          "basis": "QLAB_SHARED",
+          "puream": true,
+          "reference": "RHF",
+          "scf_type": "PK",
+          "mp2_type": "CONV",
+          "cc_type": "CONV",
+          "freeze_core": false,
+          "frozen_docc": [
+            0
+          ],
+          "e_convergence": 1e-11,
+          "d_convergence": 1e-10,
+          "r_convergence": 1e-09,
+          "maxiter": 100,
+          "fail_on_maxiter": true
+        },
+        "status": "completed",
+        "input_sha256": "69d737769f07fc94a9ce90c063bde448d7b3763b427c5cfa722402e6ae8959da",
+        "basis_sha256": "041b7182c1a4a0bb152c3ae881f649517a0f45d3ae6c3e0f8c71b4e8db761f82",
+        "gbs_sha256": "e8000c6d577e8699a742fe2ec2b3ad60fa9b48fe513b158f1d5df3e933b8912b",
+        "python": "3.12.16",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 178.65234375,
+        "process_exit_code": 0,
+        "process_wall_seconds": 1.419145314999696
+      }
+    },
+    {
+      "case": "water_pbe_grid5",
+      "status": "passed",
+      "comparison": "different_quadratures",
+      "differences": {
+        "energy_hartree": {
+          "app_minus_psi4": -6.190617796164588e-09,
+          "absolute_difference": 6.190617796164588e-09,
+          "tolerance": 5e-06,
+          "passed": true
+        },
+        "nuclear_repulsion_hartree": {
+          "app_minus_psi4": 0.0,
+          "absolute_difference": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "input": {
+        "schema_version": 1,
+        "case": "water_pbe_grid5",
+        "spec": {
+          "domain": "molecule",
+          "task": "single_point",
+          "method": "DFT",
+          "basis": "def2-svp",
+          "atoms": [
+            {
+              "symbol": "O",
+              "position": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                -0.757,
+                0.587
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0.757,
+                0.587
+              ]
+            }
+          ],
+          "charge": 0,
+          "spin": 0,
+          "restricted": true,
+          "ecp": null,
+          "threads": 1,
+          "memory_mb": 1500,
+          "conv_tol": 1e-11,
+          "max_cycle": 100,
+          "frozen_orbitals": 0,
+          "functional": "PBE",
+          "grid_level": 5
+        },
+        "criteria": {
+          "energy_hartree": 5e-06,
+          "nuclear_repulsion_hartree": 1e-10
+        },
+        "comparison": "different_quadratures",
+        "psi4_grid": {
+          "radial_points": 99,
+          "spherical_points": 590,
+          "pruning_scheme": "FLAT"
+        },
+        "expected_electrons": 10,
+        "angstrom_per_bohr": 0.52917721092,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "coordinate_note": "Psi4 receives the PySCF-converted Bohr geometry explicitly; neither engine reorients it.",
+        "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+        "basis_provider": {
+          "name": "Basis Set Exchange",
+          "version": "0.12"
+        },
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "common_settings": {
+          "spherical": true,
+          "ecp": false,
+          "density_fitting": false,
+          "charge": 0,
+          "spin": 0,
+          "frozen_orbitals": 0,
+          "reference": "RKS"
+        },
+        "input_sha256": "ff5575d277fdcae23a45ea021a8eff5969d53e6c050bfc1cba210b8580b09789"
+      },
+      "app": {
+        "engine": "Quantum Lab / PySCF",
+        "version": "2.15.0",
+        "app_version": "0.3.0",
+        "libxc_version": "7.1.2",
+        "converged": true,
+        "scf_converged": true,
+        "energy_hartree": -76.27201437289621,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 1.0306878790006522,
+        "run_environment": {
+          "quantum_lab_version": "0.3.0",
+          "python_version": "3.12.14",
+          "python_implementation": "cpython",
+          "operating_system": "Linux",
+          "architecture": "x86_64",
+          "packages": {
+            "pyscf": "2.15.0",
+            "numpy": "2.5.4",
+            "scipy": "1.18.1",
+            "ase": "3.29.0",
+            "geometric": "1.1.1",
+            "basis-set-exchange": "0.12"
+          },
+          "source_sha256": {
+            "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+            "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+            "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+            "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+            "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+            "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+            "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+            "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+            "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+            "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+            "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+            "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+            "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+            "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+            "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+            "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+            "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+            "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+            "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+            "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+            "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+          },
+          "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+        },
+        "package_path": "<repository>/src/quantum_lab",
+        "imported_module_paths": {
+          "quantum_lab": "<repository>/src/quantum_lab/__init__.py",
+          "quantum_lab.engines": "<repository>/src/quantum_lab/engines/__init__.py",
+          "quantum_lab.engines.correlated": "<repository>/src/quantum_lab/engines/correlated.py",
+          "quantum_lab.storage": "<repository>/src/quantum_lab/storage.py",
+          "quantum_lab.engines.properties": "<repository>/src/quantum_lab/engines/properties.py",
+          "quantum_lab.engines.molecular": "<repository>/src/quantum_lab/engines/molecular.py",
+          "quantum_lab.provenance": "<repository>/src/quantum_lab/provenance.py"
+        },
+        "source_files_unchanged": true,
+        "finish_source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "settings": {
+          "spec": {
+            "domain": "molecule",
+            "task": "single_point",
+            "method": "DFT",
+            "basis": "def2-svp",
+            "atoms": [
+              {
+                "symbol": "O",
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  -0.757,
+                  0.587
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0.757,
+                  0.587
+                ]
+              }
+            ],
+            "charge": 0,
+            "spin": 0,
+            "restricted": true,
+            "ecp": null,
+            "threads": 1,
+            "memory_mb": 1500,
+            "conv_tol": 1e-11,
+            "max_cycle": 100,
+            "frozen_orbitals": 0,
+            "functional": "PBE",
+            "grid_level": 5
+          },
+          "spherical": true,
+          "density_fitting": false,
+          "dft_grid": {
+            "level": 5,
+            "radial": "Treutler",
+            "partition": "original Becke",
+            "pruning": "NWChem"
+          }
+        },
+        "status": "completed",
+        "input_sha256": "ff5575d277fdcae23a45ea021a8eff5969d53e6c050bfc1cba210b8580b09789",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.14",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 171.109375,
+        "process_exit_code": 0,
+        "process_wall_seconds": 1.6209827379998387
+      },
+      "psi4": {
+        "engine": "Psi4",
+        "version": "1.11",
+        "converged": true,
+        "scf_converged": true,
+        "convergence_evidence": "Psi4 energy() returned with FAIL_ON_MAXITER enabled; exceptions fail the case.",
+        "energy_hartree": -76.27201436670559,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 2.410901253000702,
+        "settings": {
+          "basis": "QLAB_SHARED",
+          "puream": true,
+          "reference": "RHF",
+          "scf_type": "PK",
+          "mp2_type": "CONV",
+          "cc_type": "CONV",
+          "freeze_core": false,
+          "frozen_docc": [
+            0
+          ],
+          "e_convergence": 1e-11,
+          "d_convergence": 1e-10,
+          "r_convergence": 1e-09,
+          "maxiter": 100,
+          "fail_on_maxiter": true,
+          "dft_radial_points": 99,
+          "dft_spherical_points": 590,
+          "dft_pruning_scheme": "FLAT"
+        },
+        "status": "completed",
+        "input_sha256": "ff5575d277fdcae23a45ea021a8eff5969d53e6c050bfc1cba210b8580b09789",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.16",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 330.19140625,
+        "process_exit_code": 0,
+        "process_wall_seconds": 3.1241885030003687
+      }
+    },
+    {
+      "case": "water_pbe_grid6",
+      "status": "passed",
+      "comparison": "different_quadratures",
+      "differences": {
+        "energy_hartree": {
+          "app_minus_psi4": 2.7483594067234662e-08,
+          "absolute_difference": 2.7483594067234662e-08,
+          "tolerance": 5e-06,
+          "passed": true
+        },
+        "nuclear_repulsion_hartree": {
+          "app_minus_psi4": 0.0,
+          "absolute_difference": 0.0,
+          "tolerance": 1e-10,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "input": {
+        "schema_version": 1,
+        "case": "water_pbe_grid6",
+        "spec": {
+          "domain": "molecule",
+          "task": "single_point",
+          "method": "DFT",
+          "basis": "def2-svp",
+          "atoms": [
+            {
+              "symbol": "O",
+              "position": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                -0.757,
+                0.587
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0,
+                0.757,
+                0.587
+              ]
+            }
+          ],
+          "charge": 0,
+          "spin": 0,
+          "restricted": true,
+          "ecp": null,
+          "threads": 1,
+          "memory_mb": 1500,
+          "conv_tol": 1e-11,
+          "max_cycle": 100,
+          "frozen_orbitals": 0,
+          "functional": "PBE",
+          "grid_level": 6
+        },
+        "criteria": {
+          "energy_hartree": 5e-06,
+          "nuclear_repulsion_hartree": 1e-10
+        },
+        "comparison": "different_quadratures",
+        "psi4_grid": {
+          "radial_points": 175,
+          "spherical_points": 974,
+          "pruning_scheme": "FLAT"
+        },
+        "expected_electrons": 10,
+        "angstrom_per_bohr": 0.52917721092,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "coordinate_note": "Psi4 receives the PySCF-converted Bohr geometry explicitly; neither engine reorients it.",
+        "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+        "basis_provider": {
+          "name": "Basis Set Exchange",
+          "version": "0.12"
+        },
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "common_settings": {
+          "spherical": true,
+          "ecp": false,
+          "density_fitting": false,
+          "charge": 0,
+          "spin": 0,
+          "frozen_orbitals": 0,
+          "reference": "RKS"
+        },
+        "input_sha256": "7dac0050a721ba678e5d3438b864668a0aa8c833f60827f7087207e983c911b3"
+      },
+      "app": {
+        "engine": "Quantum Lab / PySCF",
+        "version": "2.15.0",
+        "app_version": "0.3.0",
+        "libxc_version": "7.1.2",
+        "converged": true,
+        "scf_converged": true,
+        "energy_hartree": -76.2720143256536,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 1.4076828879997265,
+        "run_environment": {
+          "quantum_lab_version": "0.3.0",
+          "python_version": "3.12.14",
+          "python_implementation": "cpython",
+          "operating_system": "Linux",
+          "architecture": "x86_64",
+          "packages": {
+            "pyscf": "2.15.0",
+            "numpy": "2.5.4",
+            "scipy": "1.18.1",
+            "ase": "3.29.0",
+            "geometric": "1.1.1",
+            "basis-set-exchange": "0.12"
+          },
+          "source_sha256": {
+            "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+            "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+            "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+            "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+            "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+            "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+            "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+            "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+            "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+            "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+            "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+            "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+            "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+            "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+            "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+            "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+            "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+            "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+            "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+            "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+            "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+          },
+          "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+        },
+        "package_path": "<repository>/src/quantum_lab",
+        "imported_module_paths": {
+          "quantum_lab": "<repository>/src/quantum_lab/__init__.py",
+          "quantum_lab.engines": "<repository>/src/quantum_lab/engines/__init__.py",
+          "quantum_lab.engines.correlated": "<repository>/src/quantum_lab/engines/correlated.py",
+          "quantum_lab.storage": "<repository>/src/quantum_lab/storage.py",
+          "quantum_lab.engines.properties": "<repository>/src/quantum_lab/engines/properties.py",
+          "quantum_lab.engines.molecular": "<repository>/src/quantum_lab/engines/molecular.py",
+          "quantum_lab.provenance": "<repository>/src/quantum_lab/provenance.py"
+        },
+        "source_files_unchanged": true,
+        "finish_source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "settings": {
+          "spec": {
+            "domain": "molecule",
+            "task": "single_point",
+            "method": "DFT",
+            "basis": "def2-svp",
+            "atoms": [
+              {
+                "symbol": "O",
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  -0.757,
+                  0.587
+                ]
+              },
+              {
+                "symbol": "H",
+                "position": [
+                  0,
+                  0.757,
+                  0.587
+                ]
+              }
+            ],
+            "charge": 0,
+            "spin": 0,
+            "restricted": true,
+            "ecp": null,
+            "threads": 1,
+            "memory_mb": 1500,
+            "conv_tol": 1e-11,
+            "max_cycle": 100,
+            "frozen_orbitals": 0,
+            "functional": "PBE",
+            "grid_level": 6
+          },
+          "spherical": true,
+          "density_fitting": false,
+          "dft_grid": {
+            "level": 6,
+            "radial": "Treutler",
+            "partition": "original Becke",
+            "pruning": "NWChem"
+          }
+        },
+        "status": "completed",
+        "input_sha256": "7dac0050a721ba678e5d3438b864668a0aa8c833f60827f7087207e983c911b3",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.14",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 180.99609375,
+        "process_exit_code": 0,
+        "process_wall_seconds": 1.9711149370004932
+      },
+      "psi4": {
+        "engine": "Psi4",
+        "version": "1.11",
+        "converged": true,
+        "scf_converged": true,
+        "convergence_evidence": "Psi4 energy() returned with FAIL_ON_MAXITER enabled; exceptions fail the case.",
+        "energy_hartree": -76.2720143531372,
+        "reference_energy_hartree": null,
+        "correlation_energy_hartree": null,
+        "nuclear_repulsion_hartree": 9.188258417746113,
+        "geometry_bohr": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -1.430522676295752,
+            1.1092692351196913
+          ],
+          [
+            0.0,
+            1.430522676295752,
+            1.1092692351196913
+          ]
+        ],
+        "basis_functions": 24,
+        "electron_count": 10,
+        "frozen_orbitals": 0,
+        "wall_seconds": 6.129335054999501,
+        "settings": {
+          "basis": "QLAB_SHARED",
+          "puream": true,
+          "reference": "RHF",
+          "scf_type": "PK",
+          "mp2_type": "CONV",
+          "cc_type": "CONV",
+          "freeze_core": false,
+          "frozen_docc": [
+            0
+          ],
+          "e_convergence": 1e-11,
+          "d_convergence": 1e-10,
+          "r_convergence": 1e-09,
+          "maxiter": 100,
+          "fail_on_maxiter": true,
+          "dft_radial_points": 175,
+          "dft_spherical_points": 974,
+          "dft_pruning_scheme": "FLAT"
+        },
+        "status": "completed",
+        "input_sha256": "7dac0050a721ba678e5d3438b864668a0aa8c833f60827f7087207e983c911b3",
+        "basis_sha256": "4e8ce1e85dc796c5d9338aae7d2a3dea2a551e04c147ce06f1efccb8c3d2b871",
+        "gbs_sha256": "e06f14134c040e31cf78f6c815a4adeb520f6a0b700c4f9c4e5e9b3692673f53",
+        "python": "3.12.16",
+        "runner_provenance": {
+          "start_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "finish_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+          "unchanged": true
+        },
+        "process_peak_rss_mib": 602.51953125,
+        "process_exit_code": 0,
+        "process_wall_seconds": 7.050830931000746
+      }
+    }
+  ],
+  "dft_grid_refinement": {
+    "status": "passed",
+    "checks": {
+      "app": {
+        "absolute_energy_change_hartree": 4.724260804778169e-08,
+        "tolerance_hartree": 2e-06,
+        "passed": true
+      },
+      "psi4": {
+        "absolute_energy_change_hartree": 1.3568396184382436e-08,
+        "tolerance_hartree": 2e-06,
+        "passed": true
+      }
+    },
+    "note": "Different atom-centered quadratures; refinement is evidence for these geometries only."
+  },
+  "archive": {
+    "filename": "independent-validation-20261113T171227Z-f6912680.zip",
+    "sha256": "5eb83567305208f57ccc1eb2de93144671f86eacdbcdb7d70d15a0fec44b57e8"
+  },
+  "raw_report_sha256": "535bf312b9688caec38df44402340b8610489a339315c7e89879c07f4a63d425",
+  "portability_note": "Absolute repository source paths replaced by <repository>; run_directory omitted. Numerical results and input hashes are unchanged. Full local archive preserves original records.",
+  "validation_environment": {
+    "validation/psi4-linux-64.lock": "9f3ffa0d49d4664b7555468e908343e28ffe6adf22018e8fd768d0002cb54e3a",
+    "validation/psi4-package-manifest.json": "7a98969f03e0268b6c675e014fb0cce7372d9a107049a3c12d1c68fbe6388b92"
+  }
+}

@@ -6,6 +6,8 @@
 
 [현재 계산 화면](docs/images/workspace-redesign.png) · [화면 정리 내용](docs/design-refresh.md)
 
+[현재 완성 범위와 다음 순서](docs/release-readiness.md) · [Psi4와 실제 8개 독립 비교](docs/independent-validation.md)
+
 **SCF 반복은 실제 시간이 아닙니다.** 화면은 계산 중 에너지 상승과 진동도 그대로 보여줍니다. TDDFT의 여기 에너지·전이 세기와 교육용 S1→S0 모식도는 실제 들뜬 상태 이완 궤적이나 수명 계산과 구분합니다.
 
 ## 기능과 지원 범위 — v0.3
@@ -157,6 +159,10 @@ npm --prefix frontend run build
 ```
 
 실제 과학 계산 테스트는 CPU 시간이 필요합니다. 테스트 명령, 수치 허용오차, 브라우저 검증과 미검증 항목은 [검증 기록](docs/validation.md)을 기준으로 확인하세요.
+
+별도의 Psi4 환경을 사용한 선택적 독립 비교는 [검증 환경 안내](validation/README.md)를
+따릅니다. 앱의 필수 의존성은 늘리지 않으며, 같은 BSE 기저의 HF·MP2·CCSD와
+서로 다른 격자를 명시한 PBE 비교를 재현할 수 있습니다.
 
 ## 설계와 참고 자료
 
