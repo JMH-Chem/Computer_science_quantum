@@ -1,0 +1,43 @@
+{
+  "name": "water QUEST1 literature check",
+  "domain": "molecule",
+  "atoms": [
+    {
+      "symbol": "O",
+      "position": [
+        0.0,
+        0.0,
+        -0.06990256
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        0.0,
+        0.75753241,
+        0.51843495
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        0.0,
+        -0.75753241,
+        0.51843495
+      ]
+    }
+  ],
+  "basis": "aug-cc-pvtz",
+  "charge": 0,
+  "spin": 0,
+  "restricted": true,
+  "threads": 1,
+  "memory_mb": 8000,
+  "conv_tol": 1e-10,
+  "max_cycle": 120,
+  "nstates": 3,
+  "grid_level": 4,
+  "task": "eomccsd",
+  "method": "CCSD",
+  "frozen_orbitals": 1
+}

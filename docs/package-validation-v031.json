@@ -1,0 +1,389 @@
+{
+  "created_utc": "2026-11-13T19:04:23.890545+00:00",
+  "root": "fresh-install",
+  "release_directory": "dist/quantum-lab-0.3.1-20261113T190417Z-0530dd",
+  "wheel": {
+    "filename": "quantum_lab-0.3.1-py3-none-any.whl",
+    "sha256": "f299bf08ff3bc3b13c2d0207ed547c9016d162cba0e53cb5be8e192930666429",
+    "bytes": 1835029
+  },
+  "status": "passed",
+  "commands": [
+    {
+      "name": "create-venv",
+      "exit_code": 0,
+      "seconds": 0.07017889300004754
+    },
+    {
+      "name": "install-dependencies",
+      "exit_code": 0,
+      "seconds": 2.44960741199975
+    },
+    {
+      "name": "install-wheel",
+      "exit_code": 0,
+      "seconds": 0.07232270600070478
+    },
+    {
+      "name": "installed-provenance",
+      "exit_code": 0,
+      "seconds": 0.09687146199939889
+    },
+    {
+      "name": "doctor",
+      "exit_code": 0,
+      "seconds": 2.3598258679994615
+    },
+    {
+      "name": "distribution-count",
+      "exit_code": 0,
+      "seconds": 0.1138610369998787
+    },
+    {
+      "name": "examples",
+      "exit_code": 0,
+      "seconds": 1.4813860740014206
+    },
+    {
+      "name": "h2-input",
+      "exit_code": 0,
+      "seconds": 0.8028896529995109
+    },
+    {
+      "name": "h2-calculation",
+      "exit_code": 0,
+      "seconds": 3.56974809500025
+    },
+    {
+      "name": "diamond-input",
+      "exit_code": 0,
+      "seconds": 1.5969183369998063
+    },
+    {
+      "name": "diamond-calculation",
+      "exit_code": 0,
+      "seconds": 7.441754413999661
+    }
+  ],
+  "notes": [
+    "Fresh virtual environment on the current Linux host, not a new machine or Windows WSL2.",
+    "Calculations ran concurrently with other acceptance tests; times are not performance benchmarks.",
+    "Temporary absolute paths normalized for this portable report; original paths, logs, and installed environment retained in .cache/v031-package.json and .cache/v031-package-summary.json.",
+    "23 Python source files are hash-verified; this is not a claim that every possible code path was executed by the two installed-package calculations."
+  ],
+  "installed_provenance": {
+    "executable": "fresh-install/venv/bin/python",
+    "package_path": "fresh-install/venv/lib/python3.12/site-packages/quantum_lab",
+    "environment": {
+      "quantum_lab_version": "0.3.1",
+      "python_version": "3.12.14",
+      "python_implementation": "cpython",
+      "operating_system": "Linux",
+      "architecture": "x86_64",
+      "packages": {
+        "pyscf": "2.15.0",
+        "numpy": "2.5.4",
+        "scipy": "1.18.1",
+        "ase": "3.29.0",
+        "geometric": "1.1.1",
+        "basis-set-exchange": "0.12"
+      },
+      "source_sha256": {
+        "__init__.py": "85de15a2468baf42a233decba25bb15b0f6b2a3d5d3ca213c8419e074343bf7a",
+        "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+        "catalog.py": "e9d499dea803773573911b938c846856cc43300a355ea3e2015ff24874d88322",
+        "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+        "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+        "engines/correlated.py": "936a4880cb36818bd82b29a4bba8795292187b3eb08cb4da1ffb4b82a41a8b15",
+        "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+        "engines/molecular.py": "2d622363a9d2d81c42005b36451bfbdc62b751037542f34339d40ff9892e5642",
+        "engines/periodic.py": "fda0ef6fa6af053aa983ba4cfc22d1e6b300521c00c05e8c652523441042b60e",
+        "engines/periodic_analysis.py": "9c332d5dcb2602829c76c0162d50bce983d05c6742fe5c35c51c6670297b5572",
+        "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+        "engines/response.py": "3845cc585f40e1ae1960f2fe2aad610ebdeb40d41b987c65958d62e9cef0fe88",
+        "engines/symmetry.py": "0fdde775d222fd5aea4bb6f28855fc196d7f62e32c67f53b670b9868ae8c5c1f",
+        "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+        "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+        "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+        "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+        "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+        "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+        "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+        "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+        "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+        "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+      },
+      "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+    }
+  },
+  "verified_source_files": 23,
+  "doctor": {
+    "versions": {
+      "Quantum Lab": "0.3.1",
+      "Python": "3.12.14",
+      "PySCF": "2.15.0",
+      "NumPy": "2.5.4",
+      "SciPy": "1.18.1",
+      "ASE": "3.29.0",
+      "geomeTRIC": "1.1.1",
+      "Basis Set Exchange": "0.12",
+      "FastAPI": "0.162.6",
+      "Uvicorn": "0.54.0",
+      "Libxc": "7.1.2"
+    },
+    "missing_components": [],
+    "platform": {
+      "system": "Linux",
+      "release": "6.18.57",
+      "machine": "x86_64",
+      "wsl_detected": false,
+      "wsl_validation": "not performed by this diagnostic"
+    },
+    "resources": {
+      "logical_cpus": 5,
+      "affinity_cpus": 5,
+      "cgroup_cpu_quota": 4.0,
+      "host_memory_bytes": 35743748096,
+      "cgroup_memory_limit_bytes": 34359738368,
+      "effective_memory_limit_bytes": 34359738368
+    },
+    "frontend": {
+      "built": true,
+      "path": "fresh-install/venv/lib/python3.12/site-packages/quantum_lab/static"
+    },
+    "ready_for_headless": true,
+    "checks_performed": "Installed metadata and local runtime only; no SCF, network, or installation checks."
+  },
+  "installed_distribution_count": 43,
+  "examples": [
+    "h2\tH₂ · 첫 SCF 계산",
+    "water\tH₂O · DFT와 전자밀도",
+    "formaldehyde\t포름알데히드 · 흡수와 여기",
+    "diamond\t다이아몬드 · 결정과 밴드",
+    "rhf\t직접 푸는 RHF · 행렬의 의미",
+    "water_mp2\tH₂O · 전자 상관 MP2",
+    "hydrogen_ccsd\tH₂ · CCSD와 상관 에너지",
+    "hydrogen_casscf\tH₂ · CASSCF(2,2)",
+    "water_nevpt2\tH₂O · CASCI 기준 NEVPT2",
+    "water_eom\tH₂O · EOM-EE-CCSD",
+    "water_vibrations\tH₂O · 조화 진동과 IR",
+    "formaldehyde_tdhf\t포름알데히드 · TDHF"
+  ],
+  "calculations": [
+    {
+      "example": "h2",
+      "input": {
+        "name": "H₂ · 첫 SCF 계산",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.0,
+              0.74
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "HF",
+        "basis": "sto-3g",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "frozen_orbitals": 0,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "summary": {
+        "type": "result",
+        "job_id": "70df2e26-4ed1-492b-93c6-163e267377a1",
+        "status": "succeeded",
+        "exit_code": 0,
+        "energy_hartree": -1.116759307507584,
+        "work_directory": "fresh-install/jobs-h2/jobs/70df2e26-4ed1-492b-93c6-163e267377a1",
+        "result_file": "fresh-install/jobs-h2/jobs/70df2e26-4ed1-492b-93c6-163e267377a1/result.json",
+        "error": null
+      },
+      "band_gap_ev": null,
+      "source_matches_installed_wheel": true
+    },
+    {
+      "example": "diamond",
+      "input": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "bands",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-szv",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "frozen_orbitals": 0,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "summary": {
+        "type": "result",
+        "job_id": "a62e42b8-6df2-4979-98e0-3df994e52167",
+        "status": "succeeded",
+        "exit_code": 0,
+        "energy_hartree": -10.167721304309753,
+        "work_directory": "fresh-install/jobs-diamond/jobs/a62e42b8-6df2-4979-98e0-3df994e52167",
+        "result_file": "fresh-install/jobs-diamond/jobs/a62e42b8-6df2-4979-98e0-3df994e52167/result.json",
+        "error": null
+      },
+      "band_gap_ev": 5.7085481828163225,
+      "source_matches_installed_wheel": true
+    }
+  ],
+  "http": {
+    "health": {
+      "status": "ok",
+      "version": "0.3.1",
+      "queue": "single-worker",
+      "storage": "sqlite"
+    },
+    "index_matches_installed_package": true,
+    "assets": [
+      {
+        "path": "/assets/3Dmol-CSa84eMx.js",
+        "status": 200,
+        "bytes": 501,
+        "sha256": "9ddf012a157440254e1a578d9e9e7f685dc40524c7d653fa9a3f43d6fea839b3"
+      },
+      {
+        "path": "/assets/index-CxRWXxJT.css",
+        "status": 200,
+        "bytes": 42521,
+        "sha256": "868f630bbf29a75111ec158c7c009a9b4d571ad5f6713d453238831bfb854e77"
+      },
+      {
+        "path": "/assets/index-DqxV1obl.js",
+        "status": 200,
+        "bytes": 351977,
+        "sha256": "e2008618045fbe9d830e74be4e639d5c0826742193b191f60593d49548c70d0c"
+      },
+      {
+        "path": "/assets/molecule-ZR6f-xkO.js",
+        "status": 200,
+        "bytes": 587705,
+        "sha256": "9c2b3abb317bb3953c0508c6a7044eb8a2087a2134a5da5690092a1674c1f399"
+      },
+      {
+        "path": "/assets/plotly-L5j05c04.js",
+        "status": 200,
+        "bytes": 4843013,
+        "sha256": "d0fec60fcf7fe020c722840746990baa76dc534f9ceeea91b507a9ea06307368"
+      }
+    ],
+    "theme_color": "#f4f3ef",
+    "favicon": {
+      "path": "/favicon.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "sha256": "9edbcb54b3de7a6e053a67647bec5e6aa9173dab7d647f832b70f75533137d8b"
+    }
+  },
+  "http_server_stopped": true,
+  "version": "0.3.1",
+  "built_source_still_matches_working_tree": true,
+  "wsl_validation": "not performed",
+  "actual_16gb_pc_validation": "not performed; effective host limit 32 GiB"
+}

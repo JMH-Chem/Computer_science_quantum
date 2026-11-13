@@ -99,6 +99,16 @@ export interface Excitation {
   energy_ev: number;
   oscillator_strength: number;
   nto_weights?: number[];
+  symmetry?: string | null;
+  symmetry_group?: string | null;
+  residual_norm?: number | null;
+}
+export interface RootSearch {
+  strategy: string;
+  group: string | null;
+  complete: boolean;
+  scope: string;
+  blocks: Record<string, unknown>[];
 }
 export interface Result {
   converged: boolean;
@@ -106,7 +116,7 @@ export interface Result {
   atoms?: Atom[];
   lattice?: number[][] | null;
   engine?: { name: string; version: string };
-  orbital_energies_hartree?: number[] | number[][];
+  orbital_energies_hartree?: (number | null)[] | (number | null)[][];
   occupations?: number[] | number[][];
   dipole_debye?: number[];
   reference_energy_hartree?: number;
@@ -119,6 +129,7 @@ export interface Result {
   properties?: MolecularProperties;
   vibrations?: VibrationalResult;
   sampled_dos?: SampledDOS;
+  sampled_dos_unavailable_reason?: string;
   crystal_properties?: CrystalProperties;
   sampled_band_edges?: SampledBandEdges;
   excitations?: Excitation[];
@@ -129,7 +140,8 @@ export interface Result {
     distance: number[];
     break_indices?: number[];
     n_occupied?: number;
-    energies_ev: number[][];
+    energies_ev: (number | null)[][];
+    retained_bands_per_kpoint?: number[];
     labels: { distance: number; label: string }[];
     reference: string;
     gap_ev?: number;
@@ -164,7 +176,10 @@ export interface EOMResult {
     energy_ev: number;
     converged: boolean;
     residual_norm: number;
+    symmetry?: string | null;
+    symmetry_group?: string | null;
   }[];
+  root_search?: RootSearch;
   requested_states: number;
   residual_tolerance: number;
   wavefunction_artifact: string;

@@ -466,6 +466,12 @@ export default function App() {
             catalog={catalog}
             expert={expert}
             onRun={(s) => void run(s)}
+            onPrepareExample={() => {
+              setSelectedId(null);
+              setJob(null);
+              setTab("convergence");
+              setError("");
+            }}
             busy={submitting}
             onError={setError}
           />
@@ -558,6 +564,11 @@ export default function App() {
                     ? "엔진의 최종 결과"
                     : "SCF 중간값 · 수렴 후 최종값 확정"}
                 </span>
+                {!expert && (
+                  <span className="metric-detail">
+                    Eh는 에너지 단위 하트리입니다.
+                  </span>
+                )}
               </div>
               <div className="metric">
                 <span className="metric-label">
@@ -607,6 +618,16 @@ export default function App() {
                 </span>
               </div>
             </div>
+            {!expert && job?.status === "succeeded" && (
+              <p
+                className="learner-result-note"
+                data-testid="learner-convergence-note"
+              >
+                수렴은 반복 계산의 변화가 설정한 기준 안으로 작아졌다는
+                뜻입니다. 실험값과 얼마나 맞는지는 계산 방법·기저·격자를 따로
+                확인해야 합니다.
+              </p>
+            )}
             {job?.error && (
               <div className="job-error" role="alert">
                 <strong>계산 진단</strong>

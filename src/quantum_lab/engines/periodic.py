@@ -21,9 +21,17 @@ from pyscf.dft import libxc
 from pyscf.pbc import dft, gto
 from pyscf.pbc.dft import numint
 from pyscf.pbc.lib import chkfile
+from pyscf.pbc.scf.hf import INVALID_ORBITAL_ENERGY
+from pyscf.scf import hf as molecular_hf
 from pyscf.tools import cubegen
 
-from .periodic_analysis import crystal_properties, sampled_band_edges, sampled_dos
+from .periodic_analysis import (
+    DOSResolutionError,
+    crystal_properties,
+    retained_orbital_mask,
+    sampled_band_edges,
+    sampled_dos,
+)
 
 HARTREE_TO_EV = 27.211386245988
 
@@ -33,6 +41,19 @@ def _number(value):
         return None
     number = float(np.real(value))
     return number if np.isfinite(number) else None
+
+
+def _public_energies(energies, valid: np.ndarray) -> list:
+    """Serialize absent engine slots as null; the checkpoint keeps raw arrays."""
+    energy = np.asarray(energies)
+    values = np.atleast_2d(energy).astype(object)
+    values[~valid] = None
+    return (values[0] if energy.ndim == 1 else values).tolist()
+
+
+def _require_frontier_orbitals(valid: np.ndarray, noccupied: int) -> None:
+    if not valid[:, :noccupied + 1].all() or valid.shape[1] <= noccupied:
+        raise ValueError("겹침 행렬의 선형 종속성 제거 후 점유 밴드와 전도 밴드를 모두 보존하지 못했습니다.")
 
 
 def _validate(spec: dict) -> None:
@@ -138,6 +159,9 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
     mf.callback = callback
     emit("stage", {"name": "scf", "message": f"PBE SCF: {len(kpts)}개의 k점"})
     energy = mf.kernel()
+    scf_valid = retained_orbital_mask(mf.mo_energy, mf.mo_coeff, INVALID_ORBITAL_ENERGY)
+    if np.any(np.atleast_2d(mf.mo_occ)[~scf_valid] != 0):
+        raise ValueError("엔진이 제거한 궤도 슬롯에 점유 전자가 있어 결과를 해석할 수 없습니다.")
     warnings = [
         "작은 k점·격자·기저는 교육용 시작값입니다. 물성 해석 전에 수렴성을 확인하세요.",
         "Gaussian 궤도 기저를 사용합니다. FFT 격자는 평면파 궤도 기저가 아닙니다.",
@@ -156,7 +180,7 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
         "kmesh": kmesh.tolist(),
         "kpoints_scaled": cell.get_scaled_kpts(kpts).tolist(),
         "mesh": np.asarray(cell.mesh).tolist(),
-        "orbital_energies_hartree": np.asarray(mf.mo_energy).tolist(),
+        "orbital_energies_hartree": _public_energies(mf.mo_energy, scf_valid),
         "occupations": np.asarray(mf.mo_occ).tolist(),
         "warnings": warnings,
         "units": {"energy": "hartree", "coordinates": "angstrom", "bands": "eV"},
@@ -168,8 +192,30 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
             "conv_tol": mf.conv_tol,
             "basis_provider": "PySCF periodic built-in", "basis_provider_version": pyscf.__version__,
             "libxc_version": libxc.__version__, "numpy_version": np.__version__,
+            "overlap_rank": {
+                "removal_enabled": bool(molecular_hf.remove_overlap_zero_eigenvalue),
+                "eigenvalue_threshold": float(molecular_hf.overlap_zero_eigenvalue_threshold),
+                "nominal_basis_functions": cell.nao_nr(),
+                "scf_retained_orbitals": scf_valid.sum(axis=1).tolist(),
+                "padding_identification": "exact PySCF INVALID_ORBITAL_ENERGY and zero MO coefficient column",
+                "missing_energy_representation": "null; absent states are not finite eigenvalues",
+            },
         },
     }
+
+    def warn_rank_reduction(valid, source):
+        counts = valid.sum(axis=1)
+        if (counts < cell.nao_nr()).any():
+            message = (
+                f"{source}: 겹침 행렬의 선형 종속성 때문에 PySCF가 일부 궤도 방향을 제거했습니다 "
+                f"(명목 기저 {cell.nao_nr()}개, k점별 보존 {int(counts.min())}~{int(counts.max())}개). "
+                "제거된 슬롯은 실제 고에너지 상태가 아니므로 null로 저장하고 DOS에서 제외합니다. "
+                "기저·k점 수렴성을 별도로 확인하세요."
+            )
+            warnings.append(message)
+            emit("warning", {"message": message})
+
+    warn_rank_reduction(scf_valid, "SCF k점")
     (workdir / "periodic_basis.json").write_text(
         json.dumps({"basis": cell._basis, "pseudo": cell._pseudo}, indent=2), encoding="utf-8"
     )
@@ -184,11 +230,25 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
         return result
 
     nocc = cell.nelectron // 2
+    _require_frontier_orbitals(scf_valid, nocc)
     vbm, cbm = _insulator_edges(np.asarray(mf.mo_energy), np.asarray(mf.mo_occ), nocc)
     result["sampled_scf_gap_ev"] = (cbm - vbm) * HARTREE_TO_EV
     emit("stage", {"name": "periodic_analysis", "message": "SCF k점 DOS·표본 밴드 경계·단위격자 물성 계산"})
     result["crystal_properties"] = crystal_properties(spec, energy)
-    result["sampled_dos"] = sampled_dos(mf.mo_energy, mf.mo_occ, vbm)
+    try:
+        dos = sampled_dos(mf.mo_energy, mf.mo_occ, vbm, valid_orbitals=scf_valid)
+    except DOSResolutionError as error:
+        # The optional display grid must not invalidate a converged eigensystem.
+        message = "실제 고에너지 상태까지 분해할 DOS 표시 격자 한도를 초과하여 DOS를 제공하지 않습니다. SCF와 밴드 결과는 보존합니다."
+        result["sampled_dos_unavailable_reason"] = str(error)
+        warnings.append(message)
+        emit("warning", {"message": message})
+    else:
+        if (not np.isclose(dos["state_integral"], dos["expected_states"], rtol=0, atol=1e-8)
+                or not np.isclose(dos["electron_integral"], cell.nelectron, rtol=0, atol=1e-8)):
+            raise ValueError("DOS의 보존 상태 수 또는 가전자 수 적분이 계산된 상태와 일치하지 않습니다.")
+        dos["nominal_states"] = 2 * cell.nao_nr()
+        result["sampled_dos"] = dos
     result["sampled_band_edges"] = sampled_band_edges(
         mf.mo_energy, cell.get_scaled_kpts(kpts), nocc,
     )
@@ -199,8 +259,12 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
                       positions=[a["position"] for a in spec["atoms"]], cell=spec["lattice"], pbc=True)
         path = atoms.cell.bandpath(npoints=int(spec.get("band_points", 40)))
         abs_kpoints = cell.get_abs_kpts(path.kpts)
-        band_energy, _ = mf.get_bands(abs_kpoints)
+        band_energy, band_coeff = mf.get_bands(abs_kpoints)
         band_energy = np.asarray(band_energy)
+        band_valid = retained_orbital_mask(band_energy, band_coeff, INVALID_ORBITAL_ENERGY)
+        _require_frontier_orbitals(band_valid, nocc)
+        result["provenance"]["overlap_rank"]["path_retained_orbitals"] = band_valid.sum(axis=1).tolist()
+        warn_rank_reduction(band_valid, "밴드 경로")
         distance, label_distance, labels = path.get_linear_kpoint_axis()
         # ASE assigns equal abscissae to the end and beginning of disconnected
         # path segments. Keep physical samples untouched and expose where plots
@@ -226,7 +290,9 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
             raise ValueError("밴드 경로에서 밴드 중첩이 관찰되었습니다. 첫 버전의 비금속 지원 범위를 벗어납니다.")
         result["bands"] = {
             "distance": distance.tolist(),
-            "energies_ev": ((band_energy - vbm) * HARTREE_TO_EV).tolist(),
+            "energies_ev": _public_energies((band_energy - vbm) * HARTREE_TO_EV, band_valid),
+            "retained_bands_per_kpoint": band_valid.sum(axis=1).tolist(),
+            "missing_values": "null denotes engine-removed overlap directions, not zero energy; do not connect across them",
             "labels": axis_labels,
             "break_indices": break_indices,
             "reference": "VBM",
@@ -242,17 +308,20 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
             mf.mo_energy, cell.get_scaled_kpts(kpts), nocc,
             path_energies=band_energy, path_points=path.kpts,
         )
-    with (workdir / "sampled-dos.csv").open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.writer(stream)
-        writer.writerow(["energy_ev_relative_to_scf_vbm", "dos_states_per_ev_per_cell",
-                         "occupied_dos_electrons_per_ev_per_cell"])
-        dos = result["sampled_dos"]
-        writer.writerows(zip(dos["energy_ev"], dos["density_states_per_ev"],
-                            dos["occupied_density_states_per_ev"], strict=True))
+    result["analysis_artifacts"] = []
+    if "sampled_dos" in result:
+        with (workdir / "sampled-dos.csv").open("w", encoding="utf-8", newline="") as stream:
+            writer = csv.writer(stream)
+            writer.writerow(["energy_ev_relative_to_scf_vbm", "dos_states_per_ev_per_cell",
+                             "occupied_dos_electrons_per_ev_per_cell"])
+            dos = result["sampled_dos"]
+            writer.writerows(zip(dos["energy_ev"], dos["density_states_per_ev"],
+                                dos["occupied_density_states_per_ev"], strict=True))
+        result["analysis_artifacts"].append("sampled-dos.csv")
     (workdir / "band-edges.json").write_text(
         json.dumps(result["sampled_band_edges"], ensure_ascii=False, indent=2), encoding="utf-8",
     )
-    result["analysis_artifacts"] = ["sampled-dos.csv", "band-edges.json"]
+    result["analysis_artifacts"].append("band-edges.json")
     result["elapsed_seconds"] = time.monotonic() - started
     return result
 

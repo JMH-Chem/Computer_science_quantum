@@ -27,6 +27,7 @@ export default function Settings({
   catalog,
   expert,
   onRun,
+  onPrepareExample,
   busy,
   onError,
 }: {
@@ -36,6 +37,7 @@ export default function Settings({
   catalog: Catalog;
   expert: boolean;
   onRun: (s: Spec) => void;
+  onPrepareExample: () => void;
   busy: boolean;
   onError: (s: string) => void;
 }) {
@@ -262,6 +264,13 @@ export default function Settings({
       : item?.status === "unsupported"
         ? "현재 미지원"
         : "실행 가능 · 해당 조합 미검증";
+  const hydrogenExample = examples.find((example) => example.id === "h2");
+  const runButton = (
+    <button className="run-button" onClick={collect} disabled={busy}>
+      <Play size={16} fill="currentColor" />
+      {busy ? "작업을 등록하는 중…" : "계산 시작"}
+    </button>
+  );
   return (
     <aside className="settings-panel">
       <div className="panel-label">
@@ -283,6 +292,33 @@ export default function Settings({
           재료
         </button>
       </div>
+      {!expert && (
+        <section className="learner-start" aria-label="첫 계산 안내">
+          <strong>처음이라면 수소 분자부터</strong>
+          <p>원자 2개인 H₂로 계산과 그래프를 익힐 수 있습니다.</p>
+          <button
+            className="text-button"
+            disabled={!hydrogenExample || busy}
+            onClick={() => {
+              if (hydrogenExample) {
+                load(hydrogenExample.spec);
+                onPrepareExample();
+              }
+            }}
+          >
+            H₂ 예제 불러오기
+          </button>
+          <ol>
+            <li>예제를 불러옵니다. 설정은 그대로 두어도 됩니다.</li>
+            <li>계산 시작을 누릅니다.</li>
+            <li>수렴 그래프를 보고 전자밀도를 만들어 봅니다.</li>
+          </ol>
+          {runButton}
+          <small>
+            예제 불러오기는 입력만 준비하며 계산을 시작하지 않습니다.
+          </small>
+        </section>
+      )}
       <label className="field">
         예제로 시작하기
         <select
@@ -364,9 +400,15 @@ export default function Settings({
             <input
               type="number"
               aria-label="전하"
+              aria-describedby={!expert ? "charge-help" : undefined}
               value={spec.charge}
               onChange={(e) => update({ charge: Number(e.target.value) })}
             />
+            {!expert && (
+              <small id="charge-help">
+                0은 중성입니다. +1은 전자가 하나 적고, −1은 하나 많습니다.
+              </small>
+            )}
           </label>
           <label className="field">
             스핀 <small>Nα − Nβ</small>
@@ -374,6 +416,7 @@ export default function Settings({
               type="number"
               min={0}
               aria-label="스핀"
+              aria-describedby={!expert ? "spin-help" : undefined}
               disabled={closedShellTask}
               value={spec.spin}
               onChange={(e) =>
@@ -384,6 +427,12 @@ export default function Settings({
                 })
               }
             />
+            {!expert && (
+              <small id="spin-help">
+                두 스핀 방향의 전자 수 차이입니다. 다중도 값이 아닙니다. H₂·물
+                기본 예제는 0입니다.
+              </small>
+            )}
           </label>
         </div>
       )}
@@ -427,6 +476,7 @@ export default function Settings({
           기저 집합
           <select
             aria-label="기저 집합"
+            aria-describedby={!expert ? "basis-help" : undefined}
             value={typeof spec.basis === "string" ? spec.basis : ""}
             onChange={(e) => {
               update({ basis: e.target.value });
@@ -455,6 +505,13 @@ export default function Settings({
           </select>
         </label>
       </div>
+      {!expert && (
+        <p className="setting-help" id="basis-help">
+          기저는 전자 상태의 공간 모양을 표현하는 수학 함수들의 집합입니다. 큰
+          기저는 표현을 풍부하게 하지만 계산량도 늘립니다. STO-3G는 원리를 보는
+          작은 학습용 기저입니다.
+        </p>
+      )}
       {correlated && (
         <div className="method-settings">
           <p className="settings-explanation">
@@ -549,11 +606,18 @@ export default function Settings({
           교환·상관 함수형
           <input
             aria-label="함수형"
+            aria-describedby={!expert ? "functional-help" : undefined}
             list="functional-list"
             value={spec.functional}
             disabled={spec.domain === "crystal"}
             onChange={(e) => update({ functional: e.target.value })}
           />
+          {!expert && (
+            <small id="functional-help">
+              DFT에서 전자 사이 상호작용의 일부를 근사하는 계산 규칙입니다. 모든
+              문제에 가장 정확한 한 가지 함수형은 없습니다.
+            </small>
+          )}
           <datalist id="functional-list">
             {[
               ...new Set([
@@ -860,10 +924,7 @@ export default function Settings({
         <br />
         빠른 예제 설정은 연구용 수렴 기준이 아닙니다.
       </div>
-      <button className="run-button" onClick={collect} disabled={busy}>
-        <Play size={16} fill="currentColor" />
-        {busy ? "작업을 등록하는 중…" : "계산 시작"}
-      </button>
+      {expert && runButton}
     </aside>
   );
 }

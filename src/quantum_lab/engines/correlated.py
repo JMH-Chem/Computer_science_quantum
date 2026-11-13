@@ -10,8 +10,10 @@ import math
 from pathlib import Path
 
 import numpy as np
-from pyscf import cc, ci, fci, mcscf, mp, mrpt
+from pyscf import cc, ci, fci, lib, mcscf, mp, mrpt, symm
 from scipy.constants import physical_constants
+
+from .symmetry import orbital_symmetry_labels
 
 METHODS = frozenset({"MP2", "CCSD", "CCSD(T)", "CISD", "FCI", "CASCI", "CASSCF", "NEVPT2"})
 FROZEN_METHODS = frozenset({"MP2", "CCSD", "CCSD(T)", "CISD"})
@@ -78,6 +80,74 @@ def validate_space(mf, spec: dict) -> dict:
             "integral_memory_estimate_mib": integral_mb}
 
 
+def _packed_eom_irreps(orbital_irreps, nocc: int) -> np.ndarray:
+    """Irreps in PySCF's singlet R1 + lower-triangular (ia,jb) R2 order."""
+    orbital_irreps = np.asarray(orbital_irreps, dtype=int)
+    singles = (orbital_irreps[:nocc, None] ^ orbital_irreps[None, nocc:]).ravel()
+    i, j = np.tril_indices(len(singles))
+    return np.concatenate((singles, singles[i] ^ singles[j]))
+
+
+def _eom_symmetry_labels(solver, response):
+    """Label the actual orbitals without rotating them or the CC amplitudes."""
+    coefficients = np.asarray(solver.mo_coeff)[:, solver.get_frozen_mask()]
+    labels, group = orbital_symmetry_labels(solver.mol, coefficients)
+    packed = _packed_eom_irreps(labels, response.nocc)
+    if packed.size != response.vector_size():
+        raise ValueError("Excitation symmetry labels do not match the EOM vector dimension.")
+    return packed, group
+
+
+def _eom_block_roots(matvec, diagonal, indices, requested, response):
+    """Target the lowest real roots inside one invariant symmetry sector.
+
+    Explicit initial guesses passed to EOMEESinglet.kernel enable overlap/root
+    following. Use the nonsymmetric Davidson routine directly so the selection
+    remains by energy. An extra dense guess avoids exactly zero components within a
+    sector; no published energy or molecule-specific guess enters this search.
+    """
+    diagonal = np.asarray(diagonal)
+    indices = np.asarray(indices, dtype=int)
+    dimension, count = diagonal.size, min(int(requested), len(indices))
+    if not count:
+        return np.zeros(0, dtype=bool), np.zeros(0), np.empty((0, dimension))
+
+    def projected(vectors):
+        lifted = np.zeros((len(vectors), dimension))
+        lifted[:, indices] = np.asarray(vectors)
+        return [np.asarray(value)[indices] for value in matvec(lifted)]
+
+    block_diagonal = diagonal[indices]
+    generator = np.random.default_rng(0xE0CC)
+    guesses = []
+    for index in np.argsort(block_diagonal)[:count]:
+        guess = np.zeros(len(indices))
+        guess[index] = 1.0
+        guesses.append(guess)
+    if count < len(indices):
+        dense = generator.standard_normal(len(indices))
+        guesses.append(dense / np.linalg.norm(dense))
+
+    def precondition(residual, energy, _):
+        denominator = energy - block_diagonal
+        denominator = np.where(abs(denominator) < 1e-12, 1e-12, denominator)
+        return residual / denominator
+
+    def real_roots(values, vectors, nroots, env):
+        eligible = np.flatnonzero(abs(values.imag) < 1e-8)
+        return lib.linalg_helper._eigs_cmplx2real(values, vectors, eligible, True)
+
+    flags, energies, vectors = lib.davidson_nosym1(
+        projected, guesses, precondition, tol=response.conv_tol,
+        tol_residual=math.sqrt(response.conv_tol), max_cycle=response.max_cycle,
+        max_space=response.max_space, max_memory=response.max_memory,
+        nroots=count, pick=real_roots, verbose=response.verbose,
+    )
+    full_vectors = np.zeros((len(vectors), dimension))
+    full_vectors[:, indices] = np.asarray(vectors).real
+    return np.asarray(flags, dtype=bool), np.asarray(energies).real, full_vectors
+
+
 def run_eom(solver, spec: dict, emit, workdir: Path) -> dict:
     """Singlet EOM-EE-CCSD right roots; no transition moments are inferred."""
     if not solver.converged:
@@ -92,35 +162,85 @@ def run_eom(solver, spec: dict, emit, workdir: Path) -> dict:
     response.max_memory = int(spec.get("memory_mb", 2000))
     emit("stage", {"name": "eomccsd", "message": "Solving singlet EOM-EE-CCSD roots above the ground-state CCSD energy."})
     intermediates = response.make_imds()
-    energies, vectors = response.kernel(nroots=requested, imds=intermediates)
-    energies = np.atleast_1d(np.asarray(energies, dtype=float))
-    vectors = np.atleast_2d(np.asarray(vectors))
-    flags = np.atleast_1d(response.converged)
-    matvec, _ = response.gen_matvec(intermediates)
+    matvec, diagonal = response.gen_matvec(intermediates)
     # PySCF's Davidson solver defaults to sqrt(energy tolerance) for its
     # eigenvector residual. Evaluate and record that residual independently.
     residual_tolerance = math.sqrt(response.conv_tol)
-    states = []
-    for index, energy in enumerate(energies):
-        vector = vectors[index]
-        norm = float(np.linalg.norm(vector))
-        if norm > 0 and np.isfinite(vector).all():
-            normalized = vector / norm
-            residual = _finite(np.linalg.norm(np.asarray(matvec([normalized]))[0] - energy * normalized))
+    search = {"strategy": "abelian_symmetry_blocks", "group": None, "blocks": [], "complete": False,
+              "scope": "Lowest requested real roots targeted independently in every detected Abelian symmetry sector, then merged by energy. Iterative residual convergence is not a mathematical proof of global spectral completeness.",
+              "initial_guesses": "Lowest diagonal coordinate vectors plus one deterministic dense vector within each searched sector."}
+    candidates = []
+    try:
+        labels, group = _eom_symmetry_labels(solver, response)
+        search["group"] = group
+        blocks = [(symm.irrep_id2name(group, int(label)), np.flatnonzero(labels == label))
+                  for label in np.unique(labels)]
+    except (ValueError, RuntimeError, np.linalg.LinAlgError) as exc:
+        search["reason"] = str(exc)
+        if dimension <= 256:
+            # A complete small Jacobian can be diagonalized without assuming
+            # pure orbital irreps; do not rotate MOs while keeping old t1/t2.
+            search["strategy"] = "full_dense_fallback"
+            search["scope"] = "All eigenvalues of the complete small nonsymmetric EOM Jacobian are evaluated; requested lowest roots are selected by real energy. Symmetry labels are unavailable."
+            blocks = [(None, np.arange(dimension))]
         else:
-            residual = None
-        valid = bool(index < len(flags) and flags[index] and math.isfinite(float(energy)) and energy > 0
-                     and residual is not None and residual < residual_tolerance)
+            search["strategy"] = "unavailable"
+            search["scope"] = "Actual orbitals could not be assigned pure symmetry sectors; no partial set is certified. The converged CCSD ground-state result is retained."
+            blocks = []
+
+    for label, indices in blocks:
+        count = min(requested, len(indices))
+        block = {"irrep": label, "dimension": len(indices), "requested_roots": count,
+                 "converged_roots": 0, "complete": False}
+        search["blocks"].append(block)
+        emit("stage", {"name": "eom_sector", "message": f"Searching {count} lowest EOM roots in {label or 'the full'} sector.",
+                       "symmetry": label, "symmetry_group": search["group"]})
+        try:
+            if search["strategy"] == "full_dense_fallback":
+                matrix = np.column_stack(matvec(np.eye(dimension)))
+                values, eigenvectors = np.linalg.eig(matrix)
+                order = np.argsort(values.real)[:count]
+                energies = values[order].real
+                vectors = eigenvectors[:, order].T.real
+                flags = abs(values[order].imag) < 1e-8
+            else:
+                flags, energies, vectors = _eom_block_roots(matvec, diagonal, indices, count, response)
+            for index, energy in enumerate(energies):
+                vector = np.asarray(vectors[index])
+                norm = float(np.linalg.norm(vector))
+                if norm > 0 and np.isfinite(vector).all():
+                    vector = vector / norm
+                    residual = _finite(np.linalg.norm(np.asarray(matvec([vector]))[0] - energy * vector))
+                else:
+                    residual = None
+                valid = bool(index < len(flags) and flags[index] and math.isfinite(float(energy)) and energy > 0
+                             and residual is not None and residual < residual_tolerance)
+                block["converged_roots"] += int(valid)
+                candidates.append({"energy": float(energy), "vector": vector, "converged": valid,
+                                   "residual_norm": residual, "symmetry": label})
+            block["complete"] = len(energies) == count and block["converged_roots"] == count
+        except (ValueError, RuntimeError, np.linalg.LinAlgError) as exc:
+            block["error"] = str(exc)
+    search["complete"] = bool(search["blocks"]) and all(block["complete"] for block in search["blocks"])
+    candidates.sort(key=lambda item: item["energy"] if math.isfinite(item["energy"]) else math.inf)
+    selected = candidates[:requested]
+    states = []
+    for index, candidate in enumerate(selected):
+        energy = candidate["energy"]
         states.append({"state": index + 1, "energy_ev": _finite(energy * HARTREE_EV),
-                       "converged": valid, "residual_norm": residual})
-    converged = len(states) == requested and all(state["converged"] for state in states)
+                       "converged": candidate["converged"], "residual_norm": candidate["residual_norm"],
+                       "symmetry": candidate["symmetry"], "symmetry_group": search["group"]})
+    energies = np.asarray([c["energy"] for c in selected])
+    vectors = np.asarray([c["vector"] for c in selected]).reshape((-1, dimension))
+    converged = search["complete"] and len(states) == requested and all(state["converged"] for state in states)
     np.savez_compressed(Path(workdir) / "eom-wavefunction.npz", energies_hartree=energies, right_vectors=vectors)
     emit("stage", {"name": "eom_complete", "converged": converged, "states": states})
     return {"reference": "CCSD", "spin": "singlet", "converged": converged, "states": states,
-            "requested_states": requested, "residual_tolerance": residual_tolerance,
+            "requested_states": requested, "residual_tolerance": residual_tolerance, "root_search": search,
             "energy_tolerance_hartree": response.conv_tol, "max_cycle": response.max_cycle,
             "wavefunction_artifact": "eom-wavefunction.npz",
             "notes": ["Vertical singlet excitation energies are differences from the CCSD ground state.",
+                      "All searched symmetry sectors must converge; a converged subset is not reported as a successful lowest-state calculation.",
                       "Only right EOM eigenvectors are evaluated; oscillator strengths, absorption spectra, and NTOs are not computed."]}
 
 

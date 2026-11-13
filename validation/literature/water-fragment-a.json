@@ -1,0 +1,66 @@
+{
+  "name": "S22B water fragment-a CCSD(T)/aVDZ",
+  "domain": "molecule",
+  "task": "single_point",
+  "atoms": [
+    {
+      "symbol": "O",
+      "position": [
+        -1.551007,
+        -0.11452,
+        0.0
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        -1.934259,
+        0.762503,
+        0.0
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        -0.599677,
+        0.040712,
+        0.0
+      ]
+    }
+  ],
+  "lattice": null,
+  "charge": 0,
+  "spin": 0,
+  "method": "CCSD(T)",
+  "basis": "aug-cc-pvdz",
+  "ecp": null,
+  "functional": "PBE",
+  "restricted": true,
+  "kmesh": [
+    1,
+    1,
+    1
+  ],
+  "pseudo": "gth-pbe",
+  "grid_level": 2,
+  "mesh": [
+    15,
+    15,
+    15
+  ],
+  "max_cycle": 120,
+  "conv_tol": 1e-10,
+  "nstates": 5,
+  "max_steps": 50,
+  "threads": 1,
+  "memory_mb": 3000,
+  "band_points": 40,
+  "frozen_orbitals": 1,
+  "active_electrons": 2,
+  "active_orbitals": 2,
+  "ir_intensities": false,
+  "temperature_kelvin": 298.15,
+  "pressure_pa": 101325.0,
+  "parent_job_id": null,
+  "volume": null
+}

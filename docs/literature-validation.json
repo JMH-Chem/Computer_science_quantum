@@ -1,0 +1,4349 @@
+{
+  "created_utc": "2026-11-13T19:12:43.365272+00:00",
+  "run_directory": ".quantum-lab/literature-validation/runs/20261113T191242Z-d69ae39e",
+  "computational_completion": "complete",
+  "matched_method_comparison": "passed",
+  "provenance_unchanged": true,
+  "runner_sha256": "1ba602e8a1f9883644964a596acf904b12f495591bd44d825a59257806fcf3ab",
+  "declared_source_sha256": {
+    "water-eomccsd.json": "fd062df1192b54908181da72246e59aeb69ea5140f28d396bc9cd8db84909c7e",
+    "quest-reference.json": "e2f81c49ffe29e9fbbb22f79fe05cca726a3a718ccd3036c7dd71d6dfe55fac0",
+    "water-fragment-a.json": "e454ee2561288ef9058b6a6ec251e6519e2282cba8f0d22a1768de1ceb13bd7d",
+    "diamond-mesh33.json": "6124623386b6a5887aef038d9f8e90b1df4147d3c9db32502169950e2c8de61e",
+    "formaldehyde-tddft.json": "15bec616b83f0ea1d2a5c2fc766c76dc9c267c412ce6103a4d14fa16d21cecd1",
+    "criteria.json": "22dcde45848b5b965c024caaa10f7599bd6601f6151ee4f2c383d2f37a783ad6",
+    "water-fragment-b.json": "8d3d88d205ebbdd6bbf8acbcc2555131ab048b402698aec44c3286ee14675552",
+    "diamond-k4.json": "615c42711212393b1c4351bbd31dc68eea6c1a3d633df0faaeda56990691b1f4",
+    "diamond-k2.json": "0ca28afa8bedafbd459a43ec72e1ecfa65025c23c258020ef0bd3c9244453be1",
+    "materials-reference.json": "9f43ea5fb99010cac6279be6eee9834edd25b5cec7f4358116e56e491be3878a",
+    "diamond-k3.json": "d792b361fc2de529209e45e57d7007b975a153bd6d8ac7d804d1d006b1fbbabe",
+    "s22-water-reference.json": "b4a32b2dff047f1650fb4f2bc27b384e701b2b9d1308aa10f2f6811467ca730c",
+    "water-dimer.json": "d6c180a0f8dedee9ef52fc31b5cd87101e5ab56fae1b527b3b17e47e76d4f8c1"
+  },
+  "comparisons": {
+    "water_eomccsd": {
+      "comparison_kind": "matched_method_published_table",
+      "criteria": {
+        "comparison_kind": "matched_method_published_table",
+        "reference_energies_ev": [
+          7.6,
+          9.36,
+          9.96
+        ],
+        "reference_states": [
+          "1B1 singlet",
+          "1A2 singlet",
+          "2A1 singlet"
+        ],
+        "absolute_tolerance_ev": 0.01,
+        "reason": "Published table resolution is 0.01 eV; do not apply the 1e-4 eV same-engine threshold to rounded literature values. States must be assigned before comparison.",
+        "required_conditions": [
+          "CC3/aug-cc-pVTZ ground geometry from QUEST1",
+          "EOM-EE-CCSD/aug-cc-pVTZ",
+          "one frozen occupied core orbital",
+          "vertical singlet excitation",
+          "converged CCSD and all requested roots"
+        ]
+      },
+      "matched_conditions": {
+        "domain": "molecule",
+        "task": "eomccsd",
+        "method": "CCSD",
+        "basis": "aug-cc-pvtz",
+        "frozen_orbitals": 1,
+        "ecp": null,
+        "restricted": true,
+        "charge": 0,
+        "spin": 0
+      },
+      "calculated_energies_ev": [
+        7.596505640691346,
+        9.361339918549707,
+        9.956786847962064
+      ],
+      "status": "passed",
+      "states": [
+        {
+          "calculated": 7.596505640691346,
+          "reference": 7.6,
+          "signed_deviation": -0.003494359308653827,
+          "absolute_deviation": 0.003494359308653827,
+          "unit": "eV",
+          "state": "1B1 singlet",
+          "symmetry": "B1",
+          "tolerance": 0.01,
+          "passed": true
+        },
+        {
+          "calculated": 9.361339918549707,
+          "reference": 9.36,
+          "signed_deviation": 0.0013399185497071642,
+          "absolute_deviation": 0.0013399185497071642,
+          "unit": "eV",
+          "state": "1A2 singlet",
+          "symmetry": "A2",
+          "tolerance": 0.01,
+          "passed": true
+        },
+        {
+          "calculated": 9.956786847962064,
+          "reference": 9.96,
+          "signed_deviation": -0.003213152037936595,
+          "absolute_deviation": 0.003213152037936595,
+          "unit": "eV",
+          "state": "2A1 singlet",
+          "symmetry": "A1",
+          "tolerance": 0.01,
+          "passed": true
+        }
+      ]
+    },
+    "formaldehyde_tddft": {
+      "status": "assessment_only",
+      "comparison_kind": "approximate_method_vs_high_level_reference",
+      "calculated": 3.9258684605011056,
+      "reference": 3.98,
+      "signed_deviation": -0.05413153949889438,
+      "absolute_deviation": 0.05413153949889438,
+      "unit": "eV",
+      "reference_state": "1A2 singlet n->pi*",
+      "calculated_state": 1,
+      "symmetry": "A2",
+      "symmetry_group": "C2v",
+      "root_search_complete": true,
+      "state_assignment": "Globally lowest singlet A2 root from complete C2v sector search. Symmetry/order support the published state assignment; this check does not independently classify NTO n→pi* orbital character.",
+      "note": "PBE0-TDDFT and exFCI are different methods. Report signed and absolute deviations; do not declare code failure or universal accuracy from this comparison."
+    },
+    "water_dimer": {
+      "status": "assessment_only",
+      "comparison_kind": "finite_basis_uncorrected_vs_cbs_reference",
+      "calculated": -5.247851022566473,
+      "reference": -4.989,
+      "signed_deviation": -0.2588510225664731,
+      "absolute_deviation": 0.2588510225664731,
+      "unit": "kcal/mol",
+      "component_energies_hartree": {
+        "water-dimer": -152.5559707218839,
+        "water-fragment-a": -76.27381294573738,
+        "water-fragment-b": -76.27379479321245
+      },
+      "hartree_to_kcal_mol": 627.5094740628974,
+      "conversion": "scipy.constants Hartree energy (J) * Avogadro /4184; thermochemical calorie",
+      "note": "CCSD(T)/aug-cc-pVDZ without counterpoise retains basis incompleteness and BSSE. S22B is a high-level reference; report deviation without treating differing definitions as an exact reproduction. No ZPE or thermal correction.",
+      "counterpoise_corrected": false,
+      "zpe_or_thermal_correction": false
+    },
+    "diamond": {
+      "status": "assessment_only",
+      "cases": [
+        {
+          "case": "diamond-k2",
+          "sampled_ks_gap_ev": 4.011305678808433,
+          "kmesh": [
+            2,
+            2,
+            2
+          ],
+          "mesh": [
+            27,
+            27,
+            27
+          ],
+          "energy_hartree": -11.25948358707539,
+          "paper_deviation": {
+            "calculated": 4.011305678808433,
+            "reference": 4.1724807238469435,
+            "signed_deviation": -0.16117504503851077,
+            "absolute_deviation": 0.16117504503851077,
+            "unit": "eV"
+          }
+        },
+        {
+          "case": "diamond-k3",
+          "sampled_ks_gap_ev": 4.156549002199722,
+          "kmesh": [
+            3,
+            3,
+            3
+          ],
+          "mesh": [
+            27,
+            27,
+            27
+          ],
+          "energy_hartree": -11.355960861979696,
+          "paper_deviation": {
+            "calculated": 4.156549002199722,
+            "reference": 4.1724807238469435,
+            "signed_deviation": -0.01593172164722123,
+            "absolute_deviation": 0.01593172164722123,
+            "unit": "eV"
+          }
+        },
+        {
+          "case": "diamond-mesh33",
+          "sampled_ks_gap_ev": 4.156538876238174,
+          "kmesh": [
+            3,
+            3,
+            3
+          ],
+          "mesh": [
+            33,
+            33,
+            33
+          ],
+          "energy_hartree": -11.35596135738686,
+          "paper_deviation": {
+            "calculated": 4.156538876238174,
+            "reference": 4.1724807238469435,
+            "signed_deviation": -0.0159418476087696,
+            "absolute_deviation": 0.0159418476087696,
+            "unit": "eV"
+          }
+        },
+        {
+          "case": "diamond-k4",
+          "sampled_ks_gap_ev": 4.187655154920668,
+          "kmesh": [
+            4,
+            4,
+            4
+          ],
+          "mesh": [
+            33,
+            33,
+            33
+          ],
+          "energy_hartree": -11.372797663794653,
+          "paper_deviation": {
+            "calculated": 4.187655154920668,
+            "reference": 4.1724807238469435,
+            "signed_deviation": 0.015174431073724293,
+            "absolute_deviation": 0.015174431073724293,
+            "unit": "eV"
+          }
+        }
+      ],
+      "refinements": [
+        {
+          "from": "diamond-k2",
+          "to": "diamond-k3",
+          "varied": "kmesh",
+          "conditions_match": true,
+          "gap_change_ev": 0.14524332339128954
+        },
+        {
+          "from": "diamond-k3",
+          "to": "diamond-mesh33",
+          "varied": "mesh",
+          "conditions_match": true,
+          "gap_change_ev": -1.0125961548368423e-05
+        },
+        {
+          "from": "diamond-mesh33",
+          "to": "diamond-k4",
+          "varied": "kmesh",
+          "conditions_match": true,
+          "gap_change_ev": 0.031116278682493892,
+          "absolute_gap_change_ev": 0.031116278682493892,
+          "diagnostic_threshold_ev": 0.025,
+          "meets_gap_change_diagnostic": false,
+          "diagnostic_scope": "An absolute successive sampled KS gap change at or below 0.025 eV meets this one refinement diagnostic only. It does not establish convergence of the basis, pseudopotential, band-path sampling, total energy, or all future k meshes; it is not a literature pass/fail threshold."
+        }
+      ],
+      "note": "Gaussian/GTH and plane-wave/SG15 Hamiltonians differ. Sampled KS gaps are not optical excitation energies; no literature pass/fail is inferred.",
+      "reference": {
+        "paper": {
+          "title": "Many-body perturbation theory vs. density functional theory: a systematic benchmark for band gaps of solids",
+          "journal": "npj Computational Materials",
+          "year": 2025,
+          "doi": "10.1038/s41524-025-01855-4",
+          "primary_full_text_reviewed": false,
+          "evidence_reviewed": "Paper authors repository README, exact raw numerical JSON, results table, analysis notebook mapping, pseudopotential header and workflow source."
+        },
+        "repository": "https://github.com/MaxGrossmann/mbpt_benchmark",
+        "commit": "1f1af6474ecb7b8c3d3bd8318d067022bb5b3019",
+        "material": {
+          "name": "diamond",
+          "formula": "C",
+          "atoms_per_primitive_cell": 2,
+          "MP_ID": "mp-66",
+          "ICSD_ID": "190650",
+          "ibrav": 2,
+          "celldm_1_bohr": 6.739908566918407,
+          "conventional_a_angstrom_using_app_bohr": 3.566606017297697,
+          "raw_ICSD_coordinates_available": false
+        },
+        "reference": {
+          "quantity": "indirect Kohn-Sham band gap",
+          "value_eV": 4.1724807238469435,
+          "table_rounded_eV": 4.17,
+          "functional": "PBE",
+          "engine": "Quantum ESPRESSO 7.1",
+          "orbital_representation": "plane waves",
+          "pseudopotential": "C_ONCV_PBE-1.2.upf, SG15 norm-conserving, scalar relativistic, 4 valence electrons per C",
+          "plane_wave_cutoff_Ry": 80,
+          "kppa": 4500,
+          "actual_scf_kmesh_explicit_in_record": false,
+          "bandgap_refinement_threshold_eV": 0.025,
+          "bandgap_refinement_steps": [
+            [
+              80,
+              3000,
+              4.193948235314538
+            ],
+            [
+              80,
+              4500,
+              4.1724807238469435
+            ]
+          ]
+        },
+        "experimental_context_only": {
+          "value_eV": 5.5,
+          "source_doi": "10.1007/978-3-642-18865-7",
+          "temperature_verified": false,
+          "note": "Handbook value reproduced by paper authors. Not a temperature-specific primary measurement and not a strict target for a PBE KS gap."
+        },
+        "caveats": [
+          "GTH Gaussian basis differs from the paper SG15 plane-wave Hamiltonian; use diagnostic comparison, not same-input reproduction.",
+          "Author README calls vol Angstrom^3, but workflow basic_utils.uc_vol_au and a^3/4 prove the stored 76.54239085316662 is bohr^3. Use celldm(1) with explicit unit.",
+          "Published ICSD atomic coordinates are not distributed; standard diamond geometry can be constructed at the given cubic lattice constant but is not the original coordinate file.",
+          "The CSV PBE column4.15eV is the older Borlido PAW result; use PBE NC4.17eV for this authors actual QE JSON."
+        ],
+        "files": [
+          {
+            "repository_path": "README.md",
+            "local_path": ".cache/literature-materials/verified/README.md",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/README.md",
+            "sha256": "76eae54782dbe465311b84713f1cf940119d33397eb4bf13bafab4c7a15bfd46"
+          },
+          {
+            "repository_path": "README_qe_yambo_database.md",
+            "local_path": ".cache/literature-materials/verified/README_qe_yambo_database.md",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/README_qe_yambo_database.md",
+            "sha256": "d867d3d720e52c4f514826854fab08aeca22fce144c23a99e91ead4d98bd189d"
+          },
+          {
+            "repository_path": "csvs/revised_bandgap_benchmark.csv",
+            "local_path": ".cache/literature-materials/verified/csvs/revised_bandgap_benchmark.csv",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/csvs/revised_bandgap_benchmark.csv",
+            "sha256": "55633a800145d2234c945ff515886b02154d2dda540eaa0eec0189e8b4bed502"
+          },
+          {
+            "repository_path": "qe_yambo_database/190650.json",
+            "local_path": ".cache/literature-materials/verified/qe_yambo_database/190650.json",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/qe_yambo_database/190650.json",
+            "sha256": "6918e2c312cd55c3dd7a80990679f373a576dea27acebc23ef603ffa99a8f81f"
+          },
+          {
+            "repository_path": "g0w0_benchmark/README.md",
+            "local_path": ".cache/literature-materials/verified/g0w0_benchmark/README.md",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/README.md",
+            "sha256": "feebb8dcf0f19b7fb7f40f6d5f29d39df15a8a17f52fc4fb5b9b30a5e9079f62"
+          },
+          {
+            "repository_path": "g0w0_benchmark/src/utils/basic_utils.py",
+            "local_path": ".cache/literature-materials/verified/g0w0_benchmark/src/utils/basic_utils.py",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/src/utils/basic_utils.py",
+            "sha256": "4af6aea37feb1a22bb097fa7f583204e678afbc6abe8189432c08b180d3c0309"
+          },
+          {
+            "repository_path": "g0w0_benchmark/src/utils/unit_conversion.py",
+            "local_path": ".cache/literature-materials/verified/g0w0_benchmark/src/utils/unit_conversion.py",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/src/utils/unit_conversion.py",
+            "sha256": "3028411bba39d15e3bbcbedca53220dfd1f3f527ada67c4b8cf5062b9217aa36"
+          },
+          {
+            "repository_path": "g0w0_benchmark/src/utils/qe_helper.py",
+            "local_path": ".cache/literature-materials/verified/g0w0_benchmark/src/utils/qe_helper.py",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/src/utils/qe_helper.py",
+            "sha256": "9c98e5b8d72496496e319d62cddd4838f1063ccb060324d513e4faa99ec33419"
+          },
+          {
+            "repository_path": "g0w0_benchmark/pseudo/PBE/C.upf",
+            "local_path": ".cache/literature-materials/verified/g0w0_benchmark/pseudo/PBE/C.upf",
+            "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/pseudo/PBE/C.upf",
+            "sha256": "1c674ec4fe19ee85db53e6b9ecf7cd40e70eda362cedd83f7c51c9c4081ea064"
+          }
+        ]
+      },
+      "criteria": {
+        "comparison_kind": "gaussian_gth_vs_plane_wave_sg15_pbe_assessment",
+        "pass_fail_tolerance": null,
+        "reason": "The Gaussian/GTH and plane-wave/SG15 calculations use different basis and pseudopotential representations. Report deviations without an exact-reproduction pass/fail.",
+        "successive_gap_diagnostic": {
+          "declared_utc": "2026-11-13T19:05:36.337416+00:00",
+          "declared_before_case": "diamond-k4",
+          "from": "diamond-mesh33",
+          "to": "diamond-k4",
+          "varied": "kmesh",
+          "absolute_change_threshold_ev": 0.025,
+          "prior_observations": "The k2/FFT27 and k3/FFT27 gaps were already inspected; their approximately 0.145 eV change motivated this additional calculation.",
+          "interpretation": "An absolute successive sampled KS gap change at or below 0.025 eV meets this one refinement diagnostic only. It does not establish convergence of the basis, pseudopotential, band-path sampling, total energy, or all future k meshes; it is not a literature pass/fail threshold.",
+          "threshold_rationale": "Use the published diamond benchmark gap-refinement scale of 0.025 eV as a declared diagnostic for this additional uniform k-mesh step; retain all other conditions."
+        }
+      }
+    }
+  },
+  "scope": "Selected published comparisons only; assessment_only is not a universal accuracy pass. Historical runs retain their original source versions.",
+  "raw_report_sha256": "07c2611ba1cb47ee43db15198caa34a648667fb3a5cfaed5df4781eeeec16703",
+  "portable_summary_note": "Saved-result summary with full normalized inputs, environment/source hashes, comparison decisions, and selected result fields. Full results, arrays, basis definitions, logs, and events remain in the immutable local run_directory with recorded hashes. Absolute repository paths are normalized; this file is not a byte-identical raw report.",
+  "cases": {
+    "diamond-k2": {
+      "case": "diamond-k2",
+      "source_result": ".quantum-lab/literature-diamond-k2-fixed/jobs/bd22ab09-6f6a-4457-bfaf-aca08f8e48d2/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "Literature diamond PBE/GTH-DZVP k2 FFT27",
+        "domain": "crystal",
+        "task": "bands",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8916515043244243,
+              0.8916515043244243,
+              0.8916515043244243
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7833030086488486,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            0.0,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            1.7833030086488486,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-dzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          2,
+          2,
+          2
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          27,
+          27,
+          27
+        ],
+        "max_cycle": 100,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 6000,
+        "band_points": 100,
+        "frozen_orbitals": 0,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.1",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "85de15a2468baf42a233decba25bb15b0f6b2a3d5d3ca213c8419e074343bf7a",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "e9d499dea803773573911b938c846856cc43300a355ea3e2015ff24874d88322",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "936a4880cb36818bd82b29a4bba8795292187b3eb08cb4da1ffb4b82a41a8b15",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "2d622363a9d2d81c42005b36451bfbdc62b751037542f34339d40ff9892e5642",
+          "engines/periodic.py": "bc164808f341c4f01146cff7237c36d788f42af6b9965a81fe77ce8edc39cf34",
+          "engines/periodic_analysis.py": "9c332d5dcb2602829c76c0162d50bce983d05c6742fe5c35c51c6670297b5572",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "engines/response.py": "a7acef79a60b14739a9398439a3ae0c69e1347a00ec2f1c376034b9067bfb619",
+          "engines/symmetry.py": "0fdde775d222fd5aea4bb6f28855fc196d7f62e32c67f53b670b9868ae8c5c1f",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "2af0b8cbfcd6e9ea27ac268b75e868e4a8f4351646cdff997fd4359bc789e908",
+      "source_sha256": {
+        "input.json": "84e74917bb342c48129394825f3b34f57f011f30f36d35d1893befed3f4c36b2",
+        "result.json": "c3e1ae883180288ae8894b16bc335344638da980f37537a9a9c367aa5e89675a",
+        "environment.json": "2b16399441117ccf9d5ab90266d4020c143a40999f5f7120dfb06d814260201c"
+      },
+      "copied_artifact_sha256": {
+        "band-edges.json": "29c53df2a8f35d0832caa5929a5c551fea0e9e63eb5df7c48e5ea8b645c24fe3",
+        "engine.log": "880d3667895e49f6dfa19d1dde05f265a543cdaacc0f2c2e0b41afd5719553f6",
+        "environment.json": "2b16399441117ccf9d5ab90266d4020c143a40999f5f7120dfb06d814260201c",
+        "input.json": "84e74917bb342c48129394825f3b34f57f011f30f36d35d1893befed3f4c36b2",
+        "periodic_basis.json": "b1bc478703e5a078449a649fa1af9d7f89bf29fd0ff9c2e32d9c15b29d2d3adf",
+        "result.json": "c3e1ae883180288ae8894b16bc335344638da980f37537a9a9c367aa5e89675a"
+      },
+      "events_sha256": "1c62fd99a28a2b582aeced70e0e254c89bcf43ea4a86a0c78caffe1a04bb74d2",
+      "event_count": 17,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "method": "DFT",
+        "task": "bands",
+        "energy_hartree": -11.25948358707539,
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8916515043244243,
+              0.8916515043244243,
+              0.8916515043244243
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7833030086488486,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            0.0,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            1.7833030086488486,
+            0.0
+          ]
+        ],
+        "warnings": [
+          "작은 k점·격자·기저는 교육용 시작값입니다. 물성 해석 전에 수렴성을 확인하세요.",
+          "Gaussian 궤도 기저를 사용합니다. FFT 격자는 평면파 궤도 기저가 아닙니다.",
+          "SCF k점: 겹침 행렬의 선형 종속성 때문에 PySCF가 일부 궤도 방향을 제거했습니다 (명목 기저 26개, k점별 보존 24~26개). 제거된 슬롯은 실제 고에너지 상태가 아니므로 null로 저장하고 DOS에서 제외합니다. 기저·k점 수렴성을 별도로 확인하세요.",
+          "DOS는 균등 SCF k점에 Gaussian 폭을 적용한 표시입니다. 밴드 경로는 DOS 적분에 사용하지 않습니다.",
+          "밴드 경로: 겹침 행렬의 선형 종속성 때문에 PySCF가 일부 궤도 방향을 제거했습니다 (명목 기저 26개, k점별 보존 24~26개). 제거된 슬롯은 실제 고에너지 상태가 아니므로 null로 저장하고 DOS에서 제외합니다. 기저·k점 수렴성을 별도로 확인하세요."
+        ],
+        "provenance": {
+          "overlap_rank": {
+            "removal_enabled": true,
+            "eigenvalue_threshold": 1e-06,
+            "nominal_basis_functions": 26,
+            "scf_retained_orbitals": [
+              26,
+              26,
+              26,
+              24,
+              26,
+              24,
+              24,
+              26
+            ],
+            "padding_identification": "exact PySCF INVALID_ORBITAL_ENERGY and zero MO coefficient column",
+            "missing_energy_representation": "null; absent states are not finite eigenvalues",
+            "path_retained_orbitals": [
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              24,
+              24,
+              24,
+              24,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              25,
+              24,
+              24
+            ]
+          }
+        },
+        "elapsed_seconds": 77.83410756000012,
+        "provenance_omitted_keys": [
+          "basis_provider",
+          "basis_provider_version",
+          "basis_source",
+          "boundary",
+          "conv_tol",
+          "density_fitting",
+          "functional",
+          "libxc_version",
+          "numpy_version",
+          "orbital_basis",
+          "pseudo_source",
+          "pseudopotential"
+        ],
+        "bands": {
+          "retained_bands_per_kpoint": [
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            24,
+            24,
+            24,
+            24,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            25,
+            24,
+            24
+          ],
+          "missing_values": "null denotes engine-removed overlap directions, not zero energy; do not connect across them",
+          "labels": [
+            {
+              "distance": 0.0,
+              "label": "Γ"
+            },
+            {
+              "distance": 1.7616706966529914,
+              "label": "X"
+            },
+            {
+              "distance": 2.6425060449794873,
+              "label": "W"
+            },
+            {
+              "distance": 3.265350692889967,
+              "label": "K"
+            },
+            {
+              "distance": 5.133884636621406,
+              "label": "Γ"
+            },
+            {
+              "distance": 6.659536213025527,
+              "label": "L"
+            },
+            {
+              "distance": 7.738334788428826,
+              "label": "U"
+            },
+            {
+              "distance": 8.361179436339306,
+              "label": "W"
+            },
+            {
+              "distance": 9.606868732160265,
+              "label": "L"
+            },
+            {
+              "distance": 10.685667307563564,
+              "label": "K|U"
+            },
+            {
+              "distance": 11.308511955474044,
+              "label": "X"
+            }
+          ],
+          "break_indices": [
+            93
+          ],
+          "reference": "VBM",
+          "reference_energy_hartree": 0.5065058199227985,
+          "gap_ev": 4.011305678808433,
+          "gap_kind": "sampled Kohn–Sham gap (SCF mesh and band path); not an optical gap",
+          "n_occupied": 4,
+          "path": "GXWKGLUWLK,UX",
+          "distance_units": "angstrom^-1"
+        },
+        "bands_omitted_keys": [
+          "distance",
+          "energies_ev",
+          "kpoints_scaled"
+        ]
+      },
+      "result_omitted_keys": [
+        "analysis_artifacts",
+        "basis_functions",
+        "crystal_properties",
+        "electron_count",
+        "engine",
+        "iteration_count",
+        "kmesh",
+        "kpoints_scaled",
+        "mesh",
+        "n_basis",
+        "occupations",
+        "orbital_energies_hartree",
+        "peak_memory_mb",
+        "run_environment",
+        "sampled_band_edges",
+        "sampled_dos",
+        "sampled_scf_gap_ev",
+        "units"
+      ]
+    },
+    "diamond-k3": {
+      "case": "diamond-k3",
+      "source_result": ".quantum-lab/literature-diamond-k3-fixed/jobs/1b25f6df-0d1f-4c6f-a42b-b8571c830b18/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "Literature diamond PBE/GTH-DZVP k3 FFT27",
+        "domain": "crystal",
+        "task": "bands",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8916515043244243,
+              0.8916515043244243,
+              0.8916515043244243
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7833030086488486,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            0.0,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            1.7833030086488486,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-dzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          3,
+          3,
+          3
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          27,
+          27,
+          27
+        ],
+        "max_cycle": 100,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 6000,
+        "band_points": 100,
+        "frozen_orbitals": 0,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.1",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "85de15a2468baf42a233decba25bb15b0f6b2a3d5d3ca213c8419e074343bf7a",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "e9d499dea803773573911b938c846856cc43300a355ea3e2015ff24874d88322",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "936a4880cb36818bd82b29a4bba8795292187b3eb08cb4da1ffb4b82a41a8b15",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "2d622363a9d2d81c42005b36451bfbdc62b751037542f34339d40ff9892e5642",
+          "engines/periodic.py": "fda0ef6fa6af053aa983ba4cfc22d1e6b300521c00c05e8c652523441042b60e",
+          "engines/periodic_analysis.py": "9c332d5dcb2602829c76c0162d50bce983d05c6742fe5c35c51c6670297b5572",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "engines/response.py": "a7acef79a60b14739a9398439a3ae0c69e1347a00ec2f1c376034b9067bfb619",
+          "engines/symmetry.py": "0fdde775d222fd5aea4bb6f28855fc196d7f62e32c67f53b670b9868ae8c5c1f",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "61d02a26cdab4992b17ea641a18de98be9d3d614cc1ba7a84c24a9f5acf34011",
+      "source_sha256": {
+        "input.json": "01c0fc410cd93bb2a9f7ccae925b37c06db33e8b32ddc941cda0eb9995384353",
+        "result.json": "24005089045406d72dfbb88b66cc8725520068074925fa9a821259ca5e493749",
+        "environment.json": "a25e82f02a45df88b22c162c914965c4a54e5ec0fbc2fec6f46084a7069ed4a6"
+      },
+      "copied_artifact_sha256": {
+        "band-edges.json": "9994313d8cc1b1ef54ba68bbcffe34d4cfe2fcd29182ed1cb57326c813133da5",
+        "engine.log": "a07c102d2e43c03567cf31ed4901f25cc4c0522a9ef8dca5a98cc0bbf4d057dd",
+        "environment.json": "a25e82f02a45df88b22c162c914965c4a54e5ec0fbc2fec6f46084a7069ed4a6",
+        "input.json": "01c0fc410cd93bb2a9f7ccae925b37c06db33e8b32ddc941cda0eb9995384353",
+        "periodic_basis.json": "b1bc478703e5a078449a649fa1af9d7f89bf29fd0ff9c2e32d9c15b29d2d3adf",
+        "result.json": "24005089045406d72dfbb88b66cc8725520068074925fa9a821259ca5e493749"
+      },
+      "events_sha256": "73ac6cb7b71c35158f3cf55eec6656019515fc521c2a5c7d3e73692f64c84266",
+      "event_count": 16,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "method": "DFT",
+        "task": "bands",
+        "energy_hartree": -11.355960861979696,
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8916515043244243,
+              0.8916515043244243,
+              0.8916515043244243
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7833030086488486,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            0.0,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            1.7833030086488486,
+            0.0
+          ]
+        ],
+        "warnings": [
+          "작은 k점·격자·기저는 교육용 시작값입니다. 물성 해석 전에 수렴성을 확인하세요.",
+          "Gaussian 궤도 기저를 사용합니다. FFT 격자는 평면파 궤도 기저가 아닙니다.",
+          "DOS는 균등 SCF k점에 Gaussian 폭을 적용한 표시입니다. 밴드 경로는 DOS 적분에 사용하지 않습니다.",
+          "밴드 경로: 겹침 행렬의 선형 종속성 때문에 PySCF가 일부 궤도 방향을 제거했습니다 (명목 기저 26개, k점별 보존 24~26개). 제거된 슬롯은 실제 고에너지 상태가 아니므로 null로 저장하고 DOS에서 제외합니다. 기저·k점 수렴성을 별도로 확인하세요."
+        ],
+        "provenance": {
+          "overlap_rank": {
+            "removal_enabled": true,
+            "eigenvalue_threshold": 1e-06,
+            "nominal_basis_functions": 26,
+            "scf_retained_orbitals": [
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26
+            ],
+            "padding_identification": "exact PySCF INVALID_ORBITAL_ENERGY and zero MO coefficient column",
+            "missing_energy_representation": "null; absent states are not finite eigenvalues",
+            "path_retained_orbitals": [
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              24,
+              24,
+              24,
+              24,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              25,
+              24,
+              24
+            ]
+          }
+        },
+        "elapsed_seconds": 110.05178710400105,
+        "provenance_omitted_keys": [
+          "basis_provider",
+          "basis_provider_version",
+          "basis_source",
+          "boundary",
+          "conv_tol",
+          "density_fitting",
+          "functional",
+          "libxc_version",
+          "numpy_version",
+          "orbital_basis",
+          "pseudo_source",
+          "pseudopotential"
+        ],
+        "bands": {
+          "retained_bands_per_kpoint": [
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            24,
+            24,
+            24,
+            24,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            25,
+            24,
+            24
+          ],
+          "missing_values": "null denotes engine-removed overlap directions, not zero energy; do not connect across them",
+          "labels": [
+            {
+              "distance": 0.0,
+              "label": "Γ"
+            },
+            {
+              "distance": 1.7616706966529914,
+              "label": "X"
+            },
+            {
+              "distance": 2.6425060449794873,
+              "label": "W"
+            },
+            {
+              "distance": 3.265350692889967,
+              "label": "K"
+            },
+            {
+              "distance": 5.133884636621406,
+              "label": "Γ"
+            },
+            {
+              "distance": 6.659536213025527,
+              "label": "L"
+            },
+            {
+              "distance": 7.738334788428826,
+              "label": "U"
+            },
+            {
+              "distance": 8.361179436339306,
+              "label": "W"
+            },
+            {
+              "distance": 9.606868732160265,
+              "label": "L"
+            },
+            {
+              "distance": 10.685667307563564,
+              "label": "K|U"
+            },
+            {
+              "distance": 11.308511955474044,
+              "label": "X"
+            }
+          ],
+          "break_indices": [
+            93
+          ],
+          "reference": "VBM",
+          "reference_energy_hartree": 0.4953139317841499,
+          "gap_ev": 4.156549002199722,
+          "gap_kind": "sampled Kohn–Sham gap (SCF mesh and band path); not an optical gap",
+          "n_occupied": 4,
+          "path": "GXWKGLUWLK,UX",
+          "distance_units": "angstrom^-1"
+        },
+        "bands_omitted_keys": [
+          "distance",
+          "energies_ev",
+          "kpoints_scaled"
+        ]
+      },
+      "result_omitted_keys": [
+        "analysis_artifacts",
+        "basis_functions",
+        "crystal_properties",
+        "electron_count",
+        "engine",
+        "iteration_count",
+        "kmesh",
+        "kpoints_scaled",
+        "mesh",
+        "n_basis",
+        "occupations",
+        "orbital_energies_hartree",
+        "peak_memory_mb",
+        "run_environment",
+        "sampled_band_edges",
+        "sampled_dos",
+        "sampled_scf_gap_ev",
+        "units"
+      ]
+    },
+    "diamond-k4": {
+      "case": "diamond-k4",
+      "source_result": ".quantum-lab/literature-diamond-k4-fixed/jobs/8359cf78-420c-49fb-9d12-e1e950d89f91/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "Literature diamond PBE/GTH-DZVP k4 FFT33",
+        "domain": "crystal",
+        "task": "bands",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8916515043244243,
+              0.8916515043244243,
+              0.8916515043244243
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7833030086488486,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            0.0,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            1.7833030086488486,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-dzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          4,
+          4,
+          4
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          33,
+          33,
+          33
+        ],
+        "max_cycle": 100,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 6000,
+        "band_points": 100,
+        "frozen_orbitals": 0,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.1",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "85de15a2468baf42a233decba25bb15b0f6b2a3d5d3ca213c8419e074343bf7a",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "e9d499dea803773573911b938c846856cc43300a355ea3e2015ff24874d88322",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "936a4880cb36818bd82b29a4bba8795292187b3eb08cb4da1ffb4b82a41a8b15",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "2d622363a9d2d81c42005b36451bfbdc62b751037542f34339d40ff9892e5642",
+          "engines/periodic.py": "fda0ef6fa6af053aa983ba4cfc22d1e6b300521c00c05e8c652523441042b60e",
+          "engines/periodic_analysis.py": "9c332d5dcb2602829c76c0162d50bce983d05c6742fe5c35c51c6670297b5572",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "engines/response.py": "3845cc585f40e1ae1960f2fe2aad610ebdeb40d41b987c65958d62e9cef0fe88",
+          "engines/symmetry.py": "0fdde775d222fd5aea4bb6f28855fc196d7f62e32c67f53b670b9868ae8c5c1f",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "6da334beda7749ac2b52c3b52aae05ee166c083834b8a3d8f19454a7fcc2aabd",
+      "source_sha256": {
+        "input.json": "7066c998d2b2de1d833302ad68175f751492aa8283cf7cd48ea7334a1a892c79",
+        "result.json": "c2271760c65502bcddd48da87169c42812e75a6f924aa9b7f608b71bc82c33dc",
+        "environment.json": "a82ba27b1ee1a077e5c834c8d11546769c73fcd27c50be0d6dae76ce8adcdcf2"
+      },
+      "copied_artifact_sha256": {
+        "band-edges.json": "dd8c40a2605f0df87220b882d2068793249c0c92bc77296886cba5714eb1be12",
+        "engine.log": "d193a53756297986499c72f69ce10b508cdd9029c892b80822815109b8153d97",
+        "environment.json": "a82ba27b1ee1a077e5c834c8d11546769c73fcd27c50be0d6dae76ce8adcdcf2",
+        "input.json": "7066c998d2b2de1d833302ad68175f751492aa8283cf7cd48ea7334a1a892c79",
+        "periodic_basis.json": "b1bc478703e5a078449a649fa1af9d7f89bf29fd0ff9c2e32d9c15b29d2d3adf",
+        "result.json": "c2271760c65502bcddd48da87169c42812e75a6f924aa9b7f608b71bc82c33dc"
+      },
+      "events_sha256": "00b605ced62d1e94ab0caad07468639e1c53cffd61208a842193638bd6501652",
+      "event_count": 17,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "method": "DFT",
+        "task": "bands",
+        "energy_hartree": -11.372797663794653,
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8916515043244243,
+              0.8916515043244243,
+              0.8916515043244243
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7833030086488486,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            0.0,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            1.7833030086488486,
+            0.0
+          ]
+        ],
+        "warnings": [
+          "작은 k점·격자·기저는 교육용 시작값입니다. 물성 해석 전에 수렴성을 확인하세요.",
+          "Gaussian 궤도 기저를 사용합니다. FFT 격자는 평면파 궤도 기저가 아닙니다.",
+          "SCF k점: 겹침 행렬의 선형 종속성 때문에 PySCF가 일부 궤도 방향을 제거했습니다 (명목 기저 26개, k점별 보존 24~26개). 제거된 슬롯은 실제 고에너지 상태가 아니므로 null로 저장하고 DOS에서 제외합니다. 기저·k점 수렴성을 별도로 확인하세요.",
+          "DOS는 균등 SCF k점에 Gaussian 폭을 적용한 표시입니다. 밴드 경로는 DOS 적분에 사용하지 않습니다.",
+          "밴드 경로: 겹침 행렬의 선형 종속성 때문에 PySCF가 일부 궤도 방향을 제거했습니다 (명목 기저 26개, k점별 보존 24~26개). 제거된 슬롯은 실제 고에너지 상태가 아니므로 null로 저장하고 DOS에서 제외합니다. 기저·k점 수렴성을 별도로 확인하세요."
+        ],
+        "provenance": {
+          "overlap_rank": {
+            "removal_enabled": true,
+            "eigenvalue_threshold": 1e-06,
+            "nominal_basis_functions": 26,
+            "scf_retained_orbitals": [
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              24,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              24,
+              26,
+              26,
+              26,
+              26,
+              26,
+              24,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26
+            ],
+            "padding_identification": "exact PySCF INVALID_ORBITAL_ENERGY and zero MO coefficient column",
+            "missing_energy_representation": "null; absent states are not finite eigenvalues",
+            "path_retained_orbitals": [
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              24,
+              24,
+              24,
+              24,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              25,
+              24,
+              24
+            ]
+          }
+        },
+        "elapsed_seconds": 376.4493686980004,
+        "provenance_omitted_keys": [
+          "basis_provider",
+          "basis_provider_version",
+          "basis_source",
+          "boundary",
+          "conv_tol",
+          "density_fitting",
+          "functional",
+          "libxc_version",
+          "numpy_version",
+          "orbital_basis",
+          "pseudo_source",
+          "pseudopotential"
+        ],
+        "bands": {
+          "retained_bands_per_kpoint": [
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            24,
+            24,
+            24,
+            24,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            25,
+            24,
+            24
+          ],
+          "missing_values": "null denotes engine-removed overlap directions, not zero energy; do not connect across them",
+          "labels": [
+            {
+              "distance": 0.0,
+              "label": "Γ"
+            },
+            {
+              "distance": 1.7616706966529914,
+              "label": "X"
+            },
+            {
+              "distance": 2.6425060449794873,
+              "label": "W"
+            },
+            {
+              "distance": 3.265350692889967,
+              "label": "K"
+            },
+            {
+              "distance": 5.133884636621406,
+              "label": "Γ"
+            },
+            {
+              "distance": 6.659536213025527,
+              "label": "L"
+            },
+            {
+              "distance": 7.738334788428826,
+              "label": "U"
+            },
+            {
+              "distance": 8.361179436339306,
+              "label": "W"
+            },
+            {
+              "distance": 9.606868732160265,
+              "label": "L"
+            },
+            {
+              "distance": 10.685667307563564,
+              "label": "K|U"
+            },
+            {
+              "distance": 11.308511955474044,
+              "label": "X"
+            }
+          ],
+          "break_indices": [
+            93
+          ],
+          "reference": "VBM",
+          "reference_energy_hartree": 0.4923860857229347,
+          "gap_ev": 4.187655154920668,
+          "gap_kind": "sampled Kohn–Sham gap (SCF mesh and band path); not an optical gap",
+          "n_occupied": 4,
+          "path": "GXWKGLUWLK,UX",
+          "distance_units": "angstrom^-1"
+        },
+        "bands_omitted_keys": [
+          "distance",
+          "energies_ev",
+          "kpoints_scaled"
+        ]
+      },
+      "result_omitted_keys": [
+        "analysis_artifacts",
+        "basis_functions",
+        "crystal_properties",
+        "electron_count",
+        "engine",
+        "iteration_count",
+        "kmesh",
+        "kpoints_scaled",
+        "mesh",
+        "n_basis",
+        "occupations",
+        "orbital_energies_hartree",
+        "peak_memory_mb",
+        "run_environment",
+        "sampled_band_edges",
+        "sampled_dos",
+        "sampled_scf_gap_ev",
+        "units"
+      ]
+    },
+    "diamond-mesh33": {
+      "case": "diamond-mesh33",
+      "source_result": ".quantum-lab/literature-diamond-mesh33-fixed/jobs/96705b6a-94ae-4328-ad76-64057c7c18db/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "Literature diamond PBE/GTH-DZVP k3 FFT33",
+        "domain": "crystal",
+        "task": "bands",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8916515043244243,
+              0.8916515043244243,
+              0.8916515043244243
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7833030086488486,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            0.0,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            1.7833030086488486,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-dzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          3,
+          3,
+          3
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          33,
+          33,
+          33
+        ],
+        "max_cycle": 100,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 6000,
+        "band_points": 100,
+        "frozen_orbitals": 0,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.1",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "85de15a2468baf42a233decba25bb15b0f6b2a3d5d3ca213c8419e074343bf7a",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "e9d499dea803773573911b938c846856cc43300a355ea3e2015ff24874d88322",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "936a4880cb36818bd82b29a4bba8795292187b3eb08cb4da1ffb4b82a41a8b15",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "2d622363a9d2d81c42005b36451bfbdc62b751037542f34339d40ff9892e5642",
+          "engines/periodic.py": "fda0ef6fa6af053aa983ba4cfc22d1e6b300521c00c05e8c652523441042b60e",
+          "engines/periodic_analysis.py": "9c332d5dcb2602829c76c0162d50bce983d05c6742fe5c35c51c6670297b5572",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "engines/response.py": "a7acef79a60b14739a9398439a3ae0c69e1347a00ec2f1c376034b9067bfb619",
+          "engines/symmetry.py": "0fdde775d222fd5aea4bb6f28855fc196d7f62e32c67f53b670b9868ae8c5c1f",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "f72643768928301d16211205c98aad9bb25b3783ca22962445c3bb76cd463142",
+      "source_sha256": {
+        "input.json": "ce52c41bea59262eb93526a40d60c8b71ee7b33a7665befc014d7d0024995566",
+        "result.json": "7a0823db4d5730b13cc40556e659da3dac0d63c2fbd4ad870e24df3a286e1023",
+        "environment.json": "a25e82f02a45df88b22c162c914965c4a54e5ec0fbc2fec6f46084a7069ed4a6"
+      },
+      "copied_artifact_sha256": {
+        "band-edges.json": "d36ca86775ef5dcae8a7ce88923599b6bf9a4c694e368e4f9dc8652fcd00e427",
+        "engine.log": "0d06fddc896d4a3684a89402ca8d670b11542f95892c58996feb843be8884328",
+        "environment.json": "a25e82f02a45df88b22c162c914965c4a54e5ec0fbc2fec6f46084a7069ed4a6",
+        "input.json": "ce52c41bea59262eb93526a40d60c8b71ee7b33a7665befc014d7d0024995566",
+        "periodic_basis.json": "b1bc478703e5a078449a649fa1af9d7f89bf29fd0ff9c2e32d9c15b29d2d3adf",
+        "result.json": "7a0823db4d5730b13cc40556e659da3dac0d63c2fbd4ad870e24df3a286e1023"
+      },
+      "events_sha256": "0c330c343a006b6ba8907e3adaa2e6a39721d51c35de683d0e04f9d29d95714b",
+      "event_count": 16,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "method": "DFT",
+        "task": "bands",
+        "energy_hartree": -11.35596135738686,
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8916515043244243,
+              0.8916515043244243,
+              0.8916515043244243
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7833030086488486,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            0.0,
+            1.7833030086488486
+          ],
+          [
+            1.7833030086488486,
+            1.7833030086488486,
+            0.0
+          ]
+        ],
+        "warnings": [
+          "작은 k점·격자·기저는 교육용 시작값입니다. 물성 해석 전에 수렴성을 확인하세요.",
+          "Gaussian 궤도 기저를 사용합니다. FFT 격자는 평면파 궤도 기저가 아닙니다.",
+          "DOS는 균등 SCF k점에 Gaussian 폭을 적용한 표시입니다. 밴드 경로는 DOS 적분에 사용하지 않습니다.",
+          "밴드 경로: 겹침 행렬의 선형 종속성 때문에 PySCF가 일부 궤도 방향을 제거했습니다 (명목 기저 26개, k점별 보존 24~26개). 제거된 슬롯은 실제 고에너지 상태가 아니므로 null로 저장하고 DOS에서 제외합니다. 기저·k점 수렴성을 별도로 확인하세요."
+        ],
+        "provenance": {
+          "overlap_rank": {
+            "removal_enabled": true,
+            "eigenvalue_threshold": 1e-06,
+            "nominal_basis_functions": 26,
+            "scf_retained_orbitals": [
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26
+            ],
+            "padding_identification": "exact PySCF INVALID_ORBITAL_ENERGY and zero MO coefficient column",
+            "missing_energy_representation": "null; absent states are not finite eigenvalues",
+            "path_retained_orbitals": [
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              24,
+              24,
+              24,
+              24,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              26,
+              25,
+              24,
+              24
+            ]
+          }
+        },
+        "elapsed_seconds": 246.03598879799938,
+        "provenance_omitted_keys": [
+          "basis_provider",
+          "basis_provider_version",
+          "basis_source",
+          "boundary",
+          "conv_tol",
+          "density_fitting",
+          "functional",
+          "libxc_version",
+          "numpy_version",
+          "orbital_basis",
+          "pseudo_source",
+          "pseudopotential"
+        ],
+        "bands": {
+          "retained_bands_per_kpoint": [
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            24,
+            24,
+            24,
+            24,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            26,
+            25,
+            24,
+            24
+          ],
+          "missing_values": "null denotes engine-removed overlap directions, not zero energy; do not connect across them",
+          "labels": [
+            {
+              "distance": 0.0,
+              "label": "Γ"
+            },
+            {
+              "distance": 1.7616706966529914,
+              "label": "X"
+            },
+            {
+              "distance": 2.6425060449794873,
+              "label": "W"
+            },
+            {
+              "distance": 3.265350692889967,
+              "label": "K"
+            },
+            {
+              "distance": 5.133884636621406,
+              "label": "Γ"
+            },
+            {
+              "distance": 6.659536213025527,
+              "label": "L"
+            },
+            {
+              "distance": 7.738334788428826,
+              "label": "U"
+            },
+            {
+              "distance": 8.361179436339306,
+              "label": "W"
+            },
+            {
+              "distance": 9.606868732160265,
+              "label": "L"
+            },
+            {
+              "distance": 10.685667307563564,
+              "label": "K|U"
+            },
+            {
+              "distance": 11.308511955474044,
+              "label": "X"
+            }
+          ],
+          "break_indices": [
+            93
+          ],
+          "reference": "VBM",
+          "reference_energy_hartree": 0.49531456100544186,
+          "gap_ev": 4.156538876238174,
+          "gap_kind": "sampled Kohn–Sham gap (SCF mesh and band path); not an optical gap",
+          "n_occupied": 4,
+          "path": "GXWKGLUWLK,UX",
+          "distance_units": "angstrom^-1"
+        },
+        "bands_omitted_keys": [
+          "distance",
+          "energies_ev",
+          "kpoints_scaled"
+        ]
+      },
+      "result_omitted_keys": [
+        "analysis_artifacts",
+        "basis_functions",
+        "crystal_properties",
+        "electron_count",
+        "engine",
+        "iteration_count",
+        "kmesh",
+        "kpoints_scaled",
+        "mesh",
+        "n_basis",
+        "occupations",
+        "orbital_energies_hartree",
+        "peak_memory_mb",
+        "run_environment",
+        "sampled_band_edges",
+        "sampled_dos",
+        "sampled_scf_gap_ev",
+        "units"
+      ]
+    },
+    "formaldehyde-tddft": {
+      "case": "formaldehyde-tddft",
+      "source_result": ".quantum-lab/literature-formaldehyde-tddft-fixed/jobs/20eace12-9da1-4a36-ba57-7a44d9cba57f/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "formaldehyde QUEST1 literature check",
+        "domain": "molecule",
+        "task": "tddft",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              -0.60298508
+            ]
+          },
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.60539399
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.93467313,
+              -1.18217476
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.93467313,
+              -1.18217476
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "aug-cc-pvtz",
+        "ecp": null,
+        "functional": "PBE0",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 4,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 120,
+        "conv_tol": 1e-08,
+        "nstates": 1,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 8000,
+        "band_points": 40,
+        "frozen_orbitals": 0,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.1",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "85de15a2468baf42a233decba25bb15b0f6b2a3d5d3ca213c8419e074343bf7a",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "e9d499dea803773573911b938c846856cc43300a355ea3e2015ff24874d88322",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "936a4880cb36818bd82b29a4bba8795292187b3eb08cb4da1ffb4b82a41a8b15",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "2d622363a9d2d81c42005b36451bfbdc62b751037542f34339d40ff9892e5642",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "8087159ddbbd29d18a3a9287452ba1d131e387fd539cbce2d1f32459344c600e",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "engines/response.py": "a7acef79a60b14739a9398439a3ae0c69e1347a00ec2f1c376034b9067bfb619",
+          "engines/symmetry.py": "0fdde775d222fd5aea4bb6f28855fc196d7f62e32c67f53b670b9868ae8c5c1f",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "f11c2afcc1578de4ca880f4e38c7f902220ab1e197d6e1fa4bd8f264502aa5f8",
+      "source_sha256": {
+        "input.json": "1c8bdff5ca169b4defb8e9029cae17a132a6db6de008b7ac1b34bb12fdaa8862",
+        "result.json": "0c7529bd281dd66a2f02fd3a6c0cb7d8effcf37509f8adb108ed64dbb17ed43e",
+        "environment.json": "036af4539f6e7e24d23d67e69b41fc22c435f14559bf4c5916d7d30372c3d7f8"
+      },
+      "copied_artifact_sha256": {
+        "basis-references.txt": "6d8e0640d49118b6efa0bd7cc3afc26cbf5991b9a2e7ec351a3670e1dc5d0fa6",
+        "basis.json": "0c00a89fddca713ff8c74dad3787883eab027bb5d7fc7db56ad1bccb8259b00b",
+        "engine-spec.json": "a3f81132bd39bd90a579dbea5e2e8cdc8a952379d4c671c1708049478d7df5cc",
+        "engine.log": "129aa522740b499b024a6f2fe882783316ef7d5861b6c380838bb373d67600f0",
+        "environment.json": "036af4539f6e7e24d23d67e69b41fc22c435f14559bf4c5916d7d30372c3d7f8",
+        "geometry.xyz": "e4de00a563bfd6fd56eb9e830422960f78b3c92912ed15ef4beabb09719a2dd3",
+        "input.json": "1c8bdff5ca169b4defb8e9029cae17a132a6db6de008b7ac1b34bb12fdaa8862",
+        "molecular-result.json": "213375e4c13a283735969e7754df7d9023c849332cea9451ffa143a3eb382391",
+        "result.json": "0c7529bd281dd66a2f02fd3a6c0cb7d8effcf37509f8adb108ed64dbb17ed43e"
+      },
+      "events_sha256": "068a4fd4de72f5ed3f3ed0e1242f66984aedf262c5458458d562b0d2fc348a3a",
+      "event_count": 22,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "excited_converged": true,
+        "energy_hartree": -114.4158746186036,
+        "correlation": null,
+        "eom": null,
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              -0.60298508
+            ]
+          },
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.6053939899999999
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.93467313,
+              -1.18217476
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.93467313,
+              -1.18217476
+            ]
+          }
+        ],
+        "lattice": null,
+        "method": "DFT",
+        "task": "tddft",
+        "excitations": [
+          {
+            "state": 1,
+            "energy_ev": 3.9258684605011056,
+            "oscillator_strength": 1.1422325348107192e-28,
+            "converged": true,
+            "nto_weights": [
+              0.9995082537887684,
+              0.0003191766675526076,
+              7.960513106295676e-05,
+              6.059207948267079e-05,
+              2.425153550890953e-05,
+              8.114282048653847e-06,
+              4.4025919716421e-09,
+              2.1129839512462083e-09
+            ],
+            "symmetry": "A2",
+            "symmetry_group": "C2v",
+            "residual_norm": 8.649668742620707e-12
+          }
+        ],
+        "warnings": [
+          "Mulliken·Löwdin 부분 전하는 기저와 분할 방식에 의존하며 직접 관측되는 원자 전하가 아닙니다."
+        ],
+        "provenance": {
+          "response_solver": {
+            "conv_tol": 1e-08,
+            "lindep": 2.220446049250313e-16,
+            "max_cycle": 120,
+            "convergence_test": "response eigenvector residual norm",
+            "root_search": {
+              "strategy": "abelian_symmetry_blocks",
+              "group": "C2v",
+              "blocks": [
+                {
+                  "irrep": "A1",
+                  "dimension": 345,
+                  "requested_roots": 1,
+                  "converged_roots": 1,
+                  "complete": true,
+                  "solver_roots": 1
+                },
+                {
+                  "irrep": "A2",
+                  "dimension": 177,
+                  "requested_roots": 1,
+                  "converged_roots": 1,
+                  "complete": true,
+                  "solver_roots": 1
+                },
+                {
+                  "irrep": "B1",
+                  "dimension": 223,
+                  "requested_roots": 1,
+                  "converged_roots": 1,
+                  "complete": true,
+                  "solver_roots": 1
+                },
+                {
+                  "irrep": "B2",
+                  "dimension": 295,
+                  "requested_roots": 1,
+                  "converged_roots": 1,
+                  "complete": true,
+                  "solver_roots": 1
+                }
+              ],
+              "complete": true,
+              "scope": "Lowest requested positive roots are targeted in every detected Abelian symmetry sector and merged by energy. Iterative convergence is not a mathematical proof of global spectral completeness.",
+              "initial_guesses": "Complete coordinate basis and full sector root count for sectors with at most 64 occupied-virtual pairs; lowest orbital-gap guesses for larger sectors.",
+              "residual_tolerance": 1e-08,
+              "residual_operator": "Full unprojected TDHF/TDDFT operator",
+              "selected_states": [
+                {
+                  "symmetry": "A2",
+                  "residual_norm": 8.649668742620707e-12
+                }
+              ]
+            }
+          }
+        },
+        "elapsed_seconds": 831.8881796879996,
+        "provenance_omitted_keys": [
+          "basis_citations_artifact",
+          "basis_definition_artifact",
+          "basis_provider",
+          "basis_provider_version",
+          "functional_references",
+          "libxc_version",
+          "nto_convention",
+          "numpy_version",
+          "oscillator_strength_gauge",
+          "reference_method",
+          "time_dynamics"
+        ]
+      },
+      "result_omitted_keys": [
+        "basis_functions",
+        "correlation_energy_hartree",
+        "density_reference",
+        "dipole_debye",
+        "dipole_reference",
+        "electron_count",
+        "engine",
+        "geometry_converged",
+        "integrated_electrons_ao",
+        "iteration_count",
+        "occupations",
+        "optimization",
+        "orbital_energies_hartree",
+        "orbital_reference",
+        "peak_memory_mb",
+        "properties",
+        "reference_energy_hartree",
+        "run_environment",
+        "vibrations"
+      ]
+    },
+    "water-dimer": {
+      "case": "water-dimer",
+      "source_result": ".quantum-lab/literature-water-dimer/jobs/2cf75c09-fbf8-471d-95fb-3c01fae44c6b/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "S22B water dimer CCSD(T)/aVDZ",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              -1.551007,
+              -0.11452,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              -1.934259,
+              0.762503,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              -0.599677,
+              0.040712,
+              0.0
+            ]
+          },
+          {
+            "symbol": "O",
+            "position": [
+              1.350625,
+              0.111469,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              1.680398,
+              -0.373741,
+              -0.758561
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              1.680398,
+              -0.373741,
+              0.758561
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "CCSD(T)",
+        "basis": "aug-cc-pvdz",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 120,
+        "conv_tol": 1e-10,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 3000,
+        "band_points": 40,
+        "frozen_orbitals": 2,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.0",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "81a9e180c27f43a4449452f41d2018ab2f4965dcc7c7829c2f670d7d74b676c4",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "df721a4a93c6365220b43e5aa75fef041937c9bbce5a5bb2139ae6ff264ecdf7",
+      "source_sha256": {
+        "input.json": "76a5688f8f91cdbd7d162ba476f7a81422f49e0e1afb3b3b068517e20fcea51b",
+        "result.json": "516370d1687ff617be6a650539d3b1f802ed44f456fb677d03d9a9dd57e6b7c2",
+        "environment.json": "ed30cc3c9e1bf222e0649175bf1098fe3b452a6ab9659ea89c225cb4fe7c7152"
+      },
+      "copied_artifact_sha256": {
+        "basis-references.txt": "62caa8f3063b2ccf080c78cb2945adac30b6c7603882c473afba0551ef40f624",
+        "basis.json": "a0155091ef72a9e6a960aaea61ec0350e1fccf029dc45674e997cddfc9c8a7b6",
+        "engine-spec.json": "300b73cb33eaf348da826ddef7f45e38616728bc103d0aa577401425ddb02cfe",
+        "engine.log": "1729e2b84ede50fbbbda871081315cdeca5f0cefd7a4bd2e2dbc776268ccf34e",
+        "environment.json": "ed30cc3c9e1bf222e0649175bf1098fe3b452a6ab9659ea89c225cb4fe7c7152",
+        "geometry.xyz": "7f800a65d284b570c77d763a6b2e5f06465c42329806044de53eef56dabc39c2",
+        "input.json": "76a5688f8f91cdbd7d162ba476f7a81422f49e0e1afb3b3b068517e20fcea51b",
+        "molecular-result.json": "7604a173570164a785b5c1988312272a8d4a90e15172c9f576daa95f293627b0",
+        "result.json": "516370d1687ff617be6a650539d3b1f802ed44f456fb677d03d9a9dd57e6b7c2"
+      },
+      "events_sha256": "9af2c19ce343bdf03371d3c2b4a06ae67d16b35dd95f0121a74676f98f144747",
+      "event_count": 40,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "excited_converged": null,
+        "energy_hartree": -152.5559707218839,
+        "correlation": {
+          "method": "CCSD(T)",
+          "reference": "RHF",
+          "converged": true,
+          "reference_energy_hartree": -152.0885993475045,
+          "total_energy_hartree": -152.5559707218839,
+          "correlation_energy_hartree": -0.467371374379411,
+          "frozen_orbitals": 2,
+          "active_space": null,
+          "diagnostics": {
+            "integral_memory_estimate_mib": 690.0882568359375,
+            "memory_estimate_note": "Conservative preflight estimate, not a hard process memory limit.",
+            "ccsd_energy_hartree": -152.54507042830707,
+            "t1_diagnostic": 0.012355974666850969,
+            "energy_tolerance_hartree": 1e-10,
+            "amplitude_tolerance": 1e-05,
+            "convergence_test": "CC energy change and amplitude-update norm; (T) is noniterative.",
+            "triples_energy_hartree": -0.010900293576840454
+          },
+          "natural_occupations": null,
+          "natural_occupations_space": null,
+          "iterations": [
+            {
+              "iteration": 1,
+              "energy_hartree": -152.53388832490458,
+              "delta_energy": -0.003941010844110471,
+              "residual_norm": 0.04800977660400388,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 2,
+              "energy_hartree": -152.54298228813363,
+              "delta_energy": -0.009093963229035218,
+              "residual_norm": 0.013590382974559476,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 3,
+              "energy_hartree": -152.54383579953915,
+              "delta_energy": -0.0008535114055159276,
+              "residual_norm": 0.006891606616494402,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 4,
+              "energy_hartree": -152.54461126008567,
+              "delta_energy": -0.0008694219104180556,
+              "residual_norm": 0.0026148700629727967,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 5,
+              "energy_hartree": -152.54507648230776,
+              "delta_energy": 4.692549009893687e-05,
+              "residual_norm": 0.0004752336535323472,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 6,
+              "energy_hartree": -152.54507262410146,
+              "delta_energy": 3.638721560139668e-05,
+              "residual_norm": 0.0001684575545927151,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 7,
+              "energy_hartree": -152.54507118868628,
+              "delta_energy": 1.6563379958700608e-06,
+              "residual_norm": 4.681369837104875e-05,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 8,
+              "energy_hartree": -152.5450705760657,
+              "delta_energy": -1.6116388889542144e-06,
+              "residual_norm": 1.7619244774061377e-05,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 9,
+              "energy_hartree": -152.5450703046029,
+              "delta_energy": -1.3854666253143577e-07,
+              "residual_norm": 7.445936815552876e-06,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 10,
+              "energy_hartree": -152.54507045542394,
+              "delta_energy": 8.962669956202873e-08,
+              "residual_norm": 2.0794759116912248e-06,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 11,
+              "energy_hartree": -152.54507040926845,
+              "delta_energy": 3.052046487761473e-08,
+              "residual_norm": 9.54257454464667e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 12,
+              "energy_hartree": -152.54507042079442,
+              "delta_energy": 6.596152291038493e-09,
+              "residual_norm": 4.260073660262307e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 13,
+              "energy_hartree": -152.5450704239243,
+              "delta_energy": -3.806930881644632e-09,
+              "residual_norm": 1.7667489441175126e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 14,
+              "energy_hartree": -152.54507042647373,
+              "delta_energy": -9.981725446195355e-10,
+              "residual_norm": 7.373298557057664e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 15,
+              "energy_hartree": -152.5450704276552,
+              "delta_energy": -5.266200253650766e-10,
+              "residual_norm": 4.26505816114483e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 16,
+              "energy_hartree": -152.54507042849664,
+              "delta_energy": 6.3300475972027925e-12,
+              "residual_norm": 1.9843802359917457e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 17,
+              "energy_hartree": -152.54507042835553,
+              "delta_energy": -3.0733765532531265e-10,
+              "residual_norm": 1.5627068699616587e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 18,
+              "energy_hartree": -152.54507042833723,
+              "delta_energy": -9.689848923244426e-11,
+              "residual_norm": 1.2642876013862911e-08,
+              "stage": "pre_diis_amplitude_update"
+            }
+          ],
+          "wavefunction_artifact": "correlation-wavefunction.npz",
+          "warnings": [],
+          "wavefunction_contents": "CCSD singles and doubles amplitudes; (T) contributes an energy correction, not stored triples amplitudes.",
+          "orbital_and_density_note": "Displayed canonical orbitals, density, dipole, and populations are the RHF reference; correlated wavefunction arrays are stored separately."
+        },
+        "eom": null,
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              -1.551007,
+              -0.11452,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              -1.934259,
+              0.7625029999999999,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              -0.599677,
+              0.040712,
+              0.0
+            ]
+          },
+          {
+            "symbol": "O",
+            "position": [
+              1.3506249999999997,
+              0.11146899999999998,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              1.680398,
+              -0.37374099999999993,
+              -0.758561
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              1.680398,
+              -0.37374099999999993,
+              0.758561
+            ]
+          }
+        ],
+        "lattice": null,
+        "method": "CCSD(T)",
+        "task": "single_point",
+        "excitations": [],
+        "warnings": [
+          "Orbitals, density, dipole and populations describe the RHF reference, not the correlated wavefunction.",
+          "Mulliken·Löwdin 부분 전하는 기저와 분할 방식에 의존하며 직접 관측되는 원자 전하가 아닙니다."
+        ],
+        "provenance": {
+          "response_solver": null
+        },
+        "elapsed_seconds": 29.447394228998746,
+        "provenance_omitted_keys": [
+          "basis_citations_artifact",
+          "basis_definition_artifact",
+          "basis_provider",
+          "basis_provider_version",
+          "functional_references",
+          "libxc_version",
+          "nto_convention",
+          "numpy_version",
+          "oscillator_strength_gauge",
+          "reference_method",
+          "time_dynamics"
+        ]
+      },
+      "result_omitted_keys": [
+        "basis_functions",
+        "correlation_energy_hartree",
+        "density_reference",
+        "dipole_debye",
+        "dipole_reference",
+        "electron_count",
+        "engine",
+        "geometry_converged",
+        "integrated_electrons_ao",
+        "iteration_count",
+        "occupations",
+        "optimization",
+        "orbital_energies_hartree",
+        "orbital_reference",
+        "peak_memory_mb",
+        "properties",
+        "reference_energy_hartree",
+        "run_environment",
+        "vibrations"
+      ]
+    },
+    "water-eomccsd": {
+      "case": "water-eomccsd",
+      "source_result": ".quantum-lab/literature-water-eom-fixed/jobs/bceae02a-5a65-4932-970c-9211b57911b6/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "water QUEST1 literature check",
+        "domain": "molecule",
+        "task": "eomccsd",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              -0.06990256
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.75753241,
+              0.51843495
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.75753241,
+              0.51843495
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "CCSD",
+        "basis": "aug-cc-pvtz",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 4,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 120,
+        "conv_tol": 1e-10,
+        "nstates": 3,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 8000,
+        "band_points": 40,
+        "frozen_orbitals": 1,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.1",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "85de15a2468baf42a233decba25bb15b0f6b2a3d5d3ca213c8419e074343bf7a",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "e9d499dea803773573911b938c846856cc43300a355ea3e2015ff24874d88322",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "936a4880cb36818bd82b29a4bba8795292187b3eb08cb4da1ffb4b82a41a8b15",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "2d622363a9d2d81c42005b36451bfbdc62b751037542f34339d40ff9892e5642",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "engines/response.py": "5222b76451b2fa185f69421b8c230b967dc53512674ca771887a40695c7c539a",
+          "engines/symmetry.py": "0fdde775d222fd5aea4bb6f28855fc196d7f62e32c67f53b670b9868ae8c5c1f",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "65cc5047cd598bec84a7d94b7484651d46c7a2c4c7a38823ae322bebdde1c1e8",
+      "source_sha256": {
+        "input.json": "df1811942cb6681d3a6c582601bc12bee83d22513a38c3c51f16251b8853bc77",
+        "result.json": "c1206b043b55fda96221991898520b64498ba3d509f7035e31416e159da4679c",
+        "environment.json": "0a9e9454dec6cc68b50e9730df170c4fb4cb8862ae8a6933d9245c6c4e125353"
+      },
+      "copied_artifact_sha256": {
+        "basis-references.txt": "e1a937a4505217d8d6837501dd0386cf7bfec82fa2fa3d67aa64c3ccab359a58",
+        "basis.json": "19cd2c0b8de641380936cbd2c70e1890bd97e80c2c9a68d615abe225577bb237",
+        "engine-spec.json": "9ebfda22c4f546a3f74b5a36d889c2e770ce57f08293bc8ad59477cc1b97baba",
+        "engine.log": "b27b4edec4aedf1c06cbf05187314650af67f4b00c77d72bed7159ad11a9f06e",
+        "environment.json": "0a9e9454dec6cc68b50e9730df170c4fb4cb8862ae8a6933d9245c6c4e125353",
+        "geometry.xyz": "27063ea32ea61aeea32af7614b53fda235e9b3889aad9f010e76147cb95b5953",
+        "input.json": "df1811942cb6681d3a6c582601bc12bee83d22513a38c3c51f16251b8853bc77",
+        "molecular-result.json": "c65c4ae9272b191df84a185b8c0bfb29035a90a7f11a39e930a5a129ed9cc527",
+        "result.json": "c1206b043b55fda96221991898520b64498ba3d509f7035e31416e159da4679c"
+      },
+      "events_sha256": "3b6b26dcc6e8d5307b469fc6074af41c7dbbf09e3fa4ae6e0ef10e98c4bcd688",
+      "event_count": 45,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "excited_converged": null,
+        "energy_hartree": -76.33366979702437,
+        "correlation": {
+          "method": "CCSD",
+          "reference": "RHF",
+          "converged": true,
+          "reference_energy_hartree": -76.06046633153952,
+          "total_energy_hartree": -76.33366979702437,
+          "correlation_energy_hartree": -0.27320346548485475,
+          "frozen_orbitals": 1,
+          "active_space": null,
+          "diagnostics": {
+            "integral_memory_estimate_mib": 1093.38720703125,
+            "memory_estimate_note": "Conservative preflight estimate, not a hard process memory limit.",
+            "ccsd_energy_hartree": -76.33366979702437,
+            "t1_diagnostic": 0.010021966941140905,
+            "energy_tolerance_hartree": 1e-10,
+            "amplitude_tolerance": 1e-05,
+            "convergence_test": "CC energy change and amplitude-update norm; (T) is noniterative."
+          },
+          "natural_occupations": null,
+          "natural_occupations_space": null,
+          "iterations": [
+            {
+              "iteration": 1,
+              "energy_hartree": -76.32752805900108,
+              "delta_energy": 0.001454882862163609,
+              "residual_norm": 0.030661649633814507,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 2,
+              "energy_hartree": -76.33296250309554,
+              "delta_energy": -0.005434444094471358,
+              "residual_norm": 0.009534164988489274,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 3,
+              "energy_hartree": -76.33312236869608,
+              "delta_energy": -0.000159865600530551,
+              "residual_norm": 0.004355149069135923,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 4,
+              "energy_hartree": -76.33348036297453,
+              "delta_energy": -0.00037829813560497083,
+              "residual_norm": 0.0016349023288268474,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 5,
+              "energy_hartree": -76.33367208062207,
+              "delta_energy": -1.4656403507173899e-05,
+              "residual_norm": 0.0003190202756979011,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 6,
+              "energy_hartree": -76.33367100773474,
+              "delta_energy": 2.7931713343865017e-05,
+              "residual_norm": 0.00010858274545622787,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 7,
+              "energy_hartree": -76.33367013721055,
+              "delta_energy": 2.447610902622799e-06,
+              "residual_norm": 2.707698609930052e-05,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 8,
+              "energy_hartree": -76.33366979825765,
+              "delta_energy": -1.582898505492203e-06,
+              "residual_norm": 1.0134363334613897e-05,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 9,
+              "energy_hartree": -76.33366975183547,
+              "delta_energy": 3.8749845843177866e-07,
+              "residual_norm": 3.57463373936976e-06,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 10,
+              "energy_hartree": -76.33366980911147,
+              "delta_energy": -1.0664161387285986e-08,
+              "residual_norm": 9.98944298262292e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 11,
+              "energy_hartree": -76.33366979992982,
+              "delta_energy": 8.67947547167347e-09,
+              "residual_norm": 4.13999905856364e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 12,
+              "energy_hartree": -76.33366979450392,
+              "delta_energy": 1.1783048148306108e-08,
+              "residual_norm": 1.506000268891539e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 13,
+              "energy_hartree": -76.33366979681249,
+              "delta_energy": -5.3183755732710836e-09,
+              "residual_norm": 5.863566882458287e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 14,
+              "energy_hartree": -76.3336697970411,
+              "delta_energy": -2.912931951204456e-09,
+              "residual_norm": 2.9169871071397096e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 15,
+              "energy_hartree": -76.3336697971012,
+              "delta_energy": -1.8936692769422336e-09,
+              "residual_norm": 2.0183567295051984e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 16,
+              "energy_hartree": -76.33366979685033,
+              "delta_energy": -8.458826417090393e-10,
+              "residual_norm": 1.8087724461930468e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 17,
+              "energy_hartree": -76.33366979702828,
+              "delta_energy": -1.2014156336448423e-10,
+              "residual_norm": 9.746262137681559e-09,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 18,
+              "energy_hartree": -76.3336697970832,
+              "delta_energy": 4.229699923641306e-11,
+              "residual_norm": 9.521497402889503e-09,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 19,
+              "energy_hartree": -76.33366979704212,
+              "delta_energy": -5.601696884127705e-11,
+              "residual_norm": 1.0901270728164535e-08,
+              "stage": "pre_diis_amplitude_update"
+            }
+          ],
+          "wavefunction_artifact": "correlation-wavefunction.npz",
+          "warnings": [],
+          "wavefunction_contents": "CCSD singles and doubles amplitudes in the RHF orbital basis.",
+          "orbital_and_density_note": "Displayed canonical orbitals, density, dipole, and populations are the RHF reference; correlated wavefunction arrays are stored separately."
+        },
+        "eom": {
+          "reference": "CCSD",
+          "spin": "singlet",
+          "converged": true,
+          "states": [
+            {
+              "state": 1,
+              "energy_ev": 7.596505640691346,
+              "converged": true,
+              "residual_norm": 2.8664229796347592e-08,
+              "symmetry": "B1",
+              "symmetry_group": "C2v"
+            },
+            {
+              "state": 2,
+              "energy_ev": 9.361339918549707,
+              "converged": true,
+              "residual_norm": 5.431733697833694e-08,
+              "symmetry": "A2",
+              "symmetry_group": "C2v"
+            },
+            {
+              "state": 3,
+              "energy_ev": 9.956786847962064,
+              "converged": true,
+              "residual_norm": 6.746442203820675e-08,
+              "symmetry": "A1",
+              "symmetry_group": "C2v"
+            }
+          ],
+          "requested_states": 3,
+          "residual_tolerance": 1e-05,
+          "root_search": {
+            "strategy": "abelian_symmetry_blocks",
+            "group": "C2v",
+            "blocks": [
+              {
+                "irrep": "A1",
+                "dimension": 15900,
+                "requested_roots": 3,
+                "converged_roots": 3,
+                "complete": true
+              },
+              {
+                "irrep": "A2",
+                "dimension": 14724,
+                "requested_roots": 3,
+                "converged_roots": 3,
+                "complete": true
+              },
+              {
+                "irrep": "B1",
+                "dimension": 14856,
+                "requested_roots": 3,
+                "converged_roots": 3,
+                "complete": true
+              },
+              {
+                "irrep": "B2",
+                "dimension": 15594,
+                "requested_roots": 3,
+                "converged_roots": 3,
+                "complete": true
+              }
+            ],
+            "complete": true,
+            "scope": "Lowest requested real roots targeted independently in every detected Abelian symmetry sector, then merged by energy. Iterative residual convergence is not a mathematical proof of global spectral completeness.",
+            "initial_guesses": "Lowest diagonal coordinate vectors plus one deterministic dense vector within each searched sector."
+          },
+          "energy_tolerance_hartree": 1e-10,
+          "max_cycle": 120,
+          "wavefunction_artifact": "eom-wavefunction.npz",
+          "notes": [
+            "Vertical singlet excitation energies are differences from the CCSD ground state.",
+            "All searched symmetry sectors must converge; a converged subset is not reported as a successful lowest-state calculation.",
+            "Only right EOM eigenvectors are evaluated; oscillator strengths, absorption spectra, and NTOs are not computed."
+          ]
+        },
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              -0.06990256
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.75753241,
+              0.51843495
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.75753241,
+              0.51843495
+            ]
+          }
+        ],
+        "lattice": null,
+        "method": "CCSD",
+        "task": "eomccsd",
+        "excitations": [],
+        "warnings": [
+          "Orbitals, density, dipole and populations describe the RHF reference, not the correlated wavefunction.",
+          "Mulliken·Löwdin 부분 전하는 기저와 분할 방식에 의존하며 직접 관측되는 원자 전하가 아닙니다."
+        ],
+        "provenance": {
+          "response_solver": null
+        },
+        "elapsed_seconds": 79.10194326499914,
+        "provenance_omitted_keys": [
+          "basis_citations_artifact",
+          "basis_definition_artifact",
+          "basis_provider",
+          "basis_provider_version",
+          "functional_references",
+          "libxc_version",
+          "nto_convention",
+          "numpy_version",
+          "oscillator_strength_gauge",
+          "reference_method",
+          "time_dynamics"
+        ]
+      },
+      "result_omitted_keys": [
+        "basis_functions",
+        "correlation_energy_hartree",
+        "density_reference",
+        "dipole_debye",
+        "dipole_reference",
+        "electron_count",
+        "engine",
+        "geometry_converged",
+        "integrated_electrons_ao",
+        "iteration_count",
+        "occupations",
+        "optimization",
+        "orbital_energies_hartree",
+        "orbital_reference",
+        "peak_memory_mb",
+        "properties",
+        "reference_energy_hartree",
+        "run_environment",
+        "vibrations"
+      ]
+    },
+    "water-fragment-a": {
+      "case": "water-fragment-a",
+      "source_result": ".quantum-lab/literature-water-fragment-a/jobs/0c9e8607-e811-4164-87f7-3612ea090f54/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "S22B water fragment-a CCSD(T)/aVDZ",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              -1.551007,
+              -0.11452,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              -1.934259,
+              0.762503,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              -0.599677,
+              0.040712,
+              0.0
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "CCSD(T)",
+        "basis": "aug-cc-pvdz",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 120,
+        "conv_tol": 1e-10,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 3000,
+        "band_points": 40,
+        "frozen_orbitals": 1,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.0",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "81a9e180c27f43a4449452f41d2018ab2f4965dcc7c7829c2f670d7d74b676c4",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "ff4052f686d9227c4808093d76edb300795476f6b838ae304996958699854723",
+      "source_sha256": {
+        "input.json": "326703e699dfc7274e78c41c4534c6d478c5432b482119ddceaded7afb32bb2a",
+        "result.json": "6f634bc5e8325ab52559f448551126fa040a1007032028e28ad975b0965df5bc",
+        "environment.json": "ed30cc3c9e1bf222e0649175bf1098fe3b452a6ab9659ea89c225cb4fe7c7152"
+      },
+      "copied_artifact_sha256": {
+        "basis-references.txt": "62caa8f3063b2ccf080c78cb2945adac30b6c7603882c473afba0551ef40f624",
+        "basis.json": "a0155091ef72a9e6a960aaea61ec0350e1fccf029dc45674e997cddfc9c8a7b6",
+        "engine-spec.json": "c640c09fafe2827e48d2e93c844f48994e88e3d3dcc99ccf70bd01a135cd3455",
+        "engine.log": "74840b9afbfa8652eca87c0203edee24fdd164f8f04abeea741c46eeed7c6f21",
+        "environment.json": "ed30cc3c9e1bf222e0649175bf1098fe3b452a6ab9659ea89c225cb4fe7c7152",
+        "geometry.xyz": "29562100448d55390160427ab885a5976cc328da4b8198bb6c83861fe0558319",
+        "input.json": "326703e699dfc7274e78c41c4534c6d478c5432b482119ddceaded7afb32bb2a",
+        "molecular-result.json": "e89ef429553541dbfac9354abd56fd7e949e64f7c8283a9ed92f253660c0ac7f",
+        "result.json": "6f634bc5e8325ab52559f448551126fa040a1007032028e28ad975b0965df5bc"
+      },
+      "events_sha256": "223dc0a1641bb629d6594631138955478e2a66aa2f312dbcdf7d924fda1186d9",
+      "event_count": 35,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "excited_converged": null,
+        "energy_hartree": -76.27381294573738,
+        "correlation": {
+          "method": "CCSD(T)",
+          "reference": "RHF",
+          "converged": true,
+          "reference_energy_hartree": -76.04119106435172,
+          "total_energy_hartree": -76.27381294573738,
+          "correlation_energy_hartree": -0.2326218813856542,
+          "frozen_orbitals": 1,
+          "active_space": null,
+          "diagnostics": {
+            "integral_memory_estimate_mib": 43.16899108886719,
+            "memory_estimate_note": "Conservative preflight estimate, not a hard process memory limit.",
+            "ccsd_energy_hartree": -76.26858103593311,
+            "t1_diagnostic": 0.012311106593576612,
+            "energy_tolerance_hartree": 1e-10,
+            "amplitude_tolerance": 1e-05,
+            "convergence_test": "CC energy change and amplitude-update norm; (T) is noniterative.",
+            "triples_energy_hartree": -0.005231909804258971
+          },
+          "natural_occupations": null,
+          "natural_occupations_space": null,
+          "iterations": [
+            {
+              "iteration": 1,
+              "energy_hartree": -76.26295942861665,
+              "delta_energy": -0.0021293582669562605,
+              "residual_norm": 0.034293039542044296,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 2,
+              "energy_hartree": -76.26750369194411,
+              "delta_energy": -0.004544263327462911,
+              "residual_norm": 0.010100629871996097,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 3,
+              "energy_hartree": -76.26795355630095,
+              "delta_energy": -0.0004498643568252858,
+              "residual_norm": 0.004868091912574229,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 4,
+              "energy_hartree": -76.26835301486209,
+              "delta_energy": -0.0004410407851468401,
+              "residual_norm": 0.001868606346519545,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 5,
+              "energy_hartree": -76.26858455984295,
+              "delta_energy": 2.3864182861071948e-05,
+              "residual_norm": 0.000290662193893463,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 6,
+              "energy_hartree": -76.26858157464042,
+              "delta_energy": 1.4012023210580038e-05,
+              "residual_norm": 9.853912710615237e-05,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 7,
+              "energy_hartree": -76.26858138756275,
+              "delta_energy": 2.41197689127004e-07,
+              "residual_norm": 2.5670699782324836e-05,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 8,
+              "energy_hartree": -76.26858107825385,
+              "delta_energy": -6.985112519231063e-07,
+              "residual_norm": 7.982035749673244e-06,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 9,
+              "energy_hartree": -76.26858101414958,
+              "delta_energy": 1.6545373970888733e-07,
+              "residual_norm": 2.9697769381786468e-06,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 10,
+              "energy_hartree": -76.26858105681262,
+              "delta_energy": 3.9401210960576805e-08,
+              "residual_norm": 9.233933285682007e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 11,
+              "energy_hartree": -76.26858104432606,
+              "delta_energy": 1.9568338810449504e-08,
+              "residual_norm": 3.537536526239764e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 12,
+              "energy_hartree": -76.26858103914225,
+              "delta_energy": 4.7138739578400646e-09,
+              "residual_norm": 1.301902371743093e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 13,
+              "energy_hartree": -76.2685810362422,
+              "delta_energy": -7.102268773095943e-10,
+              "residual_norm": 4.216778641036889e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 14,
+              "energy_hartree": -76.26858103637481,
+              "delta_energy": -3.991616481791027e-10,
+              "residual_norm": 2.4405797972727705e-08,
+              "stage": "pre_diis_amplitude_update"
+            }
+          ],
+          "wavefunction_artifact": "correlation-wavefunction.npz",
+          "warnings": [],
+          "wavefunction_contents": "CCSD singles and doubles amplitudes; (T) contributes an energy correction, not stored triples amplitudes.",
+          "orbital_and_density_note": "Displayed canonical orbitals, density, dipole, and populations are the RHF reference; correlated wavefunction arrays are stored separately."
+        },
+        "eom": null,
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              -1.551007,
+              -0.11452,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              -1.934259,
+              0.7625029999999999,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              -0.599677,
+              0.040712,
+              0.0
+            ]
+          }
+        ],
+        "lattice": null,
+        "method": "CCSD(T)",
+        "task": "single_point",
+        "excitations": [],
+        "warnings": [
+          "Orbitals, density, dipole and populations describe the RHF reference, not the correlated wavefunction.",
+          "Mulliken·Löwdin 부분 전하는 기저와 분할 방식에 의존하며 직접 관측되는 원자 전하가 아닙니다."
+        ],
+        "provenance": {
+          "response_solver": null
+        },
+        "elapsed_seconds": 2.3359378059994924,
+        "provenance_omitted_keys": [
+          "basis_citations_artifact",
+          "basis_definition_artifact",
+          "basis_provider",
+          "basis_provider_version",
+          "functional_references",
+          "libxc_version",
+          "nto_convention",
+          "numpy_version",
+          "oscillator_strength_gauge",
+          "reference_method",
+          "time_dynamics"
+        ]
+      },
+      "result_omitted_keys": [
+        "basis_functions",
+        "correlation_energy_hartree",
+        "density_reference",
+        "dipole_debye",
+        "dipole_reference",
+        "electron_count",
+        "engine",
+        "geometry_converged",
+        "integrated_electrons_ao",
+        "iteration_count",
+        "occupations",
+        "optimization",
+        "orbital_energies_hartree",
+        "orbital_reference",
+        "peak_memory_mb",
+        "properties",
+        "reference_energy_hartree",
+        "run_environment",
+        "vibrations"
+      ]
+    },
+    "water-fragment-b": {
+      "case": "water-fragment-b",
+      "source_result": ".quantum-lab/literature-water-fragment-b/jobs/d5b6ece5-4221-4378-ba59-24c51a8bfeff/result.json",
+      "status": "completed",
+      "job_status": "succeeded",
+      "spec": {
+        "name": "S22B water fragment-b CCSD(T)/aVDZ",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              1.350625,
+              0.111469,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              1.680398,
+              -0.373741,
+              -0.758561
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              1.680398,
+              -0.373741,
+              0.758561
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "CCSD(T)",
+        "basis": "aug-cc-pvdz",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 120,
+        "conv_tol": 1e-10,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 3000,
+        "band_points": 40,
+        "frozen_orbitals": 1,
+        "active_electrons": 2,
+        "active_orbitals": 2,
+        "ir_intensities": false,
+        "temperature_kelvin": 298.15,
+        "pressure_pa": 101325.0,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "environment": {
+        "quantum_lab_version": "0.3.0",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "81a9e180c27f43a4449452f41d2018ab2f4965dcc7c7829c2f670d7d74b676c4",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      },
+      "normalized_input_sha256": "2eacbba853683f7a63a3d9c4948180c3a420ff4e6137ba2f6db66b1f48f1961f",
+      "source_sha256": {
+        "input.json": "6815fae137315aa5b8541f31c96f5381eec5d684da4d8b162a177c5cf66e6285",
+        "result.json": "ae72bea3f4b1543707adc3f9b1749062dd3092b747c01817214108d27e5b12d3",
+        "environment.json": "ed30cc3c9e1bf222e0649175bf1098fe3b452a6ab9659ea89c225cb4fe7c7152"
+      },
+      "copied_artifact_sha256": {
+        "basis-references.txt": "62caa8f3063b2ccf080c78cb2945adac30b6c7603882c473afba0551ef40f624",
+        "basis.json": "a0155091ef72a9e6a960aaea61ec0350e1fccf029dc45674e997cddfc9c8a7b6",
+        "engine-spec.json": "1c1e9b3fc40b6de7da003208aee69a18e45b4f14137f4f37b3594983980b914a",
+        "engine.log": "41c27842c9ffb3d9081258cedc41349e3718cb96fd9819298385cc5ef4bab666",
+        "environment.json": "ed30cc3c9e1bf222e0649175bf1098fe3b452a6ab9659ea89c225cb4fe7c7152",
+        "geometry.xyz": "99958d959a0ae2d01fb367ac9bffa01b0ed91f848d53c3586dd53a13a380fc56",
+        "input.json": "6815fae137315aa5b8541f31c96f5381eec5d684da4d8b162a177c5cf66e6285",
+        "molecular-result.json": "d679fa9f747b398232fbbdeef9823f3ca13b7df579adddc5cb5924893038c2ac",
+        "result.json": "ae72bea3f4b1543707adc3f9b1749062dd3092b747c01817214108d27e5b12d3"
+      },
+      "events_sha256": "2ab7b894293043c3e95918ed82b42acc46fe15e9196b9b253ce565a31b877a65",
+      "event_count": 35,
+      "result_summary": {
+        "converged": true,
+        "scf_converged": true,
+        "excited_converged": null,
+        "energy_hartree": -76.27379479321245,
+        "correlation": {
+          "method": "CCSD(T)",
+          "reference": "RHF",
+          "converged": true,
+          "reference_energy_hartree": -76.04132687899146,
+          "total_energy_hartree": -76.27379479321245,
+          "correlation_energy_hartree": -0.23246791422099022,
+          "frozen_orbitals": 1,
+          "active_space": null,
+          "diagnostics": {
+            "integral_memory_estimate_mib": 43.16899108886719,
+            "memory_estimate_note": "Conservative preflight estimate, not a hard process memory limit.",
+            "ccsd_energy_hartree": -76.26857572521253,
+            "t1_diagnostic": 0.012284221133800755,
+            "energy_tolerance_hartree": 1e-10,
+            "amplitude_tolerance": 1e-05,
+            "convergence_test": "CC energy change and amplitude-update norm; (T) is noniterative.",
+            "triples_energy_hartree": -0.005219067999918434
+          },
+          "natural_occupations": null,
+          "natural_occupations_space": null,
+          "iterations": [
+            {
+              "iteration": 1,
+              "energy_hartree": -76.262976118861,
+              "delta_energy": -0.002161231608876074,
+              "residual_norm": 0.03422166202525923,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 2,
+              "energy_hartree": -76.26750269024839,
+              "delta_energy": -0.004526571387386047,
+              "residual_norm": 0.010065720149291224,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 3,
+              "energy_hartree": -76.26795190393109,
+              "delta_energy": -0.00044921368269729145,
+              "residual_norm": 0.0048499538822964,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 4,
+              "energy_hartree": -76.26834921283964,
+              "delta_energy": -0.0004387738283400111,
+              "residual_norm": 0.001860101016355974,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 5,
+              "energy_hartree": -76.26857927499493,
+              "delta_energy": 2.394308814279711e-05,
+              "residual_norm": 0.0002893223668495481,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 6,
+              "energy_hartree": -76.26857626480934,
+              "delta_energy": 1.3907093313891838e-05,
+              "residual_norm": 9.804499716037865e-05,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 7,
+              "energy_hartree": -76.26857607446105,
+              "delta_energy": 2.3118079636730293e-07,
+              "residual_norm": 2.549029055318185e-05,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 8,
+              "energy_hartree": -76.26857576771967,
+              "delta_energy": -6.884439154031252e-07,
+              "residual_norm": 7.91788037478538e-06,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 9,
+              "energy_hartree": -76.26857570338055,
+              "delta_energy": 1.620133558977166e-07,
+              "residual_norm": 2.9444019787778e-06,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 10,
+              "energy_hartree": -76.26857574584015,
+              "delta_energy": 3.9041470334399975e-08,
+              "residual_norm": 9.131985047825809e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 11,
+              "energy_hartree": -76.2685757334649,
+              "delta_energy": 1.9386435068380337e-08,
+              "residual_norm": 3.4992942003108815e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 12,
+              "energy_hartree": -76.26857572837697,
+              "delta_energy": 4.63341343071022e-09,
+              "residual_norm": 1.2906858628491e-07,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 13,
+              "energy_hartree": -76.26857572551334,
+              "delta_energy": -7.142950397831527e-10,
+              "residual_norm": 4.184683446519815e-08,
+              "stage": "pre_diis_amplitude_update"
+            },
+            {
+              "iteration": 14,
+              "energy_hartree": -76.26857572564437,
+              "delta_energy": -4.0510050869357883e-10,
+              "residual_norm": 2.4204091333751034e-08,
+              "stage": "pre_diis_amplitude_update"
+            }
+          ],
+          "wavefunction_artifact": "correlation-wavefunction.npz",
+          "warnings": [],
+          "wavefunction_contents": "CCSD singles and doubles amplitudes; (T) contributes an energy correction, not stored triples amplitudes.",
+          "orbital_and_density_note": "Displayed canonical orbitals, density, dipole, and populations are the RHF reference; correlated wavefunction arrays are stored separately."
+        },
+        "eom": null,
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              1.3506249999999997,
+              0.11146899999999998,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              1.680398,
+              -0.37374099999999993,
+              -0.758561
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              1.680398,
+              -0.37374099999999993,
+              0.758561
+            ]
+          }
+        ],
+        "lattice": null,
+        "method": "CCSD(T)",
+        "task": "single_point",
+        "excitations": [],
+        "warnings": [
+          "Orbitals, density, dipole and populations describe the RHF reference, not the correlated wavefunction.",
+          "Mulliken·Löwdin 부분 전하는 기저와 분할 방식에 의존하며 직접 관측되는 원자 전하가 아닙니다."
+        ],
+        "provenance": {
+          "response_solver": null
+        },
+        "elapsed_seconds": 3.2730635099997016,
+        "provenance_omitted_keys": [
+          "basis_citations_artifact",
+          "basis_definition_artifact",
+          "basis_provider",
+          "basis_provider_version",
+          "functional_references",
+          "libxc_version",
+          "nto_convention",
+          "numpy_version",
+          "oscillator_strength_gauge",
+          "reference_method",
+          "time_dynamics"
+        ]
+      },
+      "result_omitted_keys": [
+        "basis_functions",
+        "correlation_energy_hartree",
+        "density_reference",
+        "dipole_debye",
+        "dipole_reference",
+        "electron_count",
+        "engine",
+        "geometry_converged",
+        "integrated_electrons_ao",
+        "iteration_count",
+        "occupations",
+        "optimization",
+        "orbital_energies_hartree",
+        "orbital_reference",
+        "peak_memory_mb",
+        "properties",
+        "reference_energy_hartree",
+        "run_environment",
+        "vibrations"
+      ]
+    }
+  }
+}

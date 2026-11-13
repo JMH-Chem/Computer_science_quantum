@@ -1,0 +1,56 @@
+{
+  "policy": "Criteria record their declaration scope. Initial molecular comparison criteria were declared before inspecting their runs. The diamond k4 extension is declared prospectively after inspecting the initial k2/k3 diagnostics. Method assessment is not an implementation pass/fail test.",
+  "water_eomccsd": {
+    "comparison_kind": "matched_method_published_table",
+    "reference_energies_ev": [
+      7.6,
+      9.36,
+      9.96
+    ],
+    "reference_states": [
+      "1B1 singlet",
+      "1A2 singlet",
+      "2A1 singlet"
+    ],
+    "absolute_tolerance_ev": 0.01,
+    "reason": "Published table resolution is 0.01 eV; do not apply the 1e-4 eV same-engine threshold to rounded literature values. States must be assigned before comparison.",
+    "required_conditions": [
+      "CC3/aug-cc-pVTZ ground geometry from QUEST1",
+      "EOM-EE-CCSD/aug-cc-pVTZ",
+      "one frozen occupied core orbital",
+      "vertical singlet excitation",
+      "converged CCSD and all requested roots"
+    ]
+  },
+  "formaldehyde_tddft": {
+    "comparison_kind": "approximate_method_vs_high_level_reference",
+    "reference_energy_ev": 3.98,
+    "reference_state": "1A2 singlet n->pi*",
+    "reference": "Loos et al. 2018, Table 4, exFCI/aug-cc-pVTZ frozen-core TBE",
+    "pass_fail_tolerance": null,
+    "reason": "PBE0-TDDFT and exFCI are different methods. Report signed and absolute deviations; do not declare code failure or universal accuracy from this comparison."
+  },
+  "water_dimer": {
+    "comparison_kind": "finite_basis_uncorrected_vs_cbs_reference",
+    "reference_energy_kcal_mol": -4.989,
+    "quantity": "E_dimer - E_fragmentA - E_fragmentB at frozen dimer coordinates",
+    "pass_fail_tolerance": null,
+    "reason": "CCSD(T)/aug-cc-pVDZ without counterpoise retains basis incompleteness and BSSE. S22B is a high-level reference; report deviation without treating differing definitions as an exact reproduction. No ZPE or thermal correction."
+  },
+  "diamond": {
+    "comparison_kind": "gaussian_gth_vs_plane_wave_sg15_pbe_assessment",
+    "pass_fail_tolerance": null,
+    "reason": "The Gaussian/GTH and plane-wave/SG15 calculations use different basis and pseudopotential representations. Report deviations without an exact-reproduction pass/fail.",
+    "successive_gap_diagnostic": {
+      "declared_utc": "2026-11-13T19:05:36.337416+00:00",
+      "declared_before_case": "diamond-k4",
+      "from": "diamond-mesh33",
+      "to": "diamond-k4",
+      "varied": "kmesh",
+      "absolute_change_threshold_ev": 0.025,
+      "prior_observations": "The k2/FFT27 and k3/FFT27 gaps were already inspected; their approximately 0.145 eV change motivated this additional calculation.",
+      "interpretation": "An absolute successive sampled KS gap change at or below 0.025 eV meets this one refinement diagnostic only. It does not establish convergence of the basis, pseudopotential, band-path sampling, total energy, or all future k meshes; it is not a literature pass/fail threshold.",
+      "threshold_rationale": "Use the published diamond benchmark gap-refinement scale of 0.025 eV as a declared diagnostic for this additional uniform k-mesh step; retain all other conditions."
+    }
+  }
+}

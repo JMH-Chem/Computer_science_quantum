@@ -132,8 +132,8 @@ export function Convergence({
       )}
       <p className="science-note">
         <Info size={14} />
-        SCF는 전자 분포를 찾는 수치 반복입니다. 에너지는 오르내릴 수 있으며,
-        가로축은 물리적 시간이 아닙니다.
+        SCF는 전자 분포를 조금씩 고쳐 가는 계산입니다. 가로축은 실제 시간이
+        아니라 계산 순서이며, 에너지는 오르내릴 수 있습니다.
       </p>
     </>
   );
@@ -152,7 +152,9 @@ export function Orbitals({ result }: { result: Result | null | undefined }) {
       />
     );
   const unrestricted = Array.isArray(orbitals[0]);
-  const values = (unrestricted ? orbitals[spin] : orbitals) as number[];
+  const values = (unrestricted ? orbitals[spin] : orbitals) as (
+    number | null
+  )[];
   const raw = result?.occupations;
   const occ = (Array.isArray(raw?.[0]) ? raw?.[spin] : raw) as
     number[] | undefined;
@@ -177,7 +179,11 @@ export function Orbitals({ result }: { result: Result | null | undefined }) {
         data={[
           {
             x: values.map((_, i) => i + 1),
-            y: values.map((e) => e * 27.211386245988),
+            y: values.map((e) =>
+              typeof e === "number" && Number.isFinite(e)
+                ? e * 27.211386245988
+                : null,
+            ),
             type: "bar",
             marker: {
               color: values.map((_, i) =>
@@ -193,9 +199,9 @@ export function Orbitals({ result }: { result: Result | null | undefined }) {
         yTitle="궤도 에너지 / eV"
       />
       <p className="science-note">
-        <Info size={14} />
-        궤도 에너지의 차이는 광학 여기 에너지와 같지 않습니다. 3D 색상은
-        오비탈의 위상을 나타냅니다.
+        <Info size={14} />각 막대는 전자 오비탈 하나의 에너지입니다. 분자 전체의
+        에너지나 빛을 흡수하는 데 필요한 에너지와는 구분하세요. 3D 오비탈의 두
+        색은 전하가 아니라 파동함수의 양·음 위상입니다.
       </p>
     </>
   );
@@ -268,6 +274,9 @@ export function Excitations({ result }: { result: Result | null | undefined }) {
       />
     );
   const max = Math.max(...states.map((s) => s.energy_ev));
+  const provenance = result?.provenance as
+    { response_solver?: { root_search?: unknown } } | undefined;
+  const legacyResponse = !provenance?.response_solver?.root_search;
   return (
     <>
       {(!result?.converged || allStates.length !== states.length) && (
@@ -283,6 +292,22 @@ export function Excitations({ result }: { result: Result | null | undefined }) {
         </div>
         <span className="small-tag">{states.length} states</span>
       </div>
+      {legacyResponse && (
+        <p
+          className="science-note warning"
+          role="status"
+          data-testid="response-legacy-warning"
+        >
+          이전 방식으로 계산한 결과입니다. 낮은 여기 상태가 누락됐을 수 있으므로
+          상태 순서는 새 계산으로 확인하세요. 저장된 계산값은 그대로 표시합니다.
+        </p>
+      )}
+      <p className="science-note">
+        원자 위치를 고정한 채 전자 상태를 바꾸는 데 필요한 에너지 차이입니다.
+        실험 흡수 띠의 최대값이나 형광 에너지와 바로 같지는 않습니다. 막대
+        높이의 전이 세기(oscillator strength)는 빛과 얼마나 강하게
+        상호작용하는지를 나타냅니다.
+      </p>
       <div className="spectrum-controls">
         <label>
           표시용 선폭
@@ -354,9 +379,9 @@ export function Excitations({ result }: { result: Result | null | undefined }) {
         <div className="state-description">
           <h3>S₁에서 S₀로 돌아간다는 것</h3>
           <p>
-            계산된 값은 현재 구조에서의 수직 여기 에너지입니다. 아래 방향
-            화살표는 전이 개념을 설명하며, 실제 방출 에너지·수명·전이 확률을
-            예측한 결과가 아닙니다.
+            S₀는 바닥상태, S₁은 첫 번째 들뜬 singlet 상태입니다. 아래 방향
+            화살표는 낮은 상태로 돌아간다는 개념을 설명합니다. 현재 계산으로
+            실제 방출 에너지·수명·전이 확률을 예측한 것은 아닙니다.
           </p>
           <button
             className="secondary-button"
@@ -396,8 +421,9 @@ export function Excitations({ result }: { result: Result | null | undefined }) {
       </div>
       <p className="science-note">
         <Info size={14} />
-        퍼짐 함수와 선폭은 표시 설정입니다. 계산된 전이 에너지와 세기는 바뀌지
-        않습니다. NTO 정의는 엔진의 X-only 관례를 따릅니다.
+        선폭을 넓히면 그림만 퍼지며, 계산된 전이 에너지와 세기 또는 계산
+        정확도는 바뀌지 않습니다. NTO는 전이의 성격을 오비탈 쌍으로 요약하며
+        엔진의 X-only 관례를 따릅니다.
       </p>
     </>
   );
@@ -466,9 +492,19 @@ export function Bands({ result }: { result: Result | null | undefined }) {
       />
       <p className="science-note">
         <Info size={14} />
-        표본 경로에서 얻은 Kohn–Sham 밴드갭입니다. 광학 갭과 같지 않으며,
-        기저·k점·수치 격자 수렴을 별도로 확인해야 합니다.
+        계산한 경로에서 전자 상태 사이의 간격을 찾은 KS 밴드갭입니다. 빛 흡수로
+        측정한 광학 갭과 바로 비교해 정확도를 판단할 수 없습니다. 기저·k점·수치
+        격자를 바꿔도 값이 안정적인지 별도로 확인하세요.
       </p>
+      {bands.retained_bands_per_kpoint?.some(
+        (count, k) => count < bands.energies_ev[k].length,
+      ) && (
+        <p className="science-note" data-testid="band-rank-reduction">
+          일부 k점에서는 서로 구분하기 어려운 기저 방향을 수치적으로
+          제외했습니다. 제외된 가상 상태는 빈 구간으로 표시하며 실제 에너지로
+          연결하지 않습니다. 자세한 처리 조건은 계산 기록에 보존됩니다.
+        </p>
+      )}
     </>
   );
 }
@@ -652,22 +688,40 @@ export function Learn({
         </div>
         <BookOpen size={21} />
       </div>
+      <p className="science-note">
+        처음에는 SCF, 기저, 오비탈 설명부터 읽어 보세요. 전체 에너지의 단위 Eh는
+        하트리입니다. 음수는 선택한 에너지 기준에 따른 부호이므로 그 숫자만으로
+        다른 분자의 안정성이나 다른 계산 방법의 정확도를 판단하지 않습니다.
+      </p>
       <div className="lesson-grid">
         {catalog.lessons.length ? (
-          catalog.lessons.map((l, i) => (
-            <article className="lesson-card" key={l.id ?? i}>
-              <span className="lesson-number">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3>{l.title}</h3>
-              <p>{l.body ?? l.content}</p>
-              {(l.source ?? l.url) && (
-                <a href={l.source ?? l.url} target="_blank" rel="noreferrer">
-                  공식 자료 <ChevronRight size={12} />
-                </a>
-              )}
-            </article>
-          ))
+          catalog.lessons.map((l, i) => {
+            const body = l.body ?? l.content ?? "";
+            const boundary = body.indexOf(". ");
+            const introduction =
+              boundary < 0 ? body : body.slice(0, boundary + 1);
+            const detail = boundary < 0 ? "" : body.slice(boundary + 2);
+            return (
+              <article className="lesson-card" key={l.id ?? i}>
+                <span className="lesson-number">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3>{l.title}</h3>
+                <p>{introduction}</p>
+                {detail && (
+                  <details className="scientific-details">
+                    <summary>자세히 읽기</summary>
+                    <p>{detail}</p>
+                  </details>
+                )}
+                {(l.source ?? l.url) && (
+                  <a href={l.source ?? l.url} target="_blank" rel="noreferrer">
+                    공식 자료 <ChevronRight size={12} />
+                  </a>
+                )}
+              </article>
+            );
+          })
         ) : (
           <article className="lesson-card">
             <h3>계산은 질문에서 시작됩니다</h3>

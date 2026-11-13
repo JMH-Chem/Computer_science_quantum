@@ -93,7 +93,8 @@ export function CorrelationResults({
         <div>
           <h2>{correlation?.method ?? "전자 상관"} 계산 결과</h2>
           <p>
-            SCF와 상관 풀이기의 반복은 별도 과정입니다. 반복 번호는 실제 시간이
+            RHF의 평균적인 전자 분포에서 출발해 전자 간 상관 효과를 더
+            계산합니다. SCF와 상관 풀이기의 반복은 별도 과정이며 실제 시간이
             아닙니다.
           </p>
         </div>
@@ -383,8 +384,8 @@ export function VibrationalResults({
         <div>
           <h2>조화 진동</h2>
           <p>
-            병진·회전을 제거한 진동 모드입니다. 음수로 표시한 진동수는 허수
-            진동수입니다.
+            원자들이 평형 구조 근처에서 작게 흔들리는 모습을 계산합니다.
+            병진·회전은 제외했으며, 음수로 표시한 진동수는 허수 진동수입니다.
           </p>
         </div>
         <DataDownload jobId={jobId} kind="frequencies" />
@@ -501,8 +502,10 @@ export function VibrationalResults({
             <div>
               <h3>계산한 IR 스펙트럼</h3>
               <p>
-                쌍극자의 유한차분 미분으로 세기를 계산했습니다. Gaussian 폭은
-                표시 설정이며 고유 진동수와 적분 세기는 그대로입니다.
+                원자의 진동이 적외선과 얼마나 강하게 상호작용하는지 보여 줍니다.
+                조화 근사이므로 실험의 기본 진동수와 차이가 날 수 있습니다.
+                선폭을 바꾸어도 계산된 진동수·적분 세기·정확도는 바뀌지
+                않습니다.
               </p>
             </div>
             <label className="field">
@@ -531,7 +534,8 @@ export function VibrationalResults({
           />
           <p>
             유한차분 변위 {vibrations.ir.finite_difference_step_bohr} bohr ·
-            변위 구조 SCF {vibrations.ir.displaced_calculations}회
+            변위 구조 SCF {vibrations.ir.displaced_calculations}회 · 쌍극자의
+            유한차분 미분으로 계산한 세기
           </p>
         </div>
       ) : (
@@ -733,6 +737,13 @@ export function MaterialResults({
           </div>
         </>
       )}
+      {!dos && result?.sampled_dos_unavailable_reason && (
+        <p className="science-note" data-testid="dos-unavailable">
+          DOS 그림을 만들지 못했습니다. 계산된 에너지와 밴드 결과는 유지합니다.
+          <br />
+          {result.sampled_dos_unavailable_reason}
+        </p>
+      )}
       {edges && (
         <div>
           <h3>계산한 점에서의 밴드 끝점</h3>
@@ -854,6 +865,16 @@ export function EOMResults({
         </div>
         <DataDownload jobId={jobId} kind="eom" />
       </div>
+      {(!("root_search" in eom) || !eom.root_search) && (
+        <p
+          className="science-note warning"
+          role="status"
+          data-testid="eom-legacy-warning"
+        >
+          이전 방식으로 계산한 결과입니다. 낮은 여기 상태가 누락됐을 수 있으므로
+          새 계산으로 확인하세요. 저장된 계산값은 그대로 표시합니다.
+        </p>
+      )}
       <Chart
         data={data}
         xTitle="CCSD 기준 상태 / EOM 여기 상태"
@@ -882,8 +903,10 @@ export function EOMResults({
         </table>
       </div>
       <p className="science-note">
-        여기 에너지만 계산합니다. oscillator strength·흡수 스펙트럼·NTO와 상태
-        수명은 계산하지 않았습니다. 위 전체 에너지는 CCSD 바닥상태 에너지입니다.
+        원자 위치를 고정한 채 전자 상태를 바꾸는 데 필요한 에너지입니다. 실험
+        흡수 띠의 최대값이나 방출 에너지와 바로 같지는 않습니다. oscillator
+        strength·흡수 스펙트럼·NTO와 상태 수명은 계산하지 않았습니다. 위 전체
+        에너지는 CCSD 바닥상태 에너지입니다.
       </p>
       <CalculationNotes notes={eom.notes} />
     </div>

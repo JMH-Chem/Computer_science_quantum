@@ -1,6 +1,6 @@
 [project]
 name = "quantum-lab"
-version = "0.3.0"
+version = "0.3.1"
 description = "Local molecular and materials computation with transparent scientific learning"
 requires-python = ">=3.12,<3.13"
 dependencies = [

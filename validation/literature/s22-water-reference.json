@@ -1,0 +1,81 @@
+{
+  "dataset": "S22B",
+  "case": "S22-2 water dimer",
+  "reference_energy_kcal_mol": -4.989,
+  "source_url": "https://github.com/psi4/psi4/blob/64fc54046ff5a91733b1f386417286a05621f44e/psi4/share/psi4/databases/S22.py",
+  "source_sha256": "6fb9cc1d6901ea137a18a93925f0e03568cac2314e21c1af8f0f874c8d80f6c9",
+  "data_location": "BIND_S22B, S22-2 (line147); GEOS[S22-2-dimer], lines324\u2013335",
+  "publication_from_source": "Marshall et al. J. Chem. Phys. 135, 194102 (2011)",
+  "geometry_publication_from_source": "Jurecka et al. Phys. Chem. Chem. Phys. 8, 1985 (2006)",
+  "source_access": "Official Psi4 reference dataset inspected; primary article full text not retrieved",
+  "units": "angstrom",
+  "atoms": [
+    {
+      "symbol": "O",
+      "position": [
+        -1.551007,
+        -0.11452,
+        0.0
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        -1.934259,
+        0.762503,
+        0.0
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        -0.599677,
+        0.040712,
+        0.0
+      ]
+    },
+    {
+      "symbol": "O",
+      "position": [
+        1.350625,
+        0.111469,
+        0.0
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        1.680398,
+        -0.373741,
+        -0.758561
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        1.680398,
+        -0.373741,
+        0.758561
+      ]
+    }
+  ],
+  "fragment_atom_indices_0_based": [
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      3,
+      4,
+      5
+    ]
+  ],
+  "quantity": "Frozen-geometry electronic interaction energy E_AB-E_A-E_B, not binding free energy or ZPE-corrected dissociation energy",
+  "notes": [
+    "Do not optimize monomers: use the exact fragment coordinates from the complex.",
+    "Application has no ghost atom counterpoise interface, so finitebasis uncorrected interaction energies include BSSE. Compare asmethodassessment, not numericalimplementation strictpass.",
+    "Original S220(-5.02), S22A(-5.07) and S22B(-4.989) differ; avoidmixingrevisions."
+  ],
+  "source_commit": "64fc54046ff5a91733b1f386417286a05621f44e"
+}

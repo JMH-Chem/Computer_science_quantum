@@ -1,0 +1,116 @@
+{
+  "paper": {
+    "title": "Many-body perturbation theory vs. density functional theory: a systematic benchmark for band gaps of solids",
+    "journal": "npj Computational Materials",
+    "year": 2025,
+    "doi": "10.1038/s41524-025-01855-4",
+    "primary_full_text_reviewed": false,
+    "evidence_reviewed": "Paper authors repository README, exact raw numerical JSON, results table, analysis notebook mapping, pseudopotential header and workflow source."
+  },
+  "repository": "https://github.com/MaxGrossmann/mbpt_benchmark",
+  "commit": "1f1af6474ecb7b8c3d3bd8318d067022bb5b3019",
+  "material": {
+    "name": "diamond",
+    "formula": "C",
+    "atoms_per_primitive_cell": 2,
+    "MP_ID": "mp-66",
+    "ICSD_ID": "190650",
+    "ibrav": 2,
+    "celldm_1_bohr": 6.739908566918407,
+    "conventional_a_angstrom_using_app_bohr": 3.566606017297697,
+    "raw_ICSD_coordinates_available": false
+  },
+  "reference": {
+    "quantity": "indirect Kohn-Sham band gap",
+    "value_eV": 4.1724807238469435,
+    "table_rounded_eV": 4.17,
+    "functional": "PBE",
+    "engine": "Quantum ESPRESSO 7.1",
+    "orbital_representation": "plane waves",
+    "pseudopotential": "C_ONCV_PBE-1.2.upf, SG15 norm-conserving, scalar relativistic, 4 valence electrons per C",
+    "plane_wave_cutoff_Ry": 80,
+    "kppa": 4500,
+    "actual_scf_kmesh_explicit_in_record": false,
+    "bandgap_refinement_threshold_eV": 0.025,
+    "bandgap_refinement_steps": [
+      [
+        80,
+        3000,
+        4.193948235314538
+      ],
+      [
+        80,
+        4500,
+        4.1724807238469435
+      ]
+    ]
+  },
+  "experimental_context_only": {
+    "value_eV": 5.5,
+    "source_doi": "10.1007/978-3-642-18865-7",
+    "temperature_verified": false,
+    "note": "Handbook value reproduced by paper authors. Not a temperature-specific primary measurement and not a strict target for a PBE KS gap."
+  },
+  "caveats": [
+    "GTH Gaussian basis differs from the paper SG15 plane-wave Hamiltonian; use diagnostic comparison, not same-input reproduction.",
+    "Author README calls vol Angstrom^3, but workflow basic_utils.uc_vol_au and a^3/4 prove the stored 76.54239085316662 is bohr^3. Use celldm(1) with explicit unit.",
+    "Published ICSD atomic coordinates are not distributed; standard diamond geometry can be constructed at the given cubic lattice constant but is not the original coordinate file.",
+    "The CSV PBE column4.15eV is the older Borlido PAW result; use PBE NC4.17eV for this authors actual QE JSON."
+  ],
+  "files": [
+    {
+      "repository_path": "README.md",
+      "local_path": ".cache/literature-materials/verified/README.md",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/README.md",
+      "sha256": "76eae54782dbe465311b84713f1cf940119d33397eb4bf13bafab4c7a15bfd46"
+    },
+    {
+      "repository_path": "README_qe_yambo_database.md",
+      "local_path": ".cache/literature-materials/verified/README_qe_yambo_database.md",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/README_qe_yambo_database.md",
+      "sha256": "d867d3d720e52c4f514826854fab08aeca22fce144c23a99e91ead4d98bd189d"
+    },
+    {
+      "repository_path": "csvs/revised_bandgap_benchmark.csv",
+      "local_path": ".cache/literature-materials/verified/csvs/revised_bandgap_benchmark.csv",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/csvs/revised_bandgap_benchmark.csv",
+      "sha256": "55633a800145d2234c945ff515886b02154d2dda540eaa0eec0189e8b4bed502"
+    },
+    {
+      "repository_path": "qe_yambo_database/190650.json",
+      "local_path": ".cache/literature-materials/verified/qe_yambo_database/190650.json",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/qe_yambo_database/190650.json",
+      "sha256": "6918e2c312cd55c3dd7a80990679f373a576dea27acebc23ef603ffa99a8f81f"
+    },
+    {
+      "repository_path": "g0w0_benchmark/README.md",
+      "local_path": ".cache/literature-materials/verified/g0w0_benchmark/README.md",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/README.md",
+      "sha256": "feebb8dcf0f19b7fb7f40f6d5f29d39df15a8a17f52fc4fb5b9b30a5e9079f62"
+    },
+    {
+      "repository_path": "g0w0_benchmark/src/utils/basic_utils.py",
+      "local_path": ".cache/literature-materials/verified/g0w0_benchmark/src/utils/basic_utils.py",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/src/utils/basic_utils.py",
+      "sha256": "4af6aea37feb1a22bb097fa7f583204e678afbc6abe8189432c08b180d3c0309"
+    },
+    {
+      "repository_path": "g0w0_benchmark/src/utils/unit_conversion.py",
+      "local_path": ".cache/literature-materials/verified/g0w0_benchmark/src/utils/unit_conversion.py",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/src/utils/unit_conversion.py",
+      "sha256": "3028411bba39d15e3bbcbedca53220dfd1f3f527ada67c4b8cf5062b9217aa36"
+    },
+    {
+      "repository_path": "g0w0_benchmark/src/utils/qe_helper.py",
+      "local_path": ".cache/literature-materials/verified/g0w0_benchmark/src/utils/qe_helper.py",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/src/utils/qe_helper.py",
+      "sha256": "9c98e5b8d72496496e319d62cddd4838f1063ccb060324d513e4faa99ec33419"
+    },
+    {
+      "repository_path": "g0w0_benchmark/pseudo/PBE/C.upf",
+      "local_path": ".cache/literature-materials/verified/g0w0_benchmark/pseudo/PBE/C.upf",
+      "url": "https://raw.githubusercontent.com/MaxGrossmann/mbpt_benchmark/1f1af6474ecb7b8c3d3bd8318d067022bb5b3019/g0w0_benchmark/pseudo/PBE/C.upf",
+      "sha256": "1c674ec4fe19ee85db53e6b9ecf7cd40e70eda362cedd83f7c51c9c4081ea064"
+    }
+  ]
+}

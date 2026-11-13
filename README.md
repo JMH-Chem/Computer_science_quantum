@@ -8,11 +8,13 @@
 
 [현재 완성 범위와 다음 순서](docs/release-readiness.md) · [Psi4와 실제 8개 독립 비교](docs/independent-validation.md)
 
-[최신 전체 테스트: Python 315개·브라우저 18개·독립 비교 8개](docs/acceptance-2026-11-14.md)
+[v0.3.1 논문값 비교·수치 수정](docs/literature-validation.md) · [일반 사용자 이해도 검토](docs/layperson-review.md) · [최신 검사: Python 374개·브라우저 19개](docs/validation.md)
+
+[이전 v0.3 전체 테스트: Python 315개·브라우저 18개·독립 비교 8개](docs/acceptance-2026-11-14.md)
 
 **SCF 반복은 실제 시간이 아닙니다.** 화면은 계산 중 에너지 상승과 진동도 그대로 보여줍니다. TDDFT의 여기 에너지·전이 세기와 교육용 S1→S0 모식도는 실제 들뜬 상태 이완 궤적이나 수명 계산과 구분합니다.
 
-## 기능과 지원 범위 — v0.3
+## 기능과 지원 범위 — v0.3.1
 
 | 대상 | 현재 계산과 탐색 |
 | --- | --- |
@@ -30,6 +32,10 @@
 금속·부분 점유 결정, 표면·결함, 셀 최적화, 주기계 들뜬 상태·상관 방법, GW/BSE, xTB 연결과 실제 비단열 동역학은 현재 지원 범위에 포함하지 않습니다. 전체 조사 범위와 구현·검증 범위는 [방법론 안내](docs/methods.md)에 정리했습니다.
 
 상관 계산의 저장 오비탈·밀도·원자 전하는 **RHF 기준**이며 상관 에너지와 구분합니다. EOM-CCSD는 여기 에너지를 제공하고 전이 세기·NTO는 제공하지 않습니다. FCI/CAS에는 행렬식 수·메모리 추정 한계가 있고 NEVPT2는 활성 궤도 8개 이하로 제한합니다. 활성 공간을 자동으로 화학적으로 적절하게 선택했다고 주장하지 않습니다.
+
+문헌 비교에서 다이아몬드는 현재 최대 4³ k점에서도 선택한 수렴 기준을 만족하지 못했습니다. 문헌값과 가깝더라도 연구용 수렴값으로 확정하지 않습니다.
+
+v0.3.1에서는 낮은 여기 상태가 누락될 수 있는 응답 계산을 수정했습니다. 이전 버전의 EOM·TDA·TDHF·TDDFT 결과는 새 계산으로 상태 순서를 확인하세요. 과거 결과는 변경하지 않고 화면에 재계산 안내를 표시합니다. [재현 사례와 수정 근거](docs/literature-validation.md)를 참고하세요.
 
 ## 설치와 실행
 
@@ -63,7 +69,7 @@ WSL2의 Ubuntu 환경 안에 저장소와 Python·Node 도구를 설치한 뒤 �
 
 ## 첫 계산
 
-1. 예제 목록에서 H₂ 또는 H₂O를 선택합니다. 입력 구조와 기저·방법을 확인합니다.
+1. 처음이라면 학습 모드의 **H₂ 예제 불러오기**를 누릅니다. 입력을 준비하는 동작이며, **계산 시작**을 눌러야 실제 계산합니다. 예제 목록에서 H₂O 등 다른 구조도 선택할 수 있습니다.
 2. 계산을 실행하고 에너지와 수렴 지표를 확인합니다. 반복 번호는 계산 알고리즘의 단계입니다.
 3. 수렴 후 결과를 열어 밀도나 특정 오비탈의 등가면을 생성합니다. 3D 격자는 요청 시 별도 계산하므로 생성 시간이 걸릴 수 있습니다.
 4. 포름알데히드 TDA/TDDFT 예제로 여기 상태와 흡수 스펙트럼을 확인합니다. 스펙트럼의 폭을 바꾸는 것은 표시 설정이며 계산된 여기 에너지와 oscillator strength를 바꾸지 않습니다.
@@ -123,7 +129,7 @@ uv run python scripts/package_release.py
 ```bash
 uv venv --python 3.12 .venv
 uv pip sync --python .venv/bin/python --require-hashes requirements.lock.txt
-uv pip install --python .venv/bin/python --no-deps quantum_lab-0.3.0-py3-none-any.whl
+uv pip install --python .venv/bin/python --no-deps quantum_lab-0.3.1-py3-none-any.whl
 .venv/bin/quantum-lab serve
 ```
 

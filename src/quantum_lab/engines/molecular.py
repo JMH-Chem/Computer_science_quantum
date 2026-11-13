@@ -22,6 +22,7 @@ from scipy.constants import physical_constants
 from .correlated import METHODS as CORRELATED_METHODS
 from .correlated import run_correlation
 from .properties import analyze_properties, run_frequencies
+from .response import solve_response
 
 HARTREE_EV = physical_constants["Hartree energy in eV"][0]
 Emit = Callable[[str, dict], None]
@@ -276,15 +277,16 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
             "name": "response_solver", "message": "Response solver preserves the requested residual tolerance.",
             **response_settings,
         })
-        td.kernel()
+        response_settings["root_search"] = solve_response(td, requested_states, emit)
         roots_ok = np.asarray(td.converged, dtype=bool)
         excitation_energies = np.asarray(td.e, dtype=float)
         excited_converged = bool(
-            len(excitation_energies) == requested_states
+            response_settings["root_search"]["complete"]
+            and len(excitation_energies) == requested_states
             and roots_ok.size == requested_states and roots_ok.all()
             and np.isfinite(excitation_energies).all() and (excitation_energies > 0).all()
         )
-        strengths = np.asarray(td.oscillator_strength(gauge="length"))
+        strengths = np.asarray(td.oscillator_strength(gauge="length")) if len(td.e) else np.empty(0)
         for i, energy in enumerate(excitation_energies):
             item = {
                 "state": i + 1,
@@ -292,6 +294,9 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
                 "oscillator_strength": _number(strengths[i]),
                 "converged": bool(roots_ok[i]) if i < len(roots_ok) else False,
                 "nto_weights": [],
+                "symmetry": response_settings["root_search"]["selected_states"][i]["symmetry"],
+                "symmetry_group": response_settings["root_search"]["group"],
+                "residual_norm": response_settings["root_search"]["selected_states"][i]["residual_norm"],
             }
             if item["converged"] and energy > 0:
                 weights, coefficients = td.get_nto(state=i + 1, verbose=0)
@@ -301,7 +306,7 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
                 arrays[f"nto_weights_{i}"] = np.asarray(weights)
             excitations.append(item)
         if not excited_converged:
-            warnings.append("Excited-state solver did not converge all requested positive-energy roots.")
+            warnings.append("Excited-state search did not converge the requested roots in every searched symmetry sector; a converged subset is not a successful lowest-state calculation.")
         arrays["excitation_energies_hartree"] = excitation_energies
         arrays["oscillator_strengths"] = strengths
 

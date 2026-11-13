@@ -7,6 +7,7 @@ import pytest
 from pyscf import cc, ci, fci, gto, lib, mcscf, mp, mrpt, scf
 from scipy.constants import physical_constants
 
+from quantum_lab.engines import correlated as correlated_engine
 from quantum_lab.engines.correlated import run_correlation, run_eom, validate_space
 from quantum_lab.engines.molecular import generate_volume, run
 
@@ -199,7 +200,7 @@ def test_hf_singlet_response_matches_direct_engine_and_nto(task, tmp_path):
 
 
 @pytest.mark.science
-def test_water_eomccsd_roots_and_saved_residuals_match_direct_reference(tmp_path):
+def test_water_eomccsd_lowest_roots_and_saved_residuals_match_dense_reference(tmp_path):
     settings = spec("CCSD", atoms=WATER, task="eomccsd", nstates=3)
     result = run(settings, lambda *_: None, tmp_path)
     mf = reference(settings, tmp_path)
@@ -208,21 +209,78 @@ def test_water_eomccsd_roots_and_saved_residuals_match_direct_reference(tmp_path
     correlated.kernel()
     response = correlated.EOMEESinglet()
     response.conv_tol = settings["conv_tol"]
-    energies, _ = response.kernel(nroots=3)
-    assert result["converged"] and result["eom"]["converged"] and np.all(response.converged)
+    matvec, _ = response.gen_matvec()
+    # A second iterative call with the same guesses can repeat a missing-root
+    # error. The full small nonsymmetric Jacobian gives an independent oracle.
+    matrix = np.column_stack(matvec(np.eye(response.vector_size())))
+    spectrum = np.linalg.eigvals(matrix)
+    assert np.max(abs(spectrum.imag)) < 1e-9
+    energies = np.sort(spectrum.real)[:3]
+    assert result["converged"] and result["eom"]["converged"]
+    assert result["eom"]["root_search"]["complete"]
+    assert result["eom"]["root_search"]["group"] == "C2v"
+    assert all(block["complete"] for block in result["eom"]["root_search"]["blocks"])
     # The total energy remains the ground-state CC energy; roots are differences.
     assert abs(result["energy_hartree"] - correlated.e_tot) < 1e-8
     assert result["excitations"] == []  # no made-up transition strengths or TDDFT NTOs
     states = result["eom"]["states"]
     np.testing.assert_allclose([state["energy_ev"] for state in states],
                                energies * physical_constants["Hartree energy in eV"][0], atol=1e-4, rtol=0)
-    matvec, _ = response.gen_matvec()
     with np.load(tmp_path / "eom-wavefunction.npz", allow_pickle=False) as data:
         for vector, energy, state in zip(data["right_vectors"], data["energies_hartree"], states, strict=True):
             vector = vector / np.linalg.norm(vector)
             residual = np.linalg.norm(np.asarray(matvec([vector]))[0] - energy * vector)
             assert residual < result["eom"]["residual_tolerance"]
             assert "oscillator_strength" not in state and "nto_weights" not in state
+            assert state["symmetry_group"] == "C2v" and state["symmetry"]
+
+
+def _toy_response_solver(matrix):
+    response = SimpleNamespace(vector_size=lambda: len(matrix), make_imds=lambda: None,
+                               gen_matvec=lambda _: (lambda vectors: [matrix @ v for v in vectors], matrix.diagonal()),
+                               max_space=20, verbose=0)
+    return SimpleNamespace(converged=True, EOMEESinglet=lambda: response)
+
+
+def test_one_incomplete_sector_prevents_success_even_when_selected_state_converges(tmp_path, monkeypatch):
+    matrix = np.diag([1.0, 2.0, 3.0])
+    monkeypatch.setattr(correlated_engine, "_eom_symmetry_labels", lambda *_: (np.arange(3), "C2v"))
+    def incomplete_block(matvec, diagonal, indices, count, response):
+        index = int(indices[0])
+        return [index != 2], [diagonal[index]], [np.eye(3)[index]]
+    monkeypatch.setattr(correlated_engine, "_eom_block_roots", incomplete_block)
+    result = run_eom(_toy_response_solver(matrix), spec("CCSD", nstates=1), lambda *_: None, tmp_path)
+    assert result["states"][0]["converged"]
+    assert not result["converged"] and not result["root_search"]["complete"]
+
+
+def test_full_residual_rejects_a_projected_symmetry_block_that_leaks(tmp_path, monkeypatch):
+    matrix = np.array([[1.0, 0.1], [0.1, 2.0]])
+    monkeypatch.setattr(correlated_engine, "_eom_symmetry_labels", lambda *_: (np.array([0, 1]), "C2v"))
+    result = run_eom(_toy_response_solver(matrix), spec("CCSD", nstates=1), lambda *_: None, tmp_path)
+    assert not result["converged"]
+    assert result["states"][0]["residual_norm"] > result["residual_tolerance"]
+
+
+@pytest.mark.parametrize("dimension,dense", [(3, True), (257, False)])
+def test_unresolved_symmetry_uses_full_small_matrix_or_preserves_ground_result(tmp_path, monkeypatch, dimension, dense):
+    matrix = np.diag(np.arange(1, dimension + 1, dtype=float))
+    if dense:
+        matrix[:2, :2] = [[4, 6], [2, 4]]
+    def mixed_orbitals(*_):
+        raise ValueError("Actual orbitals mix irreps; rotating CC orbitals is not allowed.")
+    monkeypatch.setattr(correlated_engine, "_eom_symmetry_labels", mixed_orbitals)
+    result = run_eom(_toy_response_solver(matrix), spec("CCSD", nstates=1), lambda *_: None, tmp_path)
+    assert result["converged"] is dense
+    if dense:
+        assert result["root_search"]["strategy"] == "full_dense_fallback"
+        expected = np.linalg.eigvals(matrix).real.min() * physical_constants["Hartree energy in eV"][0]
+        assert abs(result["states"][0]["energy_ev"] - expected) < 1e-10
+        assert result["states"][0]["symmetry"] is None
+    else:
+        assert result["root_search"]["strategy"] == "unavailable"
+        assert result["states"] == []
+        assert "mix irreps" in result["root_search"]["reason"]
 
 
 @pytest.mark.science

@@ -1,0 +1,74 @@
+{
+  "name": "Literature diamond PBE/GTH-DZVP k3 FFT27",
+  "domain": "crystal",
+  "task": "bands",
+  "atoms": [
+    {
+      "symbol": "C",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "symbol": "C",
+      "position": [
+        0.8916515043244243,
+        0.8916515043244243,
+        0.8916515043244243
+      ]
+    }
+  ],
+  "lattice": [
+    [
+      0.0,
+      1.7833030086488486,
+      1.7833030086488486
+    ],
+    [
+      1.7833030086488486,
+      0.0,
+      1.7833030086488486
+    ],
+    [
+      1.7833030086488486,
+      1.7833030086488486,
+      0.0
+    ]
+  ],
+  "charge": 0,
+  "spin": 0,
+  "method": "DFT",
+  "basis": "gth-dzvp",
+  "ecp": null,
+  "functional": "PBE",
+  "restricted": true,
+  "kmesh": [
+    3,
+    3,
+    3
+  ],
+  "pseudo": "gth-pbe",
+  "grid_level": 2,
+  "mesh": [
+    27,
+    27,
+    27
+  ],
+  "max_cycle": 100,
+  "conv_tol": 1e-9,
+  "nstates": 5,
+  "max_steps": 50,
+  "threads": 1,
+  "memory_mb": 6000,
+  "band_points": 100,
+  "frozen_orbitals": 0,
+  "active_electrons": 2,
+  "active_orbitals": 2,
+  "ir_intensities": false,
+  "temperature_kelvin": 298.15,
+  "pressure_pa": 101325.0,
+  "parent_job_id": null,
+  "volume": null
+}

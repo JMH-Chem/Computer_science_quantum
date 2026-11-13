@@ -1,0 +1,186 @@
+{
+  "citation": {
+    "authors": [
+      "Pierre-François Loos",
+      "Anthony Scemama",
+      "Aymeric Blondel",
+      "Yann Garniron",
+      "Michel Caffarel",
+      "Denis Jacquemin"
+    ],
+    "title": "A Mountaineering Strategy to Excited States: Highly Accurate Reference Energies and Benchmarks",
+    "journal": "Journal of Chemical Theory and Computation",
+    "year": 2018,
+    "volume": 14,
+    "issue": 8,
+    "pages": "4360–4379",
+    "doi": "10.1021/acs.jctc.8b00406"
+  },
+  "primary_paper": {
+    "source_url": "https://raw.githubusercontent.com/pfloos/WEB_LOOS/3130b70bc5871033ebf7af2411b841c7fa5dd17e/static/pub/62.pdf",
+    "sha256": "d0e2f62785a0d21c72371ab992f8bd8adb5ee611f508a8001ebf2ec5a8041ef2",
+    "local_pdf": ".cache/literature-excitation/Loos2018-QUEST1-author.pdf",
+    "local_text": ".cache/literature-excitation/Loos2018-QUEST1-author.txt",
+    "inspected": "PDF text sections2.1,2.2,2.3,3.6,3.7,conclusions; Table4 page4366 also visually inspected"
+  },
+  "authors_dataset": {
+    "repository": "https://github.com/LCPQ/QUESTDB_website",
+    "commit": "9cdb57208fafef696a3a6f049fab09fdc0abb587",
+    "license": "Open Database License1.0; individualcontentsDatabaseContentsLicense1.0, perREADME"
+  },
+  "conditions": {
+    "geometry_method": "all-electron CC3/aug-cc-pVTZ, papersection2.1 p4361",
+    "geometry_units": "angstrom (XYZ)",
+    "excitation_type": "vertical absorption atground-state geometry; NOT0–0, fluorescence orrelaxation",
+    "wavefunction_correlation_policy": "frozen core bypapersection2.2 p4361; freeze1occupiedspatialorbitalforwater,2forformaldehyde",
+    "basis": "aug-cc-pVTZ diffuse spherical Gaussian orbitalbasis",
+    "reported_precision_ev": 0.01,
+    "rounding_half_width_ev": 0.005,
+    "tbe_uncertainty_ev": 0.03,
+    "tbe_uncertainty_scope": "Authors overall estimate for110TBEs inconclusionsp4374, notstate-specific statisticalerrorbar",
+    "first_formaldehyde_frame_only": true
+  },
+  "references": [
+    {
+      "molecule": "formaldehyde",
+      "state": "1^1A2 (n→π*)",
+      "reference_method": "exFCI TBE(FC)/aug-cc-pVTZ",
+      "energy_ev": 3.98,
+      "primary_location": "Table4 p4366; Table6TBE",
+      "dataset_file": "static/data/abs/formaldehyde_TBE_aug-cc-pVTZ.dat",
+      "row_line": 11
+    },
+    {
+      "molecule": "formaldehyde",
+      "state": "1^1A2 (n→π*)",
+      "reference_method": "CCSD/aug-cc-pVTZ (frozen core)",
+      "energy_ev": 4.01,
+      "primary_location": "TableS6 referenced insection3.7 p4371; author-maintained tableextract FCI-SI.tex line71",
+      "dataset_file": "static/data/abs/formaldehyde_CCSD_aug-cc-pVTZ.dat",
+      "row_line": 11
+    },
+    {
+      "molecule": "water",
+      "states": [
+        "1^1B1 (n→3s)",
+        "1^1A2 (n→3p)",
+        "2^1A1 (n→3s)"
+      ],
+      "reference_method": "CCSD/aug-cc-pVTZ (frozen core)",
+      "energies_ev": [
+        7.6,
+        9.36,
+        9.96
+      ],
+      "primary_location": "TableS6 referenced insection3.7;author-maintaineddataset",
+      "dataset_file": "static/data/abs/water_CCSD_aug-cc-pVTZ.dat",
+      "row_lines": [
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "molecule": "water",
+      "states": [
+        "1^1B1 (n→3s)",
+        "1^1A2 (n→3p)",
+        "2^1A1 (n→3s)"
+      ],
+      "reference_method": "exFCI TBE(FC)/aug-cc-pVTZ",
+      "energies_ev": [
+        7.62,
+        9.41,
+        9.99
+      ],
+      "primary_location": "Table1p4362 andTable6",
+      "dataset_file": "static/data/abs/water_TBE_aug-cc-pVTZ.dat",
+      "row_lines": [
+        11,
+        12,
+        13
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "repository_path": "static/data/structures/QUEST1/formaldehyde.xyz",
+      "saved_path": ".cache/literature-excitation/sources/static/data/structures/QUEST1/formaldehyde.xyz",
+      "sha256": "8194422e34208002aa883cefd394aefd9a45e25271a13a094edd56a212ebb5d0",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/static/data/structures/QUEST1/formaldehyde.xyz"
+    },
+    {
+      "repository_path": "static/data/structures/QUEST1/water.xyz",
+      "saved_path": ".cache/literature-excitation/sources/static/data/structures/QUEST1/water.xyz",
+      "sha256": "0a87861f580afef553f29fabed45384fd2c0d308b93f27a41fc1f2965062be2f",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/static/data/structures/QUEST1/water.xyz"
+    },
+    {
+      "repository_path": "static/data/abs/formaldehyde_TBE_aug-cc-pVTZ.dat",
+      "saved_path": ".cache/literature-excitation/sources/static/data/abs/formaldehyde_TBE_aug-cc-pVTZ.dat",
+      "sha256": "bfc826d5ae958e8be12627cfeb7b4be1c1cd265b1d265f45a67f77a715b19044",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/static/data/abs/formaldehyde_TBE_aug-cc-pVTZ.dat"
+    },
+    {
+      "repository_path": "static/data/abs/formaldehyde_CCSD_aug-cc-pVTZ.dat",
+      "saved_path": ".cache/literature-excitation/sources/static/data/abs/formaldehyde_CCSD_aug-cc-pVTZ.dat",
+      "sha256": "21bb1fc8e9d703a15621df42f45aa6d7fb00d3b6a5fdb6e35cebab35b37ac8df",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/static/data/abs/formaldehyde_CCSD_aug-cc-pVTZ.dat"
+    },
+    {
+      "repository_path": "static/data/abs/water_TBE_aug-cc-pVTZ.dat",
+      "saved_path": ".cache/literature-excitation/sources/static/data/abs/water_TBE_aug-cc-pVTZ.dat",
+      "sha256": "3d7727bfff438010abcba5a7b3bc10b90471931ed9a4da8339ab8e1de655f387",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/static/data/abs/water_TBE_aug-cc-pVTZ.dat"
+    },
+    {
+      "repository_path": "static/data/abs/water_CCSD_aug-cc-pVTZ.dat",
+      "saved_path": ".cache/literature-excitation/sources/static/data/abs/water_CCSD_aug-cc-pVTZ.dat",
+      "sha256": "c91e3abecb4a905cead96b61aba6be25429c460ea9b928525fd47fd391e72627",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/static/data/abs/water_CCSD_aug-cc-pVTZ.dat"
+    },
+    {
+      "repository_path": "static/data/index.yaml",
+      "saved_path": ".cache/literature-excitation/sources/static/data/index.yaml",
+      "sha256": "fdac73597b10289fcc3cf9f155a6725f54b1b7fbf8c86ebe8fb95f760638651f",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/static/data/index.yaml"
+    },
+    {
+      "repository_path": "content/subsets.md",
+      "saved_path": ".cache/literature-excitation/sources/content/subsets.md",
+      "sha256": "542c818d0763a5865ae1125c44695eb6f60804cfea51225941e1542db23bc660",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/content/subsets.md"
+    },
+    {
+      "repository_path": "README.md",
+      "saved_path": ".cache/literature-excitation/sources/README.md",
+      "sha256": "579e8e55b801e596cba357329a535f24208762558ca0473838f93ff806da3f51",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/README.md"
+    },
+    {
+      "repository_path": "docs/examples/other/FCI-SI.tex",
+      "saved_path": ".cache/literature-excitation/sources/docs/examples/other/FCI-SI.tex",
+      "sha256": "01c420e92ab8bb8cb05ed9f631f288f677bdee10d7057128a236733865bf03b4",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/docs/examples/other/FCI-SI.tex"
+    },
+    {
+      "repository_path": "docs/examples/tbe.tex",
+      "saved_path": ".cache/literature-excitation/sources/docs/examples/tbe.tex",
+      "sha256": "e03cd6f9773dad04423f6968c16957221d5909a35b557bba37b4cb2eb6766775",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/docs/examples/tbe.tex"
+    },
+    {
+      "repository_path": "static/data/publis/10/1021/acs/jctc/8b00406/metadata.json",
+      "saved_path": ".cache/literature-excitation/sources/static/data/publis/10/1021/acs/jctc/8b00406/metadata.json",
+      "sha256": "e2a86e14a22b61b89c50b2f9476268d449ba985e78655c676ab46986a1e23e62",
+      "source_url": "https://raw.githubusercontent.com/LCPQ/QUESTDB_website/9cdb57208fafef696a3a6f049fab09fdc0abb587/static/data/publis/10/1021/acs/jctc/8b00406/metadata.json"
+    }
+  ],
+  "comparison_advice": [
+    "Forcode-to-literaturematching preferCCSDwithsamegeometry,basis,frozenorbitals; reportbothrawdifferenceand2-decimalrounding. Predeclare0.01eVengineeringtolerance ratherthanchangingafterresult.",
+    "PBE0-TDDFT versus3.98eV ismethodaccuracyassessment, notidentical-methodsoftwaretest. Cannotfailcodejustbecauseapproximatefunctionalhas0.1–0.3eVdeviation.",
+    "Do notreplace3.98withCBS3.97whenusingaVTZ; do notcompareverticalrootwith0–0.",
+    "NoCCSD/aVDZentrylocatedinthesource; do notsubstituteCCSDT/aVDZ.",
+    "UseactualpaperTable4andmaintainedauthorSIextraction;ACSsupplementdownloadwasblockedbyCONNECT403andnotread."
+  ]
+}

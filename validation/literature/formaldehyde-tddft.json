@@ -1,0 +1,51 @@
+{
+  "name": "formaldehyde QUEST1 literature check",
+  "domain": "molecule",
+  "atoms": [
+    {
+      "symbol": "C",
+      "position": [
+        0.0,
+        0.0,
+        -0.60298508
+      ]
+    },
+    {
+      "symbol": "O",
+      "position": [
+        0.0,
+        0.0,
+        0.60539399
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        0.0,
+        0.93467313,
+        -1.18217476
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        0.0,
+        -0.93467313,
+        -1.18217476
+      ]
+    }
+  ],
+  "basis": "aug-cc-pvtz",
+  "charge": 0,
+  "spin": 0,
+  "restricted": true,
+  "threads": 1,
+  "memory_mb": 8000,
+  "conv_tol": 1e-08,
+  "max_cycle": 120,
+  "nstates": 1,
+  "grid_level": 4,
+  "task": "tddft",
+  "method": "DFT",
+  "functional": "PBE0"
+}

@@ -12,12 +12,46 @@ HARTREE_TO_EV = 27.211386245988
 AMU_PER_ANGSTROM3_TO_G_PER_CM3 = 1.66053906660
 
 
-def sampled_dos(energies, occupations, reference_energy_hartree: float, *, width_ev=0.1) -> dict:
+class DOSResolutionError(ValueError):
+    """Physical eigenvalues exceed the resolved DOS display grid budget."""
+
+
+def retained_orbital_mask(energies, coefficients, invalid_energy: float) -> np.ndarray:
+    """Identify engine padding, never infer missing orbitals from a large energy.
+
+    PySCF pads rank-reduced periodic eigensystems with its exact invalid-energy
+    constant AND all-zero coefficient columns. Neither condition alone proves
+    that a state is padding. The returned mask always has a k-point dimension.
+    """
+    energies = np.atleast_2d(np.asarray(energies, dtype=float))
+    coefficients = np.asarray(coefficients)
+    if coefficients.ndim == 2:
+        coefficients = coefficients[None, ...]
+    if (energies.ndim != 2 or not energies.size or coefficients.ndim != 3
+            or coefficients.shape[0] != energies.shape[0]
+            or coefficients.shape[2] != energies.shape[1] or not coefficients.shape[1]
+            or not np.isfinite(energies).all() or not np.isfinite(coefficients).all()
+            or not np.isfinite(invalid_energy)):
+        raise ValueError("Orbital energies and coefficients must be finite matching eigensystems.")
+    sentinel = energies == invalid_energy
+    zero_column = np.all(coefficients == 0, axis=1)
+    if not np.array_equal(sentinel, zero_column):
+        raise ValueError("Invalid orbital padding requires both the engine sentinel and zero coefficients.")
+    valid = ~sentinel
+    if (not valid.any(axis=1).all()
+            or (np.diff(valid.astype(int), axis=1) > 0).any()):
+        raise ValueError("Retained orbitals must precede trailing engine padding at every k point.")
+    return valid
+
+
+def sampled_dos(energies, occupations, reference_energy_hartree: float, *, width_ev=0.1,
+                valid_orbitals=None) -> dict:
     """Spin-summed Gaussian DOS per cell with equal full-mesh k weights.
 
     ``width_ev`` is the Gaussian standard deviation, not its FWHM. Occupied DOS
     uses the actual occupations before broadening; integrating the total DOS
-    below VBM would incorrectly discard occupied Gaussian tails.
+    below VBM would incorrectly discard occupied Gaussian tails. A supplied
+    mask excludes proven engine padding, retaining the original k-point weights.
     """
     energies = np.atleast_2d(np.asarray(energies, dtype=float))
     occupations = np.atleast_2d(np.asarray(occupations, dtype=float))
@@ -29,16 +63,22 @@ def sampled_dos(energies, occupations, reference_energy_hartree: float, *, width
     if not np.isfinite(reference_energy_hartree) or not np.isfinite(width_ev) or width_ev <= 0:
         raise ValueError("DOS reference and positive Gaussian width must be finite.")
     npoints, norbitals = energies.shape
-    relative = (energies - reference_energy_hartree) * HARTREE_TO_EV
+    valid = np.ones(energies.shape, dtype=bool) if valid_orbitals is None else np.asarray(valid_orbitals)
+    if (valid.shape != energies.shape or valid.dtype != np.dtype(bool)
+            or not valid.any(axis=1).all()):
+        raise ValueError("DOS requires a boolean retained-orbital mask for every k point.")
+    if np.any(occupations[~valid] != 0):
+        raise ValueError("Occupied states cannot be excluded from the DOS as engine padding.")
+    relative = (energies[valid] - reference_energy_hartree) * HARTREE_TO_EV
     lower, upper = float(relative.min() - 8 * width_ev), float(relative.max() + 8 * width_ev)
     # Resolve each Gaussian with at least eight intervals per sigma. Work in
     # blocks so the number of states does not multiply peak temporary memory.
     count = max(401, int(np.ceil((upper - lower) / (width_ev / 8))) + 1)
     if count > 100_001:
-        raise ValueError("DOS energy span is too large for the supported resolved display grid.")
+        raise DOSResolutionError("DOS energy span is too large for the supported resolved display grid.")
     axis = np.linspace(lower, upper, count)
     total, occupied = np.zeros(count), np.zeros(count)
-    flat_energy, flat_occ = relative.ravel(), occupations.ravel()
+    flat_energy, flat_occ = relative, occupations[valid]
     prefactor = 1 / (width_ev * np.sqrt(2 * np.pi) * npoints)
     for first in range(0, len(flat_energy), 64):
         last = first + 64
@@ -55,7 +95,9 @@ def sampled_dos(energies, occupations, reference_energy_hartree: float, *, width
         "spin_degeneracy": 2, "reference": "SCF-mesh VBM",
         "reference_energy_hartree": float(reference_energy_hartree),
         "state_integral": float(np.trapezoid(total, axis)),
-        "expected_states": 2 * norbitals,
+        "expected_states": float(2 * valid.sum() / npoints),
+        "nominal_states": 2 * norbitals,
+        "retained_orbitals_per_kpoint": valid.sum(axis=1).tolist(),
         "electron_integral": float(np.trapezoid(occupied, axis)),
         "expected_electrons": float(occupations.sum() / npoints),
         "energy_step_ev": float(axis[1] - axis[0]),
@@ -65,6 +107,7 @@ def sampled_dos(energies, occupations, reference_energy_hartree: float, *, width
             "고대칭 경로 점은 Brillouin zone 적분 가중치가 없어 DOS에 포함하지 않습니다.",
             "폭은 Gaussian 표준편차입니다. 밴드갭으로 번진 꼬리는 실제 갭 내부 상태나 온도에 따른 점유를 뜻하지 않습니다.",
             "점유 DOS는 계산된 점유수로 가중한 뒤 넓힌 값입니다. 가전자 전자 수는 이 곡선의 전체 에너지 적분과 비교합니다.",
+            "겹침 행렬의 선형 종속성으로 엔진이 제거한 궤도 슬롯은 상태 수에 포함하지 않습니다. 적분 목표는 k점 가중치를 적용한 실제 보존 상태 수입니다.",
         ],
     }
 
@@ -85,12 +128,15 @@ def sampled_band_edges(scf_energies, scf_points, noccupied: int, *,
             raise ValueError("Band edges require finite energies and corresponding scaled k points.")
         if (np.diff(energy, axis=1) < -1e-10).any():
             raise ValueError("Band eigenvalues must be sorted in ascending order at each k point.")
-        samples.append(energy)
+        # Different samples may retain different numbers of virtual orbitals
+        # after overlap rank reduction. Only the occupied/conduction frontier
+        # enters these extrema; no absent high-energy columns are needed.
+        samples.append(energy[:, noccupied - 1:noccupied + 1])
         points.extend(kpoints.tolist())
         sources.extend([source] * len(energy))
         indices.extend(range(len(energy)))
     energy = np.concatenate(samples)
-    valence, conduction = energy[:, noccupied - 1], energy[:, noccupied]
+    valence, conduction = energy[:, 0], energy[:, 1]
     iv, ic = int(np.argmax(valence)), int(np.argmin(conduction))
     vbm, cbm = float(valence[iv]), float(conduction[ic])
     direct = (conduction - valence) * HARTREE_TO_EV

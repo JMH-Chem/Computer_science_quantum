@@ -244,3 +244,129 @@ def test_default_formaldehyde_four_roots_meet_requested_response_residual(tmp_pa
         vector = vector / np.linalg.norm(vector)
         residual = np.asarray(vind(vector[None, :]))[0] - float(energy) * vector
         assert np.linalg.norm(residual) < settings["conv_tol"]
+
+
+@pytest.mark.science
+@pytest.mark.parametrize("task,method,functional", [
+    ("tda", "HF", "PBE"), ("tdhf", "HF", "PBE"),
+    ("tda", "DFT", "PBE"), ("tddft", "DFT", "PBE"), ("tddft", "DFT", "PBE0"),
+])
+def test_lowest_roots_cover_sectors_missing_from_koopmans_guesses(task, method, functional, tmp_path):
+    """Two formaldehyde HF-TDA guesses omit the lower B1 state entirely."""
+    settings = spec(FORMALDEHYDE, method=method, functional=functional, task=task, nstates=2)
+    result = run(settings, lambda *_: None, tmp_path)
+    assert result["converged"] and result["excited_converged"]
+    search = result["provenance"]["response_solver"]["root_search"]
+    assert search["complete"] and search["strategy"] == "abelian_symmetry_blocks"
+    assert {block["irrep"] for block in search["blocks"]} == {"A1", "A2", "B1", "B2"}
+    assert all(block["complete"] for block in search["blocks"])
+    reference = direct_reference(settings, tmp_path)
+    response = reference.TDA() if task == "tda" else reference.TDHF() if task == "tdhf" else reference.TDDFT()
+    a, b = response.get_ab()
+    dimension = np.prod(a.shape[:2])
+    a, b = a.reshape(dimension, dimension), b.reshape(dimension, dimension)
+    if task == "tda":
+        complete = np.linalg.eigvalsh(a)
+    else:
+        roots = np.linalg.eigvals(np.block([[a, b], [-b, -a]]))
+        complete = np.sort(roots[(abs(roots.imag) < 1e-8) & (roots.real > 1e-4)].real)
+    np.testing.assert_allclose([s["energy_ev"] for s in result["excitations"]],
+                               complete[:2] * EV_PER_HARTREE, atol=1e-4, rtol=0)
+    assert all(s["residual_norm"] < settings["conv_tol"] for s in result["excitations"])
+    if task == "tda" and method == "HF":
+        response.nstates, response.conv_tol, response.lindep = 2, 1e-10, np.finfo(float).eps
+        response.kernel()
+        assert np.all(response.converged)
+        # Low residuals alone accepted a root almost 3 eV above the missing one.
+        assert (response.e[1] - complete[1]) * EV_PER_HARTREE > 2
+        assert [s["symmetry"] for s in result["excitations"]] == ["A2", "B1"]
+
+
+@pytest.mark.science
+def test_unconverged_unselected_sector_prevents_lowest_state_success(tmp_path, monkeypatch):
+    from pyscf.tdscf import rhf
+    original = rhf.TDA.kernel
+
+    def incomplete_sector(self, *args, **kwargs):
+        value = original(self, *args, **kwargs)
+        if self.wfnsym == 0:  # A1 is not the requested lowest A2 state.
+            self.converged = np.zeros_like(self.converged, dtype=bool)
+        return value
+
+    monkeypatch.setattr(rhf.TDA, "kernel", incomplete_sector)
+    result = run(spec(FORMALDEHYDE, task="tda", nstates=1), lambda *_: None, tmp_path)
+    assert result["excitations"][0]["converged"]
+    assert not result["converged"] and not result["excited_converged"]
+    assert not result["provenance"]["response_solver"]["root_search"]["complete"]
+
+
+@pytest.mark.science
+def test_unlabelled_small_response_uses_complete_coordinate_fallback(tmp_path, monkeypatch):
+    from quantum_lab.engines import response
+
+    def mixed(*_args, **_kwargs):
+        raise ValueError("Mixed orbitals in this regression fixture")
+
+    monkeypatch.setattr(response, "orbital_symmetry_labels", mixed)
+    result = run(spec(FORMALDEHYDE, task="tda", nstates=2), lambda *_: None, tmp_path)
+    assert result["converged"]
+    search = result["provenance"]["response_solver"]["root_search"]
+    assert search["complete"] and search["strategy"] == "full_coordinate_fallback"
+    reference = direct_reference(spec(FORMALDEHYDE), tmp_path)
+    matrix, _ = reference.TDA().get_ab()
+    matrix = matrix.reshape(32, 32)
+    np.testing.assert_allclose([s["energy_ev"] for s in result["excitations"]],
+                               np.linalg.eigvalsh(matrix)[:2] * EV_PER_HARTREE, atol=1e-4, rtol=0)
+
+
+def test_large_unlabelled_response_is_unavailable_without_partial_success(monkeypatch):
+    from types import SimpleNamespace
+
+    from quantum_lab.engines import response
+
+    def mixed(*_args, **_kwargs):
+        raise ValueError("Actual orbitals mix symmetry sectors")
+
+    monkeypatch.setattr(response, "orbital_symmetry_labels", mixed)
+    mf = SimpleNamespace(mol=None, mo_coeff=np.eye(50), mo_occ=np.array([2] * 8 + [0] * 42),
+                         mo_energy=np.arange(50, dtype=float))
+    td = SimpleNamespace(_scf=mf, conv_tol=1e-10, chkfile=None)
+    search = response.solve_response(td, 2, lambda *_: None)
+    assert search["strategy"] == "unavailable" and not search["complete"]
+    assert not search["blocks"] and not td.xy and td.e.size == 0
+
+
+@pytest.mark.science
+@pytest.mark.parametrize("kind", ["tda", "casida"])
+def test_small_positive_response_roots_are_not_removed_by_engine_filter(kind):
+    """A complete trial basis must not silently discard positive low roots."""
+    from quantum_lab.engines.response import solve_response
+    from quantum_lab.engines.symmetry import orbital_symmetry_labels
+
+    molecule = gto.M(atom="H 0 0 0; H 0 0 0.74", basis="6-31g", verbose=0)
+    reference = dft.RKS(molecule) if kind == "casida" else scf.RHF(molecule)
+    if kind == "casida":
+        reference.xc = "PBE"
+        reference.grids.level = 1
+    reference.conv_tol = 1e-10
+    reference.kernel()
+    td = reference.TDDFT() if kind == "casida" else reference.TDA()
+    td.conv_tol, td.lindep, td.chkfile = 1e-9, np.finfo(float).eps, None
+    labels, _ = orbital_symmetry_labels(molecule, reference.mo_coeff)
+    pairs = (labels[reference.mo_occ == 2, None] ^ labels[reference.mo_occ == 0]).ravel()
+    same_sector = np.flatnonzero(pairs == pairs[0])
+    assert len(same_sector) == 2
+    energies = np.full(len(pairs), 0.3)
+    energies[same_sector] = [1e-4, 0.2]
+    diagonal = energies**2 if kind == "casida" else energies
+    # An exactly known positive diagonal operator exposes filtering, separate
+    # from the chemical reference or any iterative convergence uncertainty.
+    td.gen_vind = lambda *args: (lambda vectors: np.asarray(vectors) * diagonal, diagonal.copy())
+    search = solve_response(td, 1, lambda *_: None)
+    assert search["complete"] and td.converged.all()
+    np.testing.assert_allclose(td.e, [1e-4], rtol=0, atol=1e-12)
+    assert search["selected_states"][0]["residual_norm"] < td.conv_tol
+    cutoff = search["positive_root_filter"]
+    assert cutoff["operator_eigenvalue_threshold"] == np.finfo(float).eps
+    assert cutoff["operator_eigenvalue_unit"] == ("hartree_squared" if kind == "casida" else "hartree")
+    assert cutoff["excitation_energy_threshold_hartree"] < td.e[0]
