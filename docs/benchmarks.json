@@ -1,0 +1,386 @@
+{
+  "platform": "Linux x86_64",
+  "python": "3.12.14",
+  "versions": {
+    "pyscf": "2.15.0",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "ase": "3.29.0",
+    "geometric": "1.1.1",
+    "basis-set-exchange": "0.12"
+  },
+  "note": "Finite-grid examples, not converged bulk reference values. RSS includes interpreter and engine imports. Same-engine reproduction is not independent physical accuracy validation.",
+  "cases": [
+    {
+      "case": "h2",
+      "converged": true,
+      "energy_hartree": -1.116759307507584,
+      "wall_seconds": 0.19202444300003663,
+      "process_peak_rss_mib": 137.08203125,
+      "scf_events": 2,
+      "spec": {
+        "name": "H₂ · 첫 SCF 계산",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.0,
+              0.74
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "HF",
+        "basis": "sto-3g",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "water",
+      "converged": true,
+      "energy_hartree": -76.27201252567713,
+      "wall_seconds": 0.46821625600000516,
+      "process_peak_rss_mib": 151.66796875,
+      "scf_events": 7,
+      "spec": {
+        "name": "H₂O · DFT와 전자밀도",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.757,
+              0.587
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.757,
+              0.587
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "def2-svp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "formaldehyde",
+      "converged": true,
+      "energy_hartree": -114.28348863972101,
+      "wall_seconds": 8.16817538700002,
+      "process_peak_rss_mib": 232.921875,
+      "scf_events": 9,
+      "spec": {
+        "name": "포름알데히드 · 흡수와 여기",
+        "domain": "molecule",
+        "task": "tda",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              1.21
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.94,
+              -0.59
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.94,
+              -0.59
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "def2-svp",
+        "ecp": null,
+        "functional": "PBE0",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 4,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [
+        4.003582509687342,
+        8.546478196811512,
+        9.195778403103757,
+        9.906553781037621
+      ],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond",
+      "converged": true,
+      "energy_hartree": -10.167721304309753,
+      "wall_seconds": 3.4227794039998116,
+      "process_peak_rss_mib": 206.53515625,
+      "scf_events": 5,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "bands",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-szv",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": 5.708548182816256
+    },
+    {
+      "case": "rhf",
+      "converged": true,
+      "energy_hartree": -74.96306312972912,
+      "wall_seconds": 0.012405266000087067,
+      "process_peak_rss_mib": 113.97265625,
+      "scf_events": 7,
+      "spec": {
+        "name": "직접 푸는 RHF · 행렬의 의미",
+        "domain": "molecule",
+        "task": "educational_rhf",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.757,
+              0.587
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.757,
+              0.587
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "HF",
+        "basis": "sto-3g",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    }
+  ],
+  "run_id": "20261113T151655Z-45a7e80a",
+  "recorded_date": "2026-11-14 (Asia/Seoul)",
+  "measurement_scope": {
+    "threads_per_case": 1,
+    "wall_seconds": "Engine run() call; excludes interpreter startup and engine module import.",
+    "process_peak_rss_mib": "Peak resident set of fresh process including interpreter and engine imports.",
+    "independence": "Same-engine adapter evidence; not an independent engine comparison or physical accuracy guarantee."
+  }
+}

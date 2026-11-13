@@ -1,0 +1,15 @@
+.venv/
+.cache/
+__pycache__/
+*.pyc
+*.tsbuildinfo
+.pytest_cache/
+.ruff_cache/
+node_modules/
+frontend/dist/
+.quantum-lab/
+test-results/
+playwright-report/
+*.egg-info/
+dist/
+build/

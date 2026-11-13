@@ -1,0 +1,68 @@
+{
+  "name": "포름알데히드 · 흡수와 여기",
+  "domain": "molecule",
+  "task": "tda",
+  "atoms": [
+    {
+      "symbol": "C",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "symbol": "O",
+      "position": [
+        0.0,
+        0.0,
+        1.21
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        0.0,
+        0.94,
+        -0.59
+      ]
+    },
+    {
+      "symbol": "H",
+      "position": [
+        0.0,
+        -0.94,
+        -0.59
+      ]
+    }
+  ],
+  "lattice": null,
+  "charge": 0,
+  "spin": 0,
+  "method": "DFT",
+  "basis": "def2-svp",
+  "ecp": null,
+  "functional": "PBE0",
+  "restricted": true,
+  "kmesh": [
+    1,
+    1,
+    1
+  ],
+  "pseudo": "gth-pbe",
+  "grid_level": 2,
+  "mesh": [
+    15,
+    15,
+    15
+  ],
+  "max_cycle": 80,
+  "conv_tol": 1e-09,
+  "nstates": 4,
+  "max_steps": 50,
+  "threads": 2,
+  "memory_mb": 2000,
+  "band_points": 40,
+  "parent_job_id": null,
+  "volume": null
+}

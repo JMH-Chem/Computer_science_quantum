@@ -1,0 +1,1067 @@
+{
+  "platform": "Linux x86_64",
+  "python": "3.12.14",
+  "versions": {
+    "pyscf": "2.15.0",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "ase": "3.29.0",
+    "geometric": "1.1.1",
+    "basis-set-exchange": "0.12"
+  },
+  "note": "Finite-grid examples, not converged bulk reference values. RSS includes interpreter and engine imports. Same-engine reproduction is not independent physical accuracy validation.",
+  "cases": [
+    {
+      "case": "water_sto-3g_grid1",
+      "converged": true,
+      "energy_hartree": -75.22560361071402,
+      "wall_seconds": 0.18763267899998937,
+      "process_peak_rss_mib": 130.98046875,
+      "scf_events": 6,
+      "spec": {
+        "name": "H₂O · DFT와 전자밀도",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.757,
+              0.587
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.757,
+              0.587
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "sto-3g",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 1,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "water_sto-3g_grid3",
+      "converged": true,
+      "energy_hartree": -75.22563984111757,
+      "wall_seconds": 0.3746379099998194,
+      "process_peak_rss_mib": 142.5625,
+      "scf_events": 6,
+      "spec": {
+        "name": "H₂O · DFT와 전자밀도",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.757,
+              0.587
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.757,
+              0.587
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "sto-3g",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 3,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "water_def2-svp_grid1",
+      "converged": true,
+      "energy_hartree": -76.27197513175224,
+      "wall_seconds": 0.22212272399997346,
+      "process_peak_rss_mib": 138.546875,
+      "scf_events": 7,
+      "spec": {
+        "name": "H₂O · DFT와 전자밀도",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.757,
+              0.587
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.757,
+              0.587
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "def2-svp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 1,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "water_def2-svp_grid3",
+      "converged": true,
+      "energy_hartree": -76.27201447266725,
+      "wall_seconds": 0.42903611199994884,
+      "process_peak_rss_mib": 163.69921875,
+      "scf_events": 7,
+      "spec": {
+        "name": "H₂O · DFT와 전자밀도",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.757,
+              0.587
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.757,
+              0.587
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "def2-svp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 3,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "water_def2-tzvp_grid1",
+      "converged": true,
+      "energy_hartree": -76.37644277634281,
+      "wall_seconds": 0.29795354499992754,
+      "process_peak_rss_mib": 147.8125,
+      "scf_events": 7,
+      "spec": {
+        "name": "H₂O · DFT와 전자밀도",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.757,
+              0.587
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.757,
+              0.587
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "def2-tzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 1,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "water_def2-tzvp_grid3",
+      "converged": true,
+      "energy_hartree": -76.3764495296756,
+      "wall_seconds": 0.7605999760000941,
+      "process_peak_rss_mib": 192.7421875,
+      "scf_events": 7,
+      "spec": {
+        "name": "H₂O · DFT와 전자밀도",
+        "domain": "molecule",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "O",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              -0.757,
+              0.587
+            ]
+          },
+          {
+            "symbol": "H",
+            "position": [
+              0.0,
+              0.757,
+              0.587
+            ]
+          }
+        ],
+        "lattice": null,
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "def2-tzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 3,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond_gth-szv_k1_mesh15",
+      "converged": true,
+      "energy_hartree": -10.167721304309753,
+      "wall_seconds": 2.0145348399998966,
+      "process_peak_rss_mib": 138.3984375,
+      "scf_events": 5,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-szv",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond_gth-szv_k1_mesh21",
+      "converged": true,
+      "energy_hartree": -10.167863492743638,
+      "wall_seconds": 4.975970618000019,
+      "process_peak_rss_mib": 149.26953125,
+      "scf_events": 4,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-szv",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          21,
+          21,
+          21
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond_gth-szv_k2_mesh15",
+      "converged": true,
+      "energy_hartree": -11.19265252221557,
+      "wall_seconds": 6.018753098999923,
+      "process_peak_rss_mib": 152.39453125,
+      "scf_events": 5,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-szv",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          2,
+          2,
+          2
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond_gth-szv_k2_mesh21",
+      "converged": true,
+      "energy_hartree": -11.192660244414482,
+      "wall_seconds": 19.079039720000083,
+      "process_peak_rss_mib": 180.61328125,
+      "scf_events": 5,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-szv",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          2,
+          2,
+          2
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          21,
+          21,
+          21
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond_gth-dzvp_k1_mesh15",
+      "converged": true,
+      "energy_hartree": -10.275022864966834,
+      "wall_seconds": 5.011948383999879,
+      "process_peak_rss_mib": 191.2421875,
+      "scf_events": 6,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-dzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond_gth-dzvp_k1_mesh21",
+      "converged": true,
+      "energy_hartree": -10.27504034438733,
+      "wall_seconds": 12.399823371000139,
+      "process_peak_rss_mib": 288.578125,
+      "scf_events": 6,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-dzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          1,
+          1,
+          1
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          21,
+          21,
+          21
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond_gth-dzvp_k2_mesh15",
+      "converged": true,
+      "energy_hartree": -11.259614994759259,
+      "wall_seconds": 19.172106285999917,
+      "process_peak_rss_mib": 187.015625,
+      "scf_events": 6,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-dzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          2,
+          2,
+          2
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          15,
+          15,
+          15
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    },
+    {
+      "case": "diamond_gth-dzvp_k2_mesh21",
+      "converged": true,
+      "energy_hartree": -11.259559678671827,
+      "wall_seconds": 35.240230240999836,
+      "process_peak_rss_mib": 273.5234375,
+      "scf_events": 6,
+      "spec": {
+        "name": "다이아몬드 · 결정과 밴드",
+        "domain": "crystal",
+        "task": "single_point",
+        "atoms": [
+          {
+            "symbol": "C",
+            "position": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "symbol": "C",
+            "position": [
+              0.8917,
+              0.8917,
+              0.8917
+            ]
+          }
+        ],
+        "lattice": [
+          [
+            0.0,
+            1.7834,
+            1.7834
+          ],
+          [
+            1.7834,
+            0.0,
+            1.7834
+          ],
+          [
+            1.7834,
+            1.7834,
+            0.0
+          ]
+        ],
+        "charge": 0,
+        "spin": 0,
+        "method": "DFT",
+        "basis": "gth-dzvp",
+        "ecp": null,
+        "functional": "PBE",
+        "restricted": true,
+        "kmesh": [
+          2,
+          2,
+          2
+        ],
+        "pseudo": "gth-pbe",
+        "grid_level": 2,
+        "mesh": [
+          21,
+          21,
+          21
+        ],
+        "max_cycle": 80,
+        "conv_tol": 1e-09,
+        "nstates": 5,
+        "max_steps": 50,
+        "threads": 1,
+        "memory_mb": 2000,
+        "band_points": 40,
+        "parent_job_id": null,
+        "volume": null
+      },
+      "excitation_energies_ev": [],
+      "sampled_ks_gap_ev": null
+    }
+  ],
+  "run_id": "20261113T151438Z-e11c6534",
+  "recorded_date": "2026-11-14 (Asia/Seoul)",
+  "measurement_scope": {
+    "threads_per_case": 1,
+    "wall_seconds": "Engine run() call; excludes interpreter startup and engine module import.",
+    "process_peak_rss_mib": "Peak resident set of fresh process including interpreter and engine imports.",
+    "independence": "Same-engine adapter evidence; not an independent engine comparison or physical accuracy guarantee."
+  }
+}

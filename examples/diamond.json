@@ -1,0 +1,68 @@
+{
+  "name": "다이아몬드 · 결정과 밴드",
+  "domain": "crystal",
+  "task": "bands",
+  "atoms": [
+    {
+      "symbol": "C",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "symbol": "C",
+      "position": [
+        0.8917,
+        0.8917,
+        0.8917
+      ]
+    }
+  ],
+  "lattice": [
+    [
+      0.0,
+      1.7834,
+      1.7834
+    ],
+    [
+      1.7834,
+      0.0,
+      1.7834
+    ],
+    [
+      1.7834,
+      1.7834,
+      0.0
+    ]
+  ],
+  "charge": 0,
+  "spin": 0,
+  "method": "DFT",
+  "basis": "gth-szv",
+  "ecp": null,
+  "functional": "PBE",
+  "restricted": true,
+  "kmesh": [
+    1,
+    1,
+    1
+  ],
+  "pseudo": "gth-pbe",
+  "grid_level": 2,
+  "mesh": [
+    15,
+    15,
+    15
+  ],
+  "max_cycle": 80,
+  "conv_tol": 1e-09,
+  "nstates": 5,
+  "max_steps": 50,
+  "threads": 2,
+  "memory_mb": 2000,
+  "band_points": 40,
+  "parent_job_id": null,
+  "volume": null
+}
