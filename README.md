@@ -8,6 +8,8 @@
 
 [현재 완성 범위와 다음 순서](docs/release-readiness.md) · [Psi4와 실제 8개 독립 비교](docs/independent-validation.md)
 
+[최신 전체 테스트: Python 315개·브라우저 18개·독립 비교 8개](docs/acceptance-2026-11-14.md)
+
 **SCF 반복은 실제 시간이 아닙니다.** 화면은 계산 중 에너지 상승과 진동도 그대로 보여줍니다. TDDFT의 여기 에너지·전이 세기와 교육용 S1→S0 모식도는 실제 들뜬 상태 이완 궤적이나 수명 계산과 구분합니다.
 
 ## 기능과 지원 범위 — v0.3

@@ -1,0 +1,701 @@
+{
+  "created_utc": "2026-11-13T17:27:02.216110+00:00",
+  "status": "passed",
+  "base_commit": "f80f5ea24d74ff0055d4f026adc45359c2710efd",
+  "product_changes": {
+    "frontend/index.html": "c5e3e0e2949bc64f6ebe39d17cdc1f07add23c28936d3c250718d0a75383c096",
+    "frontend/public/favicon.svg": "9edbcb54b3de7a6e053a67647bec5e6aa9173dab7d647f832b70f75533137d8b"
+  },
+  "notes": [
+    "Full Python and browser suites ran once each; favicon/theme head fix was then rebuilt and verified with a fresh browser and a second fresh package installation.",
+    "Tests ran concurrently; elapsed times are not portable performance benchmarks.",
+    "This is native Linux with a 32 GiB memory limit, not a real Windows WSL2 or 16GB PC test."
+  ],
+  "python": {
+    "tests": 315,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": 137.765
+  },
+  "browser": {
+    "tests": 18,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": 146.34114899999997,
+    "suites": [
+      {
+        "name": "advanced.spec.ts",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "time": 38.485
+      },
+      {
+        "name": "experiments-extended.spec.ts",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "time": 45.469
+      },
+      {
+        "name": "experiments.spec.ts",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "time": 32.436
+      },
+      {
+        "name": "workflows.spec.ts",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "time": 28.486
+      }
+    ]
+  },
+  "final_build_seconds": 19.52,
+  "visual": {
+    "job_id": "9afd794d-6b01-48b9-a0db-24e0edc6c88a",
+    "task": "frequencies",
+    "desktop": {
+      "viewport": 1440,
+      "document": 1440
+    },
+    "mobile": {
+      "viewport": 390,
+      "document": 390
+    },
+    "pageErrors": [],
+    "consoleErrors": [],
+    "httpErrors": [],
+    "theme": "#f4f3ef",
+    "favicon": {
+      "href": "/favicon.svg",
+      "status": 200,
+      "contentType": "image/svg+xml"
+    },
+    "scfSelection": {
+      "iteration": "3",
+      "readoutMatched": true,
+      "selectedRowMatched": true
+    }
+  },
+  "independent": {
+    "status": "passed",
+    "runner_sha256": "92a0690e8faafa81afa529736e02704fe78c43e9617044c85aa6e7e2ec2629ba",
+    "cases": [
+      {
+        "case": "h2_rhf_sto3g",
+        "status": "passed",
+        "app_energy_hartree": -1.116759307507584,
+        "psi4_energy_hartree": -1.116759307507602,
+        "differences": {
+          "energy_hartree": {
+            "app_minus_psi4": 1.8207657603852567e-14,
+            "absolute_difference": 1.8207657603852567e-14,
+            "tolerance": 1e-08,
+            "passed": true
+          },
+          "nuclear_repulsion_hartree": {
+            "app_minus_psi4": 0.0,
+            "absolute_difference": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          }
+        }
+      },
+      {
+        "case": "water_rhf_def2svp",
+        "status": "passed",
+        "app_energy_hartree": -75.96097516698589,
+        "psi4_energy_hartree": -75.96097516698582,
+        "differences": {
+          "energy_hartree": {
+            "app_minus_psi4": -7.105427357601002e-14,
+            "absolute_difference": 7.105427357601002e-14,
+            "tolerance": 1e-08,
+            "passed": true
+          },
+          "nuclear_repulsion_hartree": {
+            "app_minus_psi4": 0.0,
+            "absolute_difference": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          }
+        }
+      },
+      {
+        "case": "formaldehyde_rhf_def2svp",
+        "status": "passed",
+        "app_energy_hartree": -113.7779875649754,
+        "psi4_energy_hartree": -113.77798756497563,
+        "differences": {
+          "energy_hartree": {
+            "app_minus_psi4": 2.2737367544323206e-13,
+            "absolute_difference": 2.2737367544323206e-13,
+            "tolerance": 1e-08,
+            "passed": true
+          },
+          "nuclear_repulsion_hartree": {
+            "app_minus_psi4": 0.0,
+            "absolute_difference": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          }
+        }
+      },
+      {
+        "case": "water_mp2_def2svp",
+        "status": "passed",
+        "app_energy_hartree": -76.16459001532087,
+        "psi4_energy_hartree": -76.16459001545577,
+        "differences": {
+          "energy_hartree": {
+            "app_minus_psi4": 1.3490364381141262e-10,
+            "absolute_difference": 1.3490364381141262e-10,
+            "tolerance": 1e-07,
+            "passed": true
+          },
+          "nuclear_repulsion_hartree": {
+            "app_minus_psi4": 0.0,
+            "absolute_difference": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "reference_energy_hartree": {
+            "app_minus_psi4": -7.105427357601002e-14,
+            "absolute_difference": 7.105427357601002e-14,
+            "tolerance": 1e-08,
+            "passed": true
+          },
+          "correlation_energy_hartree": {
+            "app_minus_psi4": 1.3497469808498863e-10,
+            "absolute_difference": 1.3497469808498863e-10,
+            "tolerance": 1e-07,
+            "passed": true
+          }
+        }
+      },
+      {
+        "case": "water_mp2_frozen1_def2svp",
+        "status": "passed",
+        "app_energy_hartree": -76.16213007010643,
+        "psi4_energy_hartree": -76.16213007024096,
+        "differences": {
+          "energy_hartree": {
+            "app_minus_psi4": 1.3453416158881737e-10,
+            "absolute_difference": 1.3453416158881737e-10,
+            "tolerance": 1e-07,
+            "passed": true
+          },
+          "nuclear_repulsion_hartree": {
+            "app_minus_psi4": 0.0,
+            "absolute_difference": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "reference_energy_hartree": {
+            "app_minus_psi4": -7.105427357601002e-14,
+            "absolute_difference": 7.105427357601002e-14,
+            "tolerance": 1e-08,
+            "passed": true
+          },
+          "correlation_energy_hartree": {
+            "app_minus_psi4": 1.3460521586239338e-10,
+            "absolute_difference": 1.3460521586239338e-10,
+            "tolerance": 1e-07,
+            "passed": true
+          }
+        }
+      },
+      {
+        "case": "water_ccsd_sto3g",
+        "status": "passed",
+        "app_energy_hartree": -75.01253065083482,
+        "psi4_energy_hartree": -75.01253065083635,
+        "differences": {
+          "energy_hartree": {
+            "app_minus_psi4": 1.5347723092418164e-12,
+            "absolute_difference": 1.5347723092418164e-12,
+            "tolerance": 1e-07,
+            "passed": true
+          },
+          "nuclear_repulsion_hartree": {
+            "app_minus_psi4": 0.0,
+            "absolute_difference": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          },
+          "reference_energy_hartree": {
+            "app_minus_psi4": 2.1316282072803006e-13,
+            "absolute_difference": 2.1316282072803006e-13,
+            "tolerance": 1e-08,
+            "passed": true
+          },
+          "correlation_energy_hartree": {
+            "app_minus_psi4": 1.3193682257828243e-12,
+            "absolute_difference": 1.3193682257828243e-12,
+            "tolerance": 1e-07,
+            "passed": true
+          }
+        }
+      },
+      {
+        "case": "water_pbe_grid5",
+        "status": "passed",
+        "app_energy_hartree": -76.27201437289621,
+        "psi4_energy_hartree": -76.27201436670559,
+        "differences": {
+          "energy_hartree": {
+            "app_minus_psi4": -6.190617796164588e-09,
+            "absolute_difference": 6.190617796164588e-09,
+            "tolerance": 5e-06,
+            "passed": true
+          },
+          "nuclear_repulsion_hartree": {
+            "app_minus_psi4": 0.0,
+            "absolute_difference": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          }
+        }
+      },
+      {
+        "case": "water_pbe_grid6",
+        "status": "passed",
+        "app_energy_hartree": -76.2720143256536,
+        "psi4_energy_hartree": -76.2720143531372,
+        "differences": {
+          "energy_hartree": {
+            "app_minus_psi4": 2.7483594067234662e-08,
+            "absolute_difference": 2.7483594067234662e-08,
+            "tolerance": 5e-06,
+            "passed": true
+          },
+          "nuclear_repulsion_hartree": {
+            "app_minus_psi4": 0.0,
+            "absolute_difference": 0.0,
+            "tolerance": 1e-10,
+            "passed": true
+          }
+        }
+      }
+    ],
+    "dft_grid_refinement": {
+      "status": "passed",
+      "checks": {
+        "app": {
+          "absolute_energy_change_hartree": 4.724260804778169e-08,
+          "tolerance_hartree": 2e-06,
+          "passed": true
+        },
+        "psi4": {
+          "absolute_energy_change_hartree": 1.3568396184382436e-08,
+          "tolerance_hartree": 2e-06,
+          "passed": true
+        }
+      },
+      "note": "Different atom-centered quadratures; refinement is evidence for these geometries only."
+    }
+  },
+  "package": {
+    "created_utc": "2026-11-13T17:24:10.870516+00:00",
+    "root": "<fresh-venv-root>",
+    "release_directory": "<repository>/dist/quantum-lab-0.3.0-20261113T172410Z-742216",
+    "wheel": {
+      "filename": "quantum_lab-0.3.0-py3-none-any.whl",
+      "sha256": "73e9f9d7ba03024a815ca6872f34edbeff32b1f299ee967c432f8e12179c6666",
+      "bytes": 1823853
+    },
+    "status": "passed",
+    "commands": [
+      {
+        "name": "create-venv",
+        "exit_code": 0,
+        "seconds": 0.012095575999410357
+      },
+      {
+        "name": "install-dependencies",
+        "exit_code": 0,
+        "seconds": 1.6629849370001466
+      },
+      {
+        "name": "install-wheel",
+        "exit_code": 0,
+        "seconds": 0.03290341999945667
+      },
+      {
+        "name": "installed-provenance",
+        "exit_code": 0,
+        "seconds": 0.06032695399971999
+      },
+      {
+        "name": "doctor",
+        "exit_code": 0,
+        "seconds": 1.4381148279999252
+      },
+      {
+        "name": "distribution-count",
+        "exit_code": 0,
+        "seconds": 0.05760048200045276
+      },
+      {
+        "name": "examples",
+        "exit_code": 0,
+        "seconds": 0.6512333900000158
+      },
+      {
+        "name": "h2-input",
+        "exit_code": 0,
+        "seconds": 0.6538968770000793
+      },
+      {
+        "name": "h2-calculation",
+        "exit_code": 0,
+        "seconds": 2.318824993999442
+      },
+      {
+        "name": "diamond-input",
+        "exit_code": 0,
+        "seconds": 0.5569141320002018
+      },
+      {
+        "name": "diamond-calculation",
+        "exit_code": 0,
+        "seconds": 4.613467751000826
+      }
+    ],
+    "notes": [
+      "Fresh virtual environment on the current Linux host, not a new machine or Windows WSL2.",
+      "Calculations ran concurrently with other acceptance tests; times are not performance benchmarks."
+    ],
+    "installed_provenance": {
+      "executable": "<fresh-venv-root>/venv/bin/python",
+      "package_path": "<fresh-venv-root>/venv/lib/python3.12/site-packages/quantum_lab",
+      "environment": {
+        "quantum_lab_version": "0.3.0",
+        "python_version": "3.12.14",
+        "python_implementation": "cpython",
+        "operating_system": "Linux",
+        "architecture": "x86_64",
+        "packages": {
+          "pyscf": "2.15.0",
+          "numpy": "2.5.4",
+          "scipy": "1.18.1",
+          "ase": "3.29.0",
+          "geometric": "1.1.1",
+          "basis-set-exchange": "0.12"
+        },
+        "source_sha256": {
+          "__init__.py": "23b91fe52379d2ba31e7849c77c9478af1b3f59aa0a06f2e7f9d397d889914bd",
+          "api.py": "2a823dd9dc70a24b5ef901c6168d470008ea4145a4098682f8bde8722285d727",
+          "catalog.py": "8d798ab38438e24fdaea6723547a9a8cea60fb86fcf7d7c9569592bb00ce1f45",
+          "cli.py": "94844861226afe22ea22063625f1e2b19716096044ab591f2de0baf69aaa9b87",
+          "engines/__init__.py": "ac47cbf9400f17a64345f0ad5f2eb3f04699a9eb4d9a53391fc1266137b7e9b3",
+          "engines/correlated.py": "a88a4f8a8b4b762a7916a730d012d82929d796401ced65e3290710f57a1f4c4d",
+          "engines/educational.py": "3bae60f9052b545926dfafcf48c7f57043a7aa548357cd0b4314ff2e2eca1552",
+          "engines/molecular.py": "1c43be32765f8850518632cfe5da58fec560f76c7bc2cab8825ee7e44d608f21",
+          "engines/periodic.py": "fb2aa2a5d6af17119243a89fd81ff21da6fdfbf2557b0881249250eaedbda1e0",
+          "engines/periodic_analysis.py": "953f43ad3537490fdf115e2648c37d8938d346e9cf0980a0a24ae963c054a4de",
+          "engines/properties.py": "2a1e5b87134ff3e4ea44e2341988e98629d8ab3c799896ee6297685251058729",
+          "examples.py": "f96c49431fb2b7c0fd5b725779360142cd27c093926488e64803fe1e9765e696",
+          "experiment_science.py": "6dfbaa663fc190ea4a10dd9e4a99ed780712e33e2f5d117e7d3c53bfcab6a24a",
+          "experiments.py": "fc3d0e9cb1cbb1510f21f45d337cdd55210ed52e662b1b0e1deeb46a79a913f4",
+          "jobs.py": "5f7f9c7ec74607e6c1de6c343301bcf3359a5682d40f53bb9d1b0b690f4e96d2",
+          "models.py": "0cddc9eb666634315f9e169aa0750137cbd708325baa6c9a1569909008caf31c",
+          "provenance.py": "1384da95c58f57b887938a0492eef39d25e1694a6e49dc7c2ecd78b762289383",
+          "reports.py": "65951ca1a5537d5dad22424ff3dd8db6429d927033bd62d957bf55f8c67a8dc8",
+          "storage.py": "dffd3f0754fdaf3cf420149dc5f7b13c0211dfd136a0a5a0a78b6e320f994da0",
+          "structures.py": "4c1373a63e22a80221d198f85ff58b40abdced02ef6643fc05e88191e6b92bc2",
+          "worker.py": "274879a0444c5ca33e28b83e97d4437df27a8efc916892c5f4aed98fb1e41dce"
+        },
+        "source_hash_scope": "Quantum Lab Python source files read at worker startup; dependencies recorded by version"
+      }
+    },
+    "verified_source_files": 21,
+    "doctor": {
+      "versions": {
+        "Quantum Lab": "0.3.0",
+        "Python": "3.12.14",
+        "PySCF": "2.15.0",
+        "NumPy": "2.5.4",
+        "SciPy": "1.18.1",
+        "ASE": "3.29.0",
+        "geomeTRIC": "1.1.1",
+        "Basis Set Exchange": "0.12",
+        "FastAPI": "0.162.6",
+        "Uvicorn": "0.54.0",
+        "Libxc": "7.1.2"
+      },
+      "missing_components": [],
+      "platform": {
+        "system": "Linux",
+        "release": "6.18.57",
+        "machine": "x86_64",
+        "wsl_detected": false,
+        "wsl_validation": "not performed by this diagnostic"
+      },
+      "resources": {
+        "logical_cpus": 5,
+        "affinity_cpus": 5,
+        "cgroup_cpu_quota": 4.0,
+        "host_memory_bytes": 35743748096,
+        "cgroup_memory_limit_bytes": 34359738368,
+        "effective_memory_limit_bytes": 34359738368
+      },
+      "frontend": {
+        "built": true,
+        "path": "<fresh-venv-root>/venv/lib/python3.12/site-packages/quantum_lab/static"
+      },
+      "ready_for_headless": true,
+      "checks_performed": "Installed metadata and local runtime only; no SCF, network, or installation checks."
+    },
+    "installed_distribution_count": 43,
+    "examples": [
+      "h2\tH₂ · 첫 SCF 계산",
+      "water\tH₂O · DFT와 전자밀도",
+      "formaldehyde\t포름알데히드 · 흡수와 여기",
+      "diamond\t다이아몬드 · 결정과 밴드",
+      "rhf\t직접 푸는 RHF · 행렬의 의미",
+      "water_mp2\tH₂O · 전자 상관 MP2",
+      "hydrogen_ccsd\tH₂ · CCSD와 상관 에너지",
+      "hydrogen_casscf\tH₂ · CASSCF(2,2)",
+      "water_nevpt2\tH₂O · CASCI 기준 NEVPT2",
+      "water_eom\tH₂O · EOM-EE-CCSD",
+      "water_vibrations\tH₂O · 조화 진동과 IR",
+      "formaldehyde_tdhf\t포름알데히드 · TDHF"
+    ],
+    "calculations": [
+      {
+        "example": "h2",
+        "input": {
+          "name": "H₂ · 첫 SCF 계산",
+          "domain": "molecule",
+          "task": "single_point",
+          "atoms": [
+            {
+              "symbol": "H",
+              "position": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "symbol": "H",
+              "position": [
+                0.0,
+                0.0,
+                0.74
+              ]
+            }
+          ],
+          "lattice": null,
+          "charge": 0,
+          "spin": 0,
+          "method": "HF",
+          "basis": "sto-3g",
+          "ecp": null,
+          "functional": "PBE",
+          "restricted": true,
+          "kmesh": [
+            1,
+            1,
+            1
+          ],
+          "pseudo": "gth-pbe",
+          "grid_level": 2,
+          "mesh": [
+            15,
+            15,
+            15
+          ],
+          "max_cycle": 80,
+          "conv_tol": 1e-09,
+          "nstates": 5,
+          "max_steps": 50,
+          "threads": 1,
+          "memory_mb": 2000,
+          "band_points": 40,
+          "frozen_orbitals": 0,
+          "active_electrons": 2,
+          "active_orbitals": 2,
+          "ir_intensities": false,
+          "temperature_kelvin": 298.15,
+          "pressure_pa": 101325.0,
+          "parent_job_id": null,
+          "volume": null
+        },
+        "summary": {
+          "type": "result",
+          "job_id": "518202e5-4aaa-463a-9c67-e78211847161",
+          "status": "succeeded",
+          "exit_code": 0,
+          "energy_hartree": -1.116759307507584,
+          "work_directory": "<fresh-venv-root>/jobs-h2/jobs/518202e5-4aaa-463a-9c67-e78211847161",
+          "result_file": "<fresh-venv-root>/jobs-h2/jobs/518202e5-4aaa-463a-9c67-e78211847161/result.json",
+          "error": null
+        },
+        "band_gap_ev": null,
+        "source_matches_installed_wheel": true
+      },
+      {
+        "example": "diamond",
+        "input": {
+          "name": "다이아몬드 · 결정과 밴드",
+          "domain": "crystal",
+          "task": "bands",
+          "atoms": [
+            {
+              "symbol": "C",
+              "position": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "symbol": "C",
+              "position": [
+                0.8917,
+                0.8917,
+                0.8917
+              ]
+            }
+          ],
+          "lattice": [
+            [
+              0.0,
+              1.7834,
+              1.7834
+            ],
+            [
+              1.7834,
+              0.0,
+              1.7834
+            ],
+            [
+              1.7834,
+              1.7834,
+              0.0
+            ]
+          ],
+          "charge": 0,
+          "spin": 0,
+          "method": "DFT",
+          "basis": "gth-szv",
+          "ecp": null,
+          "functional": "PBE",
+          "restricted": true,
+          "kmesh": [
+            1,
+            1,
+            1
+          ],
+          "pseudo": "gth-pbe",
+          "grid_level": 2,
+          "mesh": [
+            15,
+            15,
+            15
+          ],
+          "max_cycle": 80,
+          "conv_tol": 1e-09,
+          "nstates": 5,
+          "max_steps": 50,
+          "threads": 1,
+          "memory_mb": 2000,
+          "band_points": 40,
+          "frozen_orbitals": 0,
+          "active_electrons": 2,
+          "active_orbitals": 2,
+          "ir_intensities": false,
+          "temperature_kelvin": 298.15,
+          "pressure_pa": 101325.0,
+          "parent_job_id": null,
+          "volume": null
+        },
+        "summary": {
+          "type": "result",
+          "job_id": "6e1d48b0-1f3c-450c-8806-675ce842d433",
+          "status": "succeeded",
+          "exit_code": 0,
+          "energy_hartree": -10.167721304309753,
+          "work_directory": "<fresh-venv-root>/jobs-diamond/jobs/6e1d48b0-1f3c-450c-8806-675ce842d433",
+          "result_file": "<fresh-venv-root>/jobs-diamond/jobs/6e1d48b0-1f3c-450c-8806-675ce842d433/result.json",
+          "error": null
+        },
+        "band_gap_ev": 5.7085481828163225,
+        "source_matches_installed_wheel": true
+      }
+    ],
+    "http": {
+      "health": {
+        "status": "ok",
+        "version": "0.3.0",
+        "queue": "single-worker",
+        "storage": "sqlite"
+      },
+      "index_matches_installed_package": true,
+      "assets": [
+        {
+          "path": "/assets/3Dmol-CSa84eMx.js",
+          "status": 200,
+          "bytes": 501,
+          "sha256": "9ddf012a157440254e1a578d9e9e7f685dc40524c7d653fa9a3f43d6fea839b3"
+        },
+        {
+          "path": "/assets/index-CiwuP52A.js",
+          "status": 200,
+          "bytes": 346404,
+          "sha256": "d5d9d8503b1c6ca74aa20e5ecabb6f14a419e8560384f86490e737ae7d98e5ef"
+        },
+        {
+          "path": "/assets/index-RmYlzTSU.css",
+          "status": 200,
+          "bytes": 41853,
+          "sha256": "d76c001321a773cbc623b679939426554d8d64a65b9ed65680baea9f5ed8cea9"
+        },
+        {
+          "path": "/assets/molecule-ZR6f-xkO.js",
+          "status": 200,
+          "bytes": 587705,
+          "sha256": "9c2b3abb317bb3953c0508c6a7044eb8a2087a2134a5da5690092a1674c1f399"
+        },
+        {
+          "path": "/assets/plotly-L5j05c04.js",
+          "status": 200,
+          "bytes": 4843013,
+          "sha256": "d0fec60fcf7fe020c722840746990baa76dc534f9ceeea91b507a9ea06307368"
+        }
+      ],
+      "theme_color": "#f4f3ef",
+      "favicon": {
+        "path": "/favicon.svg",
+        "status": 200,
+        "content_type": "image/svg+xml",
+        "sha256": "9edbcb54b3de7a6e053a67647bec5e6aa9173dab7d647f832b70f75533137d8b"
+      }
+    },
+    "http_server_stopped": true
+  },
+  "evidence_sha256": {
+    ".cache/acceptance-python.xml": "f473e515887ceb2977f9174eb229bfb775cf7ea82305598a3efa10424c91066a",
+    ".cache/acceptance-browser.xml": "d30e8d10051499600ee876fed1f0488f620171c30d2dd087c05b0b90173ba3bc",
+    ".cache/acceptance-browser-visual.json": "e591e7ad0b8c8ac380c649801f2f0ae6302c7617284b1e79070d5b92a97e50a0",
+    ".cache/acceptance-build-final.log": "0f8005299639c33be70077f53d178f27d8f34c8d149227fa8264a0a70a231539",
+    ".cache/acceptance-package.json": "3a12844ac2c63921f1ca48b2695976ce854ccc316082b039fef7776f6b196070",
+    "docs/images/acceptance-desktop.png": "d33ed8cffff84d7b3c9fb9a41b534619a52fc63b3b98dd5f0e8529fb3de0a1d1",
+    "docs/images/acceptance-mobile.png": "c57c8663638bf9eb0bc3fde84635e2b4b56a57bc0a775ca69ae082cda98d0a7a"
+  },
+  "warnings": [
+    "Starlette TestClient httpx deprecation (1 Python warning).",
+    "Upstream 3Dmol eval build warning; build passed."
+  ]
+}
