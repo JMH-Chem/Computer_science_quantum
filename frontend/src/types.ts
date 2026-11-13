@@ -3,11 +3,35 @@ export interface Atom {
   position: number[];
 }
 export type Domain = "molecule" | "crystal";
+export type Method =
+  | "HF"
+  | "DFT"
+  | "MP2"
+  | "CCSD"
+  | "CCSD(T)"
+  | "CISD"
+  | "FCI"
+  | "CASCI"
+  | "CASSCF"
+  | "NEVPT2";
+export const CORRELATED_METHODS: Method[] = [
+  "MP2",
+  "CCSD",
+  "CCSD(T)",
+  "CISD",
+  "FCI",
+  "CASCI",
+  "CASSCF",
+  "NEVPT2",
+];
 export type Task =
   | "single_point"
   | "optimize"
   | "tda"
   | "tddft"
+  | "tdhf"
+  | "frequencies"
+  | "eomccsd"
   | "bands"
   | "educational_rhf"
   | "volume";
@@ -25,7 +49,7 @@ export interface Spec {
   lattice: number[][] | null;
   charge: number;
   spin: number;
-  method: "HF" | "DFT";
+  method: Method;
   basis: string | Record<string, string>;
   ecp: string | Record<string, string> | null;
   functional: string;
@@ -41,6 +65,12 @@ export interface Spec {
   threads: number;
   memory_mb: number;
   band_points: number;
+  frozen_orbitals?: number;
+  active_electrons?: number;
+  active_orbitals?: number;
+  ir_intensities?: boolean;
+  temperature_kelvin?: number;
+  pressure_pa?: number;
   parent_job_id?: string | null;
   volume?: VolumeRequest | null;
 }
@@ -79,6 +109,18 @@ export interface Result {
   orbital_energies_hartree?: number[] | number[][];
   occupations?: number[] | number[][];
   dipole_debye?: number[];
+  reference_energy_hartree?: number;
+  correlation_energy_hartree?: number;
+  density_reference?: string;
+  orbital_reference?: string;
+  dipole_reference?: string;
+  correlation?: CorrelationResult;
+  eom?: EOMResult;
+  properties?: MolecularProperties;
+  vibrations?: VibrationalResult;
+  sampled_dos?: SampledDOS;
+  crystal_properties?: CrystalProperties;
+  sampled_band_edges?: SampledBandEdges;
   excitations?: Excitation[];
   optimization?: OptimizationStep[];
   artifact?: string;
@@ -105,6 +147,153 @@ export interface Job {
   error?: string | null;
   created_at?: string;
   updated_at?: string;
+}
+export interface CorrelationIteration {
+  iteration: number;
+  energy_hartree: number;
+  delta_energy?: number;
+  residual_norm?: number;
+  stage?: string;
+}
+export interface EOMResult {
+  reference: string;
+  spin: string;
+  converged: boolean;
+  states: {
+    state: number;
+    energy_ev: number;
+    converged: boolean;
+    residual_norm: number;
+  }[];
+  requested_states: number;
+  residual_tolerance: number;
+  wavefunction_artifact: string;
+  notes: string[];
+}
+export interface CorrelationResult {
+  method: string;
+  reference: string;
+  converged: boolean;
+  reference_energy_hartree: number;
+  total_energy_hartree: number;
+  correlation_energy_hartree: number;
+  frozen_orbitals: number;
+  active_space: {
+    electrons: number;
+    orbitals: number;
+    core_orbitals: number;
+    initial_orbital_indices_1based?: number[];
+  } | null;
+  diagnostics: Record<string, unknown>;
+  natural_occupations?: number[];
+  natural_occupations_space?: string;
+  iterations: CorrelationIteration[];
+}
+export interface MolecularProperties {
+  reference_model: string;
+  mulliken_charges: number[];
+  lowdin_charges: number[];
+  dipole_debye: number[];
+  dipole_magnitude_debye: number;
+  spin_square?: number;
+  spin_multiplicity?: number;
+  units: { charges: string; dipole: string };
+  warnings: string[];
+}
+export interface VibrationalMode {
+  index: number;
+  frequency_cm1: number;
+  imaginary: boolean;
+  reduced_mass_amu: number;
+  displacements: number[][];
+  ir_intensity_km_mol: number | null;
+}
+export interface VibrationalResult {
+  converged: boolean;
+  frequencies_cm1: number[];
+  modes: VibrationalMode[];
+  masses_amu: number[];
+  gradient_max_hartree_per_bohr: number;
+  stationary: boolean;
+  stationarity_threshold_hartree_per_bohr: number;
+  imaginary_modes: number;
+  zero_point_energy_hartree: number | null;
+  thermochemistry: null | {
+    model: string;
+    temperature_kelvin: number;
+    pressure_pa: number;
+    internal_energy_hartree: number;
+    enthalpy_hartree: number;
+    gibbs_energy_hartree: number;
+    entropy_hartree_per_kelvin: number;
+    heat_capacity_cv_hartree_per_kelvin: number;
+    heat_capacity_cp_hartree_per_kelvin: number;
+    rotational_symmetry_number: number;
+    frequency_scaling_factor: number;
+  };
+  ir: {
+    requested: boolean;
+    computed: boolean;
+    finite_difference_step_bohr: number;
+    displaced_calculations: number;
+  };
+  warnings: string[];
+  artifacts: string[];
+}
+export interface SampledDOS {
+  energy_ev: number[];
+  density_states_per_ev: number[];
+  occupied_density_states_per_ev: number[];
+  width_ev: number;
+  kpoint_count: number;
+  spin_degeneracy: number;
+  kpoint_weights: number[];
+  reference: string;
+  reference_energy_hartree: number;
+  state_integral: number;
+  expected_states: number;
+  electron_integral: number;
+  expected_electrons: number;
+  units: string;
+  broadening: string;
+  sample: string;
+  limitations: string[];
+}
+export interface CrystalProperties {
+  energy_per_atom_hartree: number;
+  volume_angstrom3: number;
+  density_g_cm3: number;
+  atom_count: number;
+  mass_convention: string;
+}
+export interface SampledBandEdges {
+  sample: string;
+  indirect_gap_ev: number;
+  direct_gap_ev: number;
+  vbm: {
+    energy_hartree: number;
+    energy_ev: number;
+    kpoint_scaled: number[];
+    source: string;
+    index: number;
+    band_index: number;
+  };
+  cbm: {
+    energy_hartree: number;
+    energy_ev: number;
+    kpoint_scaled: number[];
+    source: string;
+    index: number;
+    band_index: number;
+  };
+  direct_gap_location: {
+    kpoint_scaled: number[];
+    source: string;
+    index: number;
+  };
+  classification: string;
+  reference: string;
+  gap_kind: string;
 }
 export interface JobEvent {
   seq: number;
@@ -171,6 +360,12 @@ export const defaultSpec: Spec = {
   threads: 2,
   memory_mb: 2000,
   band_points: 40,
+  frozen_orbitals: 0,
+  active_electrons: 2,
+  active_orbitals: 2,
+  ir_intensities: false,
+  temperature_kelvin: 298.15,
+  pressure_pa: 101325,
 };
 export const statusLabels: Record<string, string> = {
   queued: "대기 중",
@@ -186,6 +381,9 @@ export const taskLabels: Record<string, string> = {
   optimize: "구조 최적화",
   tda: "TDA · 여기 상태",
   tddft: "TDDFT · 여기 상태",
+  tdhf: "TDHF · HF 여기 상태",
+  frequencies: "진동수 · 조화 진동 분석",
+  eomccsd: "EOM-CCSD · singlet 여기 상태",
   bands: "밴드 구조",
   educational_rhf: "교육용 RHF",
   volume: "3D 격자 생성",

@@ -20,6 +20,8 @@ jobs:
       - run: uv run pytest -q
       - run: npm ci && npm run build
         working-directory: frontend
+      - name: Build local wheel with bundled browser assets
+        run: uv run python scripts/package_release.py
       - run: npx playwright install --with-deps chromium
         working-directory: frontend
       - name: Real browser workflows

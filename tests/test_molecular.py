@@ -90,9 +90,10 @@ def test_unrestricted_doublet_matches_direct_engine(method, tmp_path):
 
 
 @pytest.mark.science
-@pytest.mark.parametrize("task", ["tda", "tddft"])
-def test_excited_states_match_direct_roots_strengths_and_normalized_ntos(task, tmp_path):
-    settings = spec(FORMALDEHYDE, method="DFT", task=task)
+@pytest.mark.parametrize("task,conv_tol", [("tda", 1e-10), ("tda", 1e-12), ("tddft", 1e-10)],
+                         ids=["tda", "tda-tight", "tddft"])
+def test_excited_states_match_direct_roots_strengths_and_normalized_ntos(task, conv_tol, tmp_path):
+    settings = spec(FORMALDEHYDE, method="DFT", task=task, conv_tol=conv_tol)
     result = run(settings, lambda *_: None, tmp_path)
     reference = direct_reference(settings, tmp_path)
     td = reference.TDA() if task == "tda" else reference.TDDFT()
@@ -111,6 +112,24 @@ def test_excited_states_match_direct_roots_strengths_and_normalized_ntos(task, t
         [x["oscillator_strength"] for x in result["excitations"]],
         td.oscillator_strength(gauge="length"), atol=1e-7, rtol=0,
     )
+    if task == "tda":
+        # Independently diagonalize the complete small response matrix. Tiny
+        # Davidson dependence cutoffs can produce spurious roots even when
+        # the ground-state reference and requested tolerance are unchanged.
+        response_matrix, _ = reference.TDA().get_ab()
+        dimension = np.prod(response_matrix.shape[:2])
+        dense_roots = np.linalg.eigvalsh(response_matrix.reshape(dimension, dimension))
+        np.testing.assert_allclose(
+            [state["energy_ev"] for state in result["excitations"]],
+            dense_roots[:settings["nstates"]] * EV_PER_HARTREE, atol=1e-4, rtol=0,
+        )
+        vind, _ = reference.TDA().gen_vind()
+        saved = lib.chkfile.load(str(tmp_path / "checkpoint.chk"), "tddft")
+        for energy, pair in zip(saved["e"], saved["xy"], strict=True):
+            vector = np.asarray(pair[0]).ravel()
+            vector = vector / np.linalg.norm(vector)
+            residual = np.asarray(vind(vector[None, :]))[0] - float(energy) * vector
+            assert np.linalg.norm(residual) < settings["conv_tol"]
     overlap = reference.mol.intor("int1e_ovlp")
     with np.load(tmp_path / "orbitals.npz") as arrays:
         for index, state in enumerate(result["excitations"]):

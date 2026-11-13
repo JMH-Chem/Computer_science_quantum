@@ -7,6 +7,7 @@ optical excitation energies or proof of an insulating bulk material.
 
 from __future__ import annotations
 
+import csv
 import json
 import time
 from collections.abc import Callable
@@ -16,10 +17,13 @@ import numpy as np
 import pyscf
 from ase import Atoms
 from pyscf import lib
+from pyscf.dft import libxc
 from pyscf.pbc import dft, gto
 from pyscf.pbc.dft import numint
 from pyscf.pbc.lib import chkfile
 from pyscf.tools import cubegen
+
+from .periodic_analysis import crystal_properties, sampled_band_edges, sampled_dos
 
 HARTREE_TO_EV = 27.211386245988
 
@@ -116,8 +120,11 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
     mf.max_memory = int(spec.get("memory_mb", 2000))
     mf.chkfile = str(workdir / "checkpoint.chk")
     mf.grids.mesh = cell.mesh
+    iteration_count = 0
 
     def callback(env):
+        nonlocal iteration_count
+        iteration_count += 1
         e = _number(env.get("e_tot"))
         last = _number(env.get("last_hf_e"))
         emit("scf_iteration", {
@@ -137,12 +144,15 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
     ]
     result = {
         "converged": bool(mf.converged),
+        "scf_converged": bool(mf.converged),
+        "method": "DFT", "task": spec.get("task", "single_point"),
         "energy_hartree": _number(energy),
         "atoms": spec["atoms"],
         "lattice": spec["lattice"],
         "engine": {"name": "PySCF PBC", "version": pyscf.__version__},
         "electron_count": cell.nelectron,
         "n_basis": cell.nao_nr(),
+        "basis_functions": cell.nao_nr(), "iteration_count": iteration_count,
         "kmesh": kmesh.tolist(),
         "kpoints_scaled": cell.get_scaled_kpts(kpts).tolist(),
         "mesh": np.asarray(cell.mesh).tolist(),
@@ -156,6 +166,8 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
             "basis_source": "https://github.com/pyscf/pyscf/tree/master/pyscf/pbc/gto/basis",
             "pseudo_source": "https://github.com/pyscf/pyscf/tree/master/pyscf/pbc/gto/pseudo",
             "conv_tol": mf.conv_tol,
+            "basis_provider": "PySCF periodic built-in", "basis_provider_version": pyscf.__version__,
+            "libxc_version": libxc.__version__, "numpy_version": np.__version__,
         },
     }
     (workdir / "periodic_basis.json").write_text(
@@ -174,6 +186,13 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
     nocc = cell.nelectron // 2
     vbm, cbm = _insulator_edges(np.asarray(mf.mo_energy), np.asarray(mf.mo_occ), nocc)
     result["sampled_scf_gap_ev"] = (cbm - vbm) * HARTREE_TO_EV
+    emit("stage", {"name": "periodic_analysis", "message": "SCF k점 DOS·표본 밴드 경계·단위격자 물성 계산"})
+    result["crystal_properties"] = crystal_properties(spec, energy)
+    result["sampled_dos"] = sampled_dos(mf.mo_energy, mf.mo_occ, vbm)
+    result["sampled_band_edges"] = sampled_band_edges(
+        mf.mo_energy, cell.get_scaled_kpts(kpts), nocc,
+    )
+    warnings.append("DOS는 균등 SCF k점에 Gaussian 폭을 적용한 표시입니다. 밴드 경로는 DOS 적분에 사용하지 않습니다.")
     if spec.get("task") == "bands":
         emit("stage", {"name": "bands", "message": "ASE 고대칭 경로의 Kohn–Sham 밴드 계산"})
         atoms = Atoms(symbols=[a["symbol"] for a in spec["atoms"]],
@@ -219,6 +238,21 @@ def run(spec: dict, emit: Callable[[str, dict], None], workdir: Path) -> dict:
             "kpoints_scaled": path.kpts.tolist(),
             "distance_units": "angstrom^-1",
         }
+        result["sampled_band_edges"] = sampled_band_edges(
+            mf.mo_energy, cell.get_scaled_kpts(kpts), nocc,
+            path_energies=band_energy, path_points=path.kpts,
+        )
+    with (workdir / "sampled-dos.csv").open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.writer(stream)
+        writer.writerow(["energy_ev_relative_to_scf_vbm", "dos_states_per_ev_per_cell",
+                         "occupied_dos_electrons_per_ev_per_cell"])
+        dos = result["sampled_dos"]
+        writer.writerows(zip(dos["energy_ev"], dos["density_states_per_ev"],
+                            dos["occupied_density_states_per_ev"], strict=True))
+    (workdir / "band-edges.json").write_text(
+        json.dumps(result["sampled_band_edges"], ensure_ascii=False, indent=2), encoding="utf-8",
+    )
+    result["analysis_artifacts"] = ["sampled-dos.csv", "band-edges.json"]
     result["elapsed_seconds"] = time.monotonic() - started
     return result
 

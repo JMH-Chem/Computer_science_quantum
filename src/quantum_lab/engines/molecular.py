@@ -19,6 +19,10 @@ from pyscf.gto.basis import bse as pyscf_bse
 from pyscf.tools import cubegen
 from scipy.constants import physical_constants
 
+from .correlated import METHODS as CORRELATED_METHODS
+from .correlated import run_correlation
+from .properties import analyze_properties, run_frequencies
+
 HARTREE_EV = physical_constants["Hartree energy in eV"][0]
 Emit = Callable[[str, dict], None]
 
@@ -125,7 +129,7 @@ def _mean_field(mol: gto.Mole, spec: dict, workdir: Path, callback):
         if dft.libxc.needs_laplacian(xc):
             raise ValueError("Laplacian-dependent functionals are not supported by this molecular adapter.")
         dft.libxc.test_deriv_order(xc, 2, raise_error=True)
-        if spec.get("task") in {"optimize", "tda", "tddft"} and dft.libxc.is_nlc(xc):
+        if spec.get("task") in {"optimize", "tda", "tddft", "frequencies"} and dft.libxc.is_nlc(xc):
             raise ValueError("Nonlocal-correlation functionals are not validated for this task in v1.")
         mf = dft.RKS(mol) if restricted else dft.UKS(mol)
         mf.xc = xc
@@ -147,18 +151,28 @@ class _OptimizationSCFFailure(RuntimeError):
 
 
 def run(spec: dict, emit: Emit, workdir: Path) -> dict:
-    """Execute HF/DFT/optimization or singlet frequency-domain TDA/TDDFT."""
+    """Execute molecular reference, correlation and singlet response calculations."""
     workdir = Path(workdir)
     workdir.mkdir(parents=True, exist_ok=True)
     lib.num_threads(int(spec.get("threads", 2)))
     _json_write(workdir / "engine-spec.json", spec)
     task = spec.get("task", "single_point")
-    if task not in {"single_point", "optimize", "tda", "tddft"}:
+    method = spec.get("method", "HF")
+    correlated = method in CORRELATED_METHODS
+    if method not in {"HF", "DFT"} | CORRELATED_METHODS:
+        raise ValueError(f"Unsupported molecular method: {method}")
+    if task not in {"single_point", "optimize", "tda", "tddft", "tdhf", "frequencies", "eomccsd"}:
         raise ValueError(f"Unsupported molecular task: {task}")
-    if task in {"tda", "tddft"} and (
-        not spec.get("restricted", True) or spec.get("spin", 0) != 0 or spec.get("method") != "DFT"
+    if correlated and (task not in {"single_point", "eomccsd"}
+                       or not spec.get("restricted", True) or spec.get("spin", 0)):
+        raise ValueError("Correlated methods support closed-shell RHF single-point calculations.")
+    if task == "eomccsd" and method != "CCSD":
+        raise ValueError("EOM-EE-CCSD requires method=CCSD.")
+    if task in {"tda", "tddft", "tdhf"} and (
+        not spec.get("restricted", True) or spec.get("spin", 0) != 0
+        or method not in ({"HF", "DFT"} if task == "tda" else {"HF"} if task == "tdhf" else {"DFT"})
     ):
-        raise ValueError("v1 TDA/TDDFT requires a restricted, closed-shell DFT reference.")
+        raise ValueError("Singlet response requires closed-shell RHF for TDHF, RKS for TDDFT, or either for TDA.")
     emit("stage", {"name": "basis", "message": "Resolving basis definitions and building molecular integrals."})
     mol, basis_provenance = make_molecule(spec, workdir)
     context = {"optimization_step": None}
@@ -232,9 +246,9 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
     excitations = []
     excited_converged = None
     response_settings = None
-    if mf.converged and task in {"tda", "tddft"}:
+    if mf.converged and task in {"tda", "tddft", "tdhf"}:
         emit("stage", {"name": task, "message": "Solving frequency-domain linear response, not a time trajectory."})
-        td = mf.TDA() if task == "tda" else mf.TDDFT()
+        td = mf.TDA() if task == "tda" else mf.TDHF() if task == "tdhf" else mf.TDDFT()
         td.singlet = True
         occupied = int(np.count_nonzero(mf.mo_occ > 0))
         max_states = occupied * (mol.nao_nr() - occupied)
@@ -247,10 +261,12 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
         # PySCF's response solver tests correction *squared norms* against
         # lindep. The default 1e-12 can discard corrections at norm 1e-6,
         # before a requested residual tolerance of 1e-9 is reached. Keep the
-        # user's residual tolerance and iteration limit, and retain the small
-        # corrections needed to satisfy them. This is a supported solver
-        # setting, recorded in provenance rather than an assertion override.
-        td.lindep = min(float(td.lindep), (td.conv_tol * 0.1) ** 2)
+        # user's residual tolerance and iteration limit. A squared-norm cutoff
+        # below floating-point epsilon can admit nearly dependent corrections
+        # and destroy Davidson subspace orthogonality (notably at 1e-22).
+        # Bound this supported setting by machine precision; convergence still
+        # requires the user's actual residual tolerance and may honestly fail.
+        td.lindep = min(float(td.lindep), max(td.conv_tol**2, np.finfo(float).eps))
         response_settings = {
             "conv_tol": td.conv_tol, "lindep": td.lindep,
             "max_cycle": td.max_cycle,
@@ -289,6 +305,23 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
         arrays["excitation_energies_hartree"] = excitation_energies
         arrays["oscillator_strengths"] = strengths
 
+    correlation, eom = None, None
+    if mf.converged and correlated:
+        correlation = run_correlation(mf, spec, emit, workdir)
+        eom = correlation.pop("eom", None)
+        warnings.extend(correlation["warnings"])
+    if correlated:
+        warnings.append("Orbitals, density, dipole and populations describe the RHF reference, not the correlated wavefunction.")
+    properties, vibrations = None, None
+    if mf.converged:
+        properties = analyze_properties(mf)
+        if correlated:
+            properties["reference_model"] = "RHF reference (not correlated)"
+        warnings.extend(properties["warnings"])
+        if task == "frequencies":
+            vibrations = run_frequencies(mf, spec, emit, workdir)
+            warnings.extend(vibrations["warnings"])
+
     np.savez_compressed(workdir / "orbitals.npz", **arrays)
     scf.chkfile.save_mol(mol, str(workdir / "checkpoint.chk"))
     atoms = _atoms(mol)
@@ -299,8 +332,14 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
     converged = bool(mf.converged)
     if task == "optimize":
         converged = converged and bool(geometry_converged)
-    if task in {"tda", "tddft"}:
+    if task in {"tda", "tddft", "tdhf"}:
         converged = converged and bool(excited_converged)
+    if correlated:
+        converged = converged and bool(correlation and correlation["converged"])
+    if task == "eomccsd":
+        converged = converged and bool(eom and eom["converged"])
+    if task == "frequencies":
+        converged = converged and bool(vibrations and vibrations["converged"])
     for warning in warnings:
         emit("warning", {"message": warning})
     total_dm = arrays["density"].sum(axis=0) if arrays["density"].ndim == 3 else arrays["density"]
@@ -310,7 +349,16 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
         "scf_converged": bool(mf.converged),
         "geometry_converged": geometry_converged,
         "excited_converged": excited_converged,
-        "energy_hartree": _number(mf.e_tot),
+        "energy_hartree": (correlation["total_energy_hartree"] if correlation else None)
+        if correlated else _number(mf.e_tot),
+        "reference_energy_hartree": _number(mf.e_tot) if correlated else None,
+        "correlation_energy_hartree": correlation["correlation_energy_hartree"] if correlation else None,
+        "correlation": correlation,
+        "eom": eom,
+        "properties": properties, "vibrations": vibrations,
+        "orbital_reference": "RHF reference (not correlated)" if correlated else method,
+        "density_reference": "RHF reference (not correlated)" if correlated else method,
+        "dipole_reference": "RHF reference (not correlated)" if correlated else method,
         "atoms": atoms, "lattice": None,
         "engine": {"name": "PySCF molecular", "version": pyscf.__version__},
         "method": spec.get("method", "HF"), "task": task,
@@ -333,6 +381,7 @@ def run(spec: dict, emit: Emit, workdir: Path) -> dict:
             "nto_convention": "PySCF X-only transition amplitudes normalized; Y amplitudes omitted; leading pair export.",
             "oscillator_strength_gauge": "length",
             "response_solver": response_settings,
+            "reference_method": "RHF" if correlated else method,
             "time_dynamics": False,
         },
     }
@@ -363,14 +412,16 @@ def generate_volume(parent_dir: Path, request: dict, output_dir: Path) -> dict:
     # PySCF's default 3-bohr margin visibly truncates even H2/STO-3G tails.
     # Retain a larger documented box; grid resolution still needs convergence.
     margin = 6.0
-    meta = {"kind": kind, "index": index, "spin": spin, "grid": grid, "margin_bohr": margin}
+    meta = {"kind": kind, "index": index, "spin": spin, "grid": grid, "margin_bohr": margin,
+            "reference": result.get("density_reference" if kind == "density" else "orbital_reference", spec.get("method"))}
     with np.load(parent_dir / "orbitals.npz", allow_pickle=False) as data:
         if kind == "density":
             density = data["density"]
             if density.ndim == 3:
                 density = density.sum(axis=0)
             field = cubegen.density(mol, str(filename), density, nx=grid, ny=grid, nz=grid, margin=margin)
-            meta["density_kind"] = "total electron density, alpha + beta"
+            meta["density_kind"] = ("RHF reference electron density, not correlated density"
+                                    if result.get("correlation") else "total electron density, alpha + beta")
             # Trapezoid integration uses CUBE's actual volume and endpoint grid.
             cube = cubegen.Cube(mol, nx=grid, ny=grid, nz=grid, margin=margin)
             integral = field
@@ -403,6 +454,12 @@ def generate_volume(parent_dir: Path, request: dict, output_dir: Path) -> dict:
             raise ValueError(f"Unsupported molecular volume kind: {kind}")
     meta["value_min"] = float(np.min(field))
     meta["value_max"] = float(np.max(field))
+    if result.get("correlation"):
+        # CUBE files can be shared without their JSON sidecar: retain the
+        # reference distinction in the standalone artifact too.
+        lines = filename.read_text(encoding="utf-8").splitlines()
+        lines[0] = f"Quantum Lab: RHF reference {kind}; not a correlated density/orbital"
+        filename.write_text("\n".join(lines) + "\n", encoding="utf-8")
     _json_write(output_dir / (name + ".json"), meta)
     return {
         "converged": True, "artifact": name, "volume": meta,

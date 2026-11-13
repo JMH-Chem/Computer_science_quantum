@@ -5,6 +5,9 @@ import type { Atom } from "./types";
 
 interface ViewerInstance {
   addModel: (text: string, format: string) => unknown;
+  addModelsAsFrames: (text: string, format: string) => unknown;
+  animate: (options: unknown) => void;
+  stopAnimate: () => void;
   setStyle: (sel: unknown, style: unknown) => void;
   addLine: (line: unknown) => void;
   addLabel: (text: string, style: unknown) => void;
@@ -27,21 +30,30 @@ export default function Viewer({
   cube,
   kind = "density",
   iso = 0.04,
+  modeDisplacements,
+  animateMode = false,
+  modeAmplitude = 0.3,
 }: {
   atoms: Atom[];
   lattice?: number[][] | null;
   cube?: string | null;
   kind?: string;
   iso?: number;
+  modeDisplacements?: number[][];
+  animateMode?: boolean;
+  modeAmplitude?: number;
 }) {
   const host = useRef<HTMLDivElement>(null),
     view = useRef<ViewerInstance | null>(null),
-    lastGeometry = useRef("");
+    lastGeometry = useRef(""),
+    initialView = useRef<number[] | null>(null),
+    lastReset = useRef(0);
   const [error, setError] = useState(""),
     [repeat, setRepeat] = useState(1),
     [reset, setReset] = useState(0),
     [ready, setReady] = useState(false);
   const geometryKey = JSON.stringify({ atoms, lattice, repeat, reset });
+  const modeKey = JSON.stringify(modeDisplacements ?? null);
   useEffect(() => {
     let cancelled = false;
     let observer: ResizeObserver | undefined;
@@ -58,6 +70,8 @@ export default function Viewer({
           antialias: true,
         });
         view.current = owned;
+        lastGeometry.current = "";
+        initialView.current = null;
         observer = new ResizeObserver(() => {
           owned?.resize();
           owned?.render();
@@ -75,6 +89,7 @@ export default function Viewer({
     return () => {
       cancelled = true;
       observer?.disconnect();
+      owned?.stopAnimate();
       owned?.clear();
       if (view.current === owned) view.current = null;
     };
@@ -85,11 +100,13 @@ export default function Viewer({
     try {
       const sameGeometry = lastGeometry.current === geometryKey;
       const saved = viewer.getView();
+      viewer.stopAnimate();
       viewer.clear();
       const parsed = JSON.parse(geometryKey) as {
         atoms: Atom[];
         lattice?: number[][] | null;
         repeat: number;
+        reset: number;
       };
       const lattice = parsed.lattice;
       let points = parsed.atoms;
@@ -110,7 +127,31 @@ export default function Viewer({
                   ),
                 });
       }
-      viewer.addModel(xyzText(points), "xyz");
+      const displacement = JSON.parse(modeKey) as number[][] | null;
+      if (
+        animateMode &&
+        displacement &&
+        displacement.length === points.length &&
+        !lattice
+      ) {
+        const maxNorm = Math.max(
+          ...displacement.map((v) => Math.hypot(...v)),
+          1e-12,
+        );
+        const frames = Array.from({ length: 40 }, (_, frame) => {
+          const phase =
+            (Math.sin((2 * Math.PI * frame) / 40) * modeAmplitude) / maxNorm;
+          return xyzText(
+            points.map((atom, index) => ({
+              ...atom,
+              position: atom.position.map(
+                (value, axis) => value + phase * displacement[index][axis],
+              ),
+            })),
+          );
+        });
+        viewer.addModelsAsFrames(frames.join(""), "xyz");
+      } else viewer.addModel(xyzText(points), "xyz");
       viewer.setStyle(
         {},
         {
@@ -177,18 +218,37 @@ export default function Viewer({
       }
       if (sameGeometry) viewer.setView(saved);
       else {
+        if (parsed.reset !== lastReset.current && initialView.current)
+          viewer.setView(initialView.current);
         viewer.zoomTo();
-        viewer.rotate(60, "y");
-        viewer.rotate(18, "x");
+        // zoomTo keeps the camera quaternion. Apply the initial angle once so
+        // stepping through a scan does not accumulate a new rotation each time.
+        if (!lastGeometry.current) {
+          viewer.rotate(60, "y");
+          viewer.rotate(18, "x");
+        }
         viewer.zoom(parsed.atoms.length <= 3 ? 1.8 : 1.3);
       }
+      if (!initialView.current) initialView.current = viewer.getView();
+      lastReset.current = parsed.reset;
       viewer.render();
+      if (animateMode && displacement && !lattice)
+        viewer.animate({ loop: "forward", interval: 40 });
       lastGeometry.current = geometryKey;
       setError("");
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     }
-  }, [ready, geometryKey, cube, kind, iso]);
+  }, [
+    ready,
+    geometryKey,
+    cube,
+    kind,
+    iso,
+    modeKey,
+    animateMode,
+    modeAmplitude,
+  ]);
   return (
     <div className="viewer-shell">
       <div

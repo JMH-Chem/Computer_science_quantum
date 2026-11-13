@@ -2,13 +2,15 @@ import { useEffect, useRef } from "react";
 import type { Data, Layout, PlotMouseEvent } from "plotly.js";
 import Plotly from "plotly.js-dist-min";
 
+const emptyLayout: Partial<Layout> = {};
+
 export default function Chart({
   data,
   title,
   xTitle,
   yTitle,
   height = 280,
-  layout = {},
+  layout = emptyLayout,
   onPoint,
 }: {
   data: Data[];
@@ -70,7 +72,11 @@ export default function Chart({
         });
     });
     const observer = new ResizeObserver(() => {
-      if (!disposed) void Plotly.Plots.resize(el);
+      if (disposed || !el.isConnected || !el.clientWidth || !el.clientHeight)
+        return;
+      // Plotly defers resizing internally; navigating away can remove the
+      // graph before that promise settles.
+      void Promise.resolve(Plotly.Plots.resize(el)).catch(() => {});
     });
     observer.observe(el);
     return () => {

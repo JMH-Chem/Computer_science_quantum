@@ -55,12 +55,12 @@ class JobSpec(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
     name: str = Field(default="새 계산", min_length=1, max_length=120)
     domain: Literal["molecule", "crystal"] = "molecule"
-    task: Literal["single_point", "optimize", "tda", "tddft", "bands", "educational_rhf", "volume"] = "single_point"
+    task: Literal["single_point", "optimize", "tda", "tddft", "tdhf", "eomccsd", "frequencies", "bands", "educational_rhf", "volume"] = "single_point"
     atoms: list[Atom] = Field(min_length=1, max_length=200)
     lattice: tuple[tuple[float, float, float], tuple[float, float, float], tuple[float, float, float]] | None = None
     charge: int = Field(default=0, ge=-20, le=20)
     spin: int = Field(default=0, ge=0, le=100)
-    method: Literal["HF", "DFT"] = "HF"
+    method: Literal["HF", "DFT", "MP2", "CCSD", "CCSD(T)", "CISD", "FCI", "CASCI", "CASSCF", "NEVPT2"] = "HF"
     basis: str | dict[str, str] = "sto-3g"
     ecp: str | dict[str, str] | None = None
     functional: str = Field(default="PBE", min_length=1, max_length=160)
@@ -76,6 +76,12 @@ class JobSpec(BaseModel):
     threads: int = Field(default=2, ge=1, le=8)
     memory_mb: int = Field(default=2000, ge=256, le=16000)
     band_points: int = Field(default=40, ge=5, le=200)
+    frozen_orbitals: int = Field(default=0, ge=0, le=100)
+    active_electrons: int = Field(default=2, ge=2, le=24)
+    active_orbitals: int = Field(default=2, ge=1, le=12)
+    ir_intensities: bool = False
+    temperature_kelvin: float = Field(default=298.15, ge=1, le=5000)
+    pressure_pa: float = Field(default=101325, ge=1, le=1e8)
     parent_job_id: str | None = None
     volume: VolumeRequest | None = None
 
@@ -178,11 +184,41 @@ class JobSpec(BaseModel):
                 raise ValueError("밴드는 주기계 계산입니다.")
             if self.kmesh != (1, 1, 1):
                 raise ValueError("분자 계산에는 k점 격자를 적용하지 않습니다.")
-        if self.task in {"tda", "tddft"}:
-            if self.spin or not self.restricted or self.method != "DFT":
-                raise ValueError("여기 상태는 닫힌껍질 RKS singlet TDA/TDDFT를 지원합니다.")
-            if self.functional.upper() not in {"PBE", "PBE0", "B3LYP"}:
+        correlated = self.method not in {"HF", "DFT"}
+        if correlated:
+            if self.domain != "molecule" or self.task not in {"single_point", "eomccsd", "volume"} or self.spin or not self.restricted:
+                raise ValueError("상관 방법은 닫힌껍질 분자의 RHF 기준 단일점 계산을 지원합니다.")
+            if self.frozen_orbitals and self.method not in {"MP2", "CCSD", "CCSD(T)", "CISD"}:
+                raise ValueError("동결 궤도 수는 MP2, CCSD, CCSD(T), CISD에서 지정합니다. CAS는 비활성 핵심 궤도를 자동 산정합니다.")
+            if self.frozen_orbitals >= electrons // 2:
+                raise ValueError("동결 궤도 수는 점유 궤도 수보다 작아야 합니다.")
+            if self.method in {"CASCI", "CASSCF", "NEVPT2"}:
+                if self.active_electrons % 2 or self.active_electrons > electrons or self.active_electrons > 2 * self.active_orbitals:
+                    raise ValueError("닫힌껍질 활성 전자 수는 짝수이며 전체 전자 수와 활성 공간 수용량 이하여야 합니다.")
+                if self.method == "NEVPT2" and self.active_orbitals > 8:
+                    raise ValueError("NEVPT2의 4입자 밀도 행렬 비용 때문에 현재 활성 궤도는 8개 이하로 제한합니다.")
+        elif self.frozen_orbitals:
+            raise ValueError("동결 궤도 수는 지원하는 전자 상관 방법에서만 지정하세요.")
+        if self.task == "eomccsd" and self.method != "CCSD":
+            raise ValueError("EOM-EE-CCSD는 수렴한 CCSD 기준에서 닫힌껍질 singlet 여기 에너지를 계산합니다.")
+        if self.task in {"tda", "tddft", "tdhf"}:
+            if self.spin or not self.restricted or self.method not in {"HF", "DFT"}:
+                raise ValueError("여기 상태는 닫힌껍질 RHF/RKS singlet 응답 계산을 지원합니다.")
+            if self.task == "tdhf" and self.method != "HF":
+                raise ValueError("TDHF에는 HF 기준을 선택하세요.")
+            if self.task == "tddft" and self.method != "DFT":
+                raise ValueError("TDDFT에는 DFT 기준을 선택하세요. HF 응답은 TDHF입니다.")
+            if self.method == "DFT" and self.functional.upper() not in {"PBE", "PBE0", "B3LYP"}:
                 raise ValueError("여기 상태 검증 경로는 PBE, PBE0, B3LYP입니다.")
+        if self.task == "frequencies":
+            if self.domain != "molecule" or self.method not in {"HF", "DFT"} or not self.restricted or self.spin or self.ecp:
+                raise ValueError("조화 진동은 ECP 없는 닫힌껍질 RHF/RKS 분자를 지원합니다.")
+            if self.method == "DFT" and self.functional.upper() not in {"PBE", "PBE0", "B3LYP"}:
+                raise ValueError("진동수의 DFT 경로는 PBE, PBE0, B3LYP입니다.")
+            if len(self.atoms) < 2 or len(self.atoms) > 30:
+                raise ValueError("조화 진동은 2~30원자 분자에서 지원합니다.")
+        elif self.ir_intensities and self.task != "volume":
+            raise ValueError("IR 세기는 조화 진동 작업에서만 요청할 수 있습니다.")
         if self.task == "optimize" and self.method == "DFT" and self.functional.upper() not in {"PBE", "PBE0", "B3LYP"}:
             raise ValueError("DFT 최적화 검증 경로는 PBE, PBE0, B3LYP입니다.")
         if self.task == "educational_rhf" and (self.method != "HF" or self.spin or not self.restricted or self.ecp):

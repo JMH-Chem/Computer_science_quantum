@@ -188,8 +188,12 @@ def create_app(data_dir: str | Path | None = None, *, worker_module="quantum_lab
         })
 
     from .catalog import router as catalog_router
+    from .experiments import router as experiments_router
+    from .reports import router as reports_router
     from .structures import router as structures_router
     app.include_router(catalog_router, prefix="/api")
+    app.include_router(experiments_router, prefix="/api")
+    app.include_router(reports_router, prefix="/api")
     app.include_router(structures_router, prefix="/api")
 
     frontend = Path(__file__).resolve().parent / "static"

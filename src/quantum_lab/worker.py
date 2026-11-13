@@ -32,6 +32,9 @@ def main() -> int:
         # A queued cancellation that raced process creation must not start numerics.
         if job["status"] != "running":
             return 0
+        from .provenance import execution_environment
+        environment = execution_environment()
+        atomic_json(directory / "environment.json", environment)
         adapter = "periodic" if spec["domain"] == "crystal" else "molecular"
         if spec["task"] == "educational_rhf":
             adapter = "educational"
@@ -56,6 +59,7 @@ def main() -> int:
         if result.get("energy_hartree") is not None and not math.isfinite(float(result["energy_hartree"])):
             raise ValueError("The engine returned a non-finite energy.")
         result["elapsed_seconds"] = time.monotonic() - started
+        result["run_environment"] = environment
         import resource
         result["peak_memory_mb"] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
         atomic_json(directory / "result.json", result)

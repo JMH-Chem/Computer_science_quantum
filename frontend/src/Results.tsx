@@ -11,6 +11,7 @@ import type { Data } from "plotly.js";
 import Chart from "./Chart";
 import type { Catalog, Job, JobEvent, Result } from "./types";
 import { taskLabels } from "./types";
+import { comparisonProblem, finalEnergy } from "./jobComparison";
 
 export function Convergence({
   events,
@@ -483,77 +484,148 @@ export function Compare({
   jobs: Job[];
   current: Job | null;
 }) {
+  const [referenceId, setReferenceId] = useState<string | null>(null);
+  const [compatibleOnly, setCompatibleOnly] = useState(true);
   const valid = jobs.filter(
-    (j) => j.result?.energy_hartree !== undefined && j.spec.task !== "volume",
+    (job) =>
+      typeof job.result?.energy_hartree === "number" &&
+      Number.isFinite(job.result.energy_hartree) &&
+      job.spec.task !== "volume",
   );
+  const reference =
+    valid.find((job) => job.id === referenceId) ??
+    (current && finalEnergy(current) !== null
+      ? current
+      : valid.find((job) => finalEnergy(job) !== null));
+  const rows = valid
+    .map((job) => ({
+      job,
+      problem: reference
+        ? comparisonProblem(reference, job)
+        : "수렴한 기준 계산 없음",
+    }))
+    .filter((row) => !compatibleOnly || row.problem === null);
+  const perAtom = reference?.spec.domain === "crystal";
+  const shownEnergy = (job: Job) =>
+    typeof job.result?.energy_hartree === "number"
+      ? job.result.energy_hartree / (perAtom ? job.spec.atoms.length : 1)
+      : NaN;
   return (
-    <>
+    <div className="advanced-results">
       <div className="panel-heading">
         <div>
           <span className="eyebrow">REPRODUCIBLE COMPARISON</span>
-          <h2>계산 조건을 함께 비교하기</h2>
+          <h2>같은 구조·모델의 수치 조건 비교</h2>
         </div>
         <Layers size={20} />
       </div>
       {valid.length ? (
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>계산</th>
-                <th>방법 · 함수형</th>
-                <th>기저</th>
-                <th>작업</th>
-                <th>전하 / 스핀</th>
-                <th>격자 / k점</th>
-                <th>구조·조건</th>
-                <th>에너지 / Eh</th>
-                <th>상태</th>
-              </tr>
-            </thead>
-            <tbody>
-              {valid.map((j) => (
-                <tr
-                  key={j.id}
-                  className={j.id === current?.id ? "selected-row" : ""}
-                >
-                  <td>{j.spec.name}</td>
-                  <td>
-                    {j.spec.method}
-                    {j.spec.method === "DFT" ? ` / ${j.spec.functional}` : ""}
-                  </td>
-                  <td>
-                    {typeof j.spec.basis === "string"
-                      ? j.spec.basis
-                      : "원소별 설정"}
-                  </td>
-                  <td>{taskLabels[j.spec.task]}</td>
-                  <td>
-                    {j.spec.charge} / {j.spec.spin}
-                  </td>
-                  <td>
-                    {j.spec.domain === "crystal"
-                      ? `${j.spec.mesh.join("×")} / ${j.spec.kmesh.join("×")}`
-                      : `DFT grid ${j.spec.grid_level}`}
-                  </td>
-                  <td>
-                    <a
-                      href={`/api/jobs/${j.id}/export?format=json`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      입력·좌표 확인
-                    </a>
-                  </td>
-                  <td className="number-cell">
-                    {j.result?.energy_hartree?.toFixed(9)}
-                  </td>
-                  <td>{j.result?.converged ? "수렴" : "미수렴"}</td>
+        <>
+          <div className="comparison-controls">
+            <label>
+              기준 계산{" "}
+              <select
+                aria-label="비교 기준 계산"
+                value={reference?.id ?? ""}
+                onChange={(event) => setReferenceId(event.target.value)}
+              >
+                {valid
+                  .filter((job) => finalEnergy(job) !== null)
+                  .map((job) => (
+                    <option value={job.id} key={job.id}>
+                      {job.spec.name} · {job.id.slice(0, 6)}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            <label className="check-field">
+              <input
+                type="checkbox"
+                checked={compatibleOnly}
+                onChange={(event) => setCompatibleOnly(event.target.checked)}
+              />
+              비교 가능한 계산만 보기
+            </label>
+          </div>
+          <div className="table-wrap">
+            <table data-testid="job-comparison">
+              <thead>
+                <tr>
+                  <th>계산</th>
+                  <th>방법 · 함수형</th>
+                  <th>기저</th>
+                  <th>작업</th>
+                  <th>전하 / 스핀</th>
+                  <th>격자 / k점</th>
+                  <th>전체 입력</th>
+                  <th>에너지 / {perAtom ? "Eh atom⁻¹" : "Eh"}</th>
+                  <th>기준과 ΔE / {perAtom ? "Eh atom⁻¹" : "Eh"}</th>
+                  <th>비교 진단</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {rows.map(({ job, problem }) => (
+                  <tr
+                    key={job.id}
+                    className={job.id === reference?.id ? "selected-row" : ""}
+                  >
+                    <td>{job.spec.name}</td>
+                    <td>
+                      {job.spec.method}
+                      {job.spec.method === "DFT"
+                        ? ` / ${job.spec.functional}`
+                        : ""}
+                    </td>
+                    <td>
+                      {typeof job.spec.basis === "string"
+                        ? job.spec.basis
+                        : "원소별 설정"}
+                    </td>
+                    <td>{taskLabels[job.spec.task]}</td>
+                    <td>
+                      {job.spec.charge} / {job.spec.spin}
+                    </td>
+                    <td>
+                      {job.spec.domain === "crystal"
+                        ? `${job.spec.mesh.join("×")} / ${job.spec.kmesh.join("×")}`
+                        : `DFT grid ${job.spec.grid_level}`}
+                    </td>
+                    <td>
+                      <a
+                        href={`/api/jobs/${job.id}/export?format=json`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        입력·결과
+                      </a>
+                    </td>
+                    <td className="number-cell">
+                      {shownEnergy(job).toFixed(9)}
+                      {job.status !== "succeeded" && " (미수렴)"}
+                    </td>
+                    <td>
+                      {!problem && reference
+                        ? (shownEnergy(job) - shownEnergy(reference)).toFixed(9)
+                        : "—"}
+                    </td>
+                    <td>
+                      {problem ??
+                        (job.id === reference?.id
+                          ? "기준"
+                          : "구조·전자 모델·버전 일치")}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {!rows.length && (
+            <p>
+              선택한 기준과 비교 가능한 계산이 없습니다. 전체 계산을 표시하면
+              제외 사유를 확인할 수 있습니다.
+            </p>
+          )}
+        </>
       ) : (
         <Empty
           label="비교할 계산이 아직 없습니다"
@@ -561,11 +633,13 @@ export function Compare({
         />
       )}
       <p className="science-note">
-        <Info size={14} />
-        다른 원자 수·전하·구조·가상퍼텐셜의 전체 에너지를 직접 비교하지 마세요.
-        미수렴값은 연구 결론에 사용하기 전 진단이 필요합니다.
+        <Info size={14} /> 최종 구조·전하·스핀·방법·함수형·핵심 전자 처리·엔진
+        버전이 같은 수렴 결과만 차이를 계산합니다. 좌표 정렬이나 에너지 보정은
+        하지 않습니다. 기저·수치 격자·k점·허용오차는 달라도 표에 함께 표시하므로
+        한 조건씩 비교하세요. 다른 방법의 비교는 학습 실험의 방법 비교를
+        사용하세요.
       </p>
-    </>
+    </div>
   );
 }
 export function Learn({

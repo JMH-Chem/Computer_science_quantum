@@ -2,6 +2,8 @@
 
 이 문서는 2026-11-14 첫 구현을 위한 대표 프로그램 조사입니다. 공개 소스·공식 문서로 확인한 구조를 정리하며, 모든 프로그램을 설치하거나 동일 조건 벤치마크를 마쳤다는 보고서는 아닙니다. 비공개 코드의 내부 구현은 추정하지 않습니다.
 
+v0.3에서 덧붙인 내용은 현재 설치된 PySCF의 API·모듈과 이 저장소의 구현·테스트를 기준으로 한 적용 현황입니다. 새 외부 엔진을 설치하거나 독립 프로그램 간 벤치마크를 완료했다는 의미가 아닙니다.
+
 ## 비교 기준
 
 프로그램마다 지원하는 물리 문제와 표현이 다릅니다. 기능 이름만 비교하지 않고 다음 항목을 함께 기록합니다.
@@ -17,7 +19,7 @@
 
 | 프로그램 | 계산 구조와 강점 | 이 프로젝트의 선택 |
 | --- | --- | --- |
-| [PySCF](https://github.com/pyscf/pyscf) | Python 계산 흐름과 C 수치 핵심. 분자와 주기계 모듈, 적분·SCF·DFT·상관·응답 모듈을 조합한다. callback에서 실제 반복 상태를 얻을 수 있다. | 첫 엔진. 분자/주기계 어댑터는 분리하고 작업 시스템은 공유한다. |
+| [PySCF](https://github.com/pyscf/pyscf) | Python 계산 흐름과 C 수치 핵심. 분자와 주기계 모듈, 적분·SCF·DFT·상관·응답 모듈을 조합한다. callback에서 실제 반복 상태를 얻을 수 있다. | 현재 계산 엔진. 분자·주기계 어댑터와 공통 작업 시스템 위에 상관·응답·Hessian 작업을 연결했다. |
 | [Psi4](https://github.com/psi4/psi4) | C++ 계산 핵심과 Python driver. `energy`, `gradient`, `optimize`, `frequency` 같은 작업 인터페이스와 분자 상관 계산에 강점이 있다. | 향후 분자 방법 확장과 독립 수치 검증 후보. 현재 연결하지 않는다. |
 | [Quantum ESPRESSO](https://github.com/QEF/q-e) | PWscf, PHonon, TD-DFPT 등 패키지와 FFT·선형대수·KS solver·가상퍼텐셜 라이브러리로 구성된다. 평면파 기반 주기계와 응답·재료 계산을 다룬다. | 평면파 재료 어댑터의 비교 기준. PySCF 주기계와 같은 기저라고 표현하지 않는다. |
 | [GPAW](https://gitlab.com/gpaw/gpaw) | ASE와 연결되는 Python 중심 PAW 코드. 실공간 격자, 평면파, 원자 중심 궤도 표현을 제공한다. | PAW·평면파·실공간 확장 후보. 별도 설치·수렴 검증이 필요하다. |
@@ -83,10 +85,40 @@ Python API와 반복 callback이 있는 PySCF를 첫 엔진으로 사용하면 �
 
 독립 프로그램 비교에서는 구조·전하·스핀·기저 정의·ECP·함수형 구현·수치 격자·수렴 조건을 가능한 범위에서 일치시킨다. PySCF와 같은 PySCF 직접 호출의 일치는 어댑터 검증이며, 독립 엔진에 의한 물리적 검증과는 다르다.
 
+## v0.3에 적용한 모듈 구성
+
+| 계층 | 현재 연결한 계산 | 앱에서 추가한 책임 |
+| --- | --- | --- |
+| SCF 기준 상태 | 분자 RHF/UHF·RKS/UKS, 주기계 RKS/KRKS | 실제 반복 수집, 입력·기저·버전 보존, 최종 수렴 확인 |
+| 분자 상관 | MP2, CCSD, CCSD(T), CISD, FCI, CASCI, CASSCF, CASCI 기준 strongly contracted NEVPT2 | 닫힌껍질 적용 범위, 동결·활성 공간 기록, CI 크기·메모리 사전 검사, 참조 에너지와 상관 에너지 구분 |
+| 전자 응답 | HF-TDA/TDHF, DFT-TDA/TDDFT, singlet EOM-EE-CCSD | 요청한 근의 수렴·잔차와 결과 범위 기록; EOM 전이 세기·NTO를 계산한 것으로 표시하지 않음 |
+| 핵 좌표의 응답 | RHF/RKS 해석적 Hessian, 질량 정규화 진동, 선택적 쌍극자 유한 차분 IR | 병진·회전 제거, 정지점·허수 모드 진단, 유효한 경우만 이상 기체 RRHO 열화학 |
+| 주기계 결과 분석 | SCF k점 상태의 DOS, 표본 직접·간접 갭, 셀 물성 | 올바른 k점 가중치·스핀 수와 단위, 고대칭 경로와 DOS 표본의 구분 |
+| 학습 실험 | 기저·격자·함수형·결합 거리·k점·상관 방법 비교 7종 | 바꾸는 조건과 전체 입력 고정, 순서·수렴·버전 비교, 실패 구간 보존 |
+
+추가 계산은 기존 단일 작업 큐와 독립 프로세스를 이용한다. 다른 방법의 수렴 조건을 하나의 SCF 플래그로 대체하지 않으며, 상관 계산의 성공 여부와 참조 SCF의 성공 여부를 구분한다. 상관 방법의 결과와 함께 표시하는 오비탈·전자밀도·원자 전하·쌍극자는 현재 **RHF 참조 자료**다. 이 경계는 결과·내보내기·화면에 남긴다.
+
+활성 공간은 현재 비활성 핵심 궤도 다음의 연속된 정준 RHF 궤도로 초기화한다. 화학적 궤도 선택, 상태 평균과 root 추적을 자동화한 다중참조 워크플로는 아직 아니다. NEVPT2는 CASCI 참조를 사용하며 CASSCF 최적화를 포함했다고 표현하지 않는다. 자세한 입력 제한은 [방법론 안내](methods.md)에 정리했다.
+
+## 다음 외부 엔진·물리 모델을 정하기 위한 기준
+
+현재 구현만으로 xTB, 평면파·PAW, GW/BSE 또는 실제 비단열 동역학을 지원한다고 표시하지 않는다. 다음 확장에서는 대상 물성·시스템 크기·정확도 목표·설치 가능 환경을 먼저 정해야 한다.
+
+- **독립 분자 검증:** Psi4 등에서 동일한 기저 정의·핵심 전자 처리·계산 조건을 맞출 수 있는 작은 기준 문제를 선택한다.
+- **재료 엔진:** Quantum ESPRESSO·GPAW·CP2K 등의 표현과 가상퍼텐셜, k점·격자 수렴을 별도로 검증한다. 서로 다른 Gaussian·평면파·PAW 결과를 같은 입력의 차이로 취급하지 않는다.
+- **빠른 구조 준비:** xTB의 파라미터와 원소·전하·스핀 지원 범위, 별도 설치·라이선스를 확인한 뒤 명시적인 근사 단계로 연결한다.
+- **실제 S₁→S₀ 동역학:** 목표 현상에 필요한 상태 간 결합, 핵 운동, 초기조건·앙상블과 전이 알고리즘을 정한다. 정적 여기 에너지나 모드 애니메이션만으로 수명·전이 궤적을 만들지 않는다.
+
+실제 Windows WSL2 설치 검증, 외부 공개·상용 배포 조건, 다중 사용자·HPC 운영도 현재 Linux의 계산 검증과 별도 결정 사항이다.
+
 ## 추가 공식 근거
 
 - [PySCF SCF callback 구현](https://github.com/pyscf/pyscf/blob/master/pyscf/scf/hf.py)
 - [PySCF TDHF/TDDFT 구현과 NTO](https://github.com/pyscf/pyscf/blob/master/pyscf/tdscf/rhf.py)
+- [PySCF 상관 계산 모듈](https://github.com/pyscf/pyscf/tree/master/pyscf/cc)
+- [PySCF 활성 공간 모듈](https://github.com/pyscf/pyscf/tree/master/pyscf/mcscf)
+- [PySCF NEVPT2 구현](https://github.com/pyscf/pyscf/blob/master/pyscf/mrpt/nevpt2.py)
+- [PySCF 조화 진동·열화학 구현](https://github.com/pyscf/pyscf/blob/master/pyscf/hessian/thermo.py)
 - [PySCF 주기계 밴드 예제](https://github.com/pyscf/pyscf/blob/master/examples/pbc/09-band_ase.py)
 - [Basis Set Exchange API와 데이터](https://github.com/MolSSI-BSE/basis_set_exchange)
 - [geomeTRIC 구조 최적화](https://github.com/leeping/geomeTRIC)

@@ -42,6 +42,20 @@ class JobManager:
         self._wake.set()
         return record
 
+    def submit_experiment(self, payload: dict, specs: list[dict]) -> dict:
+        with self._lock:
+            experiment = self.store.create_experiment(payload, specs)
+        self._wake.set()
+        return experiment
+
+    def cancel_experiment(self, experiment_id: str) -> dict:
+        with self._lock:
+            cancelled_ids = self.store.cancel_experiment_jobs(experiment_id)
+            if self._job_id in cancelled_ids:
+                self._terminate()
+        self._wake.set()
+        return self.store.get_experiment(experiment_id)
+
     def submit_volume(self, spec: dict) -> dict:
         """Atomically reuse or enqueue a requested derived grid across HTTP threads."""
         with self._lock:

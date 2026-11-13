@@ -1,0 +1,229 @@
+.advanced-results {
+  display: grid;
+  gap: 22px;
+}
+.advanced-results h2 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+.advanced-results h3 {
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+.advanced-results p {
+  line-height: 1.7;
+  color: #94aab8;
+  margin: 7px 0;
+}
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.section-header > div {
+  flex: 1;
+}
+.section-header > .field {
+  width: 180px;
+  flex-shrink: 0;
+}
+.property-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+}
+.property-cards > div {
+  border: 1px solid #293d4b;
+  border-radius: 7px;
+  background: #0d1b25;
+  padding: 15px;
+  min-width: 0;
+}
+.property-cards span {
+  color: #8da5b5;
+  display: block;
+  font-size: 11px;
+  margin-bottom: 9px;
+}
+.property-cards strong {
+  font-weight: 500;
+  font-size: 18px;
+  color: #d9e9ee;
+  overflow-wrap: anywhere;
+}
+.property-cards .vector-value {
+  font-size: 14px;
+}
+.science-note {
+  border-left: 2px solid #4aa696;
+  background: #11232b;
+  padding: 12px 15px;
+  font-size: 12px;
+}
+.science-note.warning {
+  border-color: #c5a05b;
+  background: #29271d;
+}
+.science-note svg {
+  vertical-align: middle;
+  margin-right: 7px;
+}
+.settings-explanation {
+  color: #91a6b5;
+  line-height: 1.65;
+  font-size: 11px;
+}
+.method-settings {
+  display: grid;
+  gap: 8px;
+  padding: 0 1px;
+}
+.method-settings .field-row {
+  gap: 9px;
+}
+.method-settings .check-field {
+  line-height: 1.6;
+  align-items: flex-start;
+}
+.occupation-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.occupation-list > span {
+  background: #0e1c26;
+  border: 1px solid #293d4b;
+  border-radius: 5px;
+  padding: 9px 12px;
+  color: #8ea6b5;
+  font-size: 11px;
+}
+.occupation-list strong {
+  display: block;
+  color: #d6e7ec;
+  margin-top: 7px;
+  font-size: 13px;
+}
+.scientific-details {
+  font-size: 12px;
+  color: #93a9b9;
+}
+.scientific-details summary {
+  cursor: pointer;
+}
+.scientific-details dl > div {
+  display: flex;
+  gap: 15px;
+  border-bottom: 1px solid #243a47;
+  padding: 8px 0;
+}
+.scientific-details dt {
+  min-width: 180px;
+}
+.scientific-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.vibration-layout {
+  display: grid;
+  grid-template-columns: minmax(250px, 1fr) minmax(260px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.vibration-view {
+  min-width: 0;
+  border: 1px solid #293d4b;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #101e2a;
+}
+.vibration-view .viewer-shell {
+  height: 300px;
+}
+.vibration-view .science-note {
+  margin: 0;
+  border-left: 0;
+  border-top: 1px solid #293d4b;
+}
+.mode-controls {
+  display: grid;
+  gap: 15px;
+  padding: 15px;
+}
+.mode-controls label {
+  font-size: 11px;
+  color: #99adba;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mode-controls input {
+  min-width: 70px;
+  flex: 1;
+  accent-color: #68dfc5;
+}
+.mode-table {
+  max-height: 420px;
+  overflow: auto;
+}
+.mode-table tr.selected-row {
+  background: #18352f;
+}
+.mode-table th,
+.mode-table td {
+  white-space: nowrap;
+}
+.comparison-controls {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.comparison-controls select {
+  max-width: 330px;
+}
+@media (max-width: 1000px) {
+  .vibration-layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 650px) {
+  .section-header {
+    flex-direction: column;
+  }
+  .property-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .property-cards strong {
+    font-size: 15px;
+  }
+  .scientific-details dl > div {
+    display: block;
+  }
+  .scientific-details dd {
+    margin-top: 7px;
+  }
+}
+@media (max-width: 1000px) {
+  .workspace-heading {
+    flex-wrap: wrap;
+  }
+  .heading-actions {
+    display: flex;
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+}
+.result-content > .advanced-results {
+  padding: 24px 26px;
+}
+.advanced-results > .panel-heading {
+  padding: 0;
+}
+@media (max-width: 650px) {
+  .result-content > .advanced-results {
+    padding: 19px 16px;
+  }
+}

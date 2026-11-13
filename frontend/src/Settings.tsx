@@ -9,8 +9,16 @@ import {
   Settings2,
 } from "lucide-react";
 import { api } from "./api";
-import type { Atom, Catalog, CatalogItem, Example, Spec, Task } from "./types";
-import { atomText, itemName, taskLabels } from "./types";
+import type {
+  Atom,
+  Catalog,
+  CatalogItem,
+  Example,
+  Method,
+  Spec,
+  Task,
+} from "./types";
+import { atomText, CORRELATED_METHODS, itemName, taskLabels } from "./types";
 
 export default function Settings({
   spec,
@@ -120,7 +128,7 @@ export default function Settings({
   }
   function collect() {
     try {
-      const atoms = coordinates
+      const enteredAtoms = coordinates
         .trim()
         .split("\n")
         .filter((s) => s.trim())
@@ -133,6 +141,10 @@ export default function Settings({
             throw new Error("좌표는 원소 x y z 형식으로 입력하세요.");
           return { symbol: parts[0], position: parts.slice(1).map(Number) };
         });
+      // The textarea is rounded for readability. Preserve imported/optimized
+      // coordinates at full precision until the user actually edits them.
+      const atoms =
+        coordinates === atomText(spec.atoms) ? spec.atoms : enteredAtoms;
       const result = {
         ...spec,
         atoms,
@@ -166,8 +178,73 @@ export default function Settings({
     "optimize",
     "tda",
     "tddft",
+    "tdhf",
+    "frequencies",
+    "eomccsd",
     "educational_rhf",
   ];
+  const correlated = CORRELATED_METHODS.includes(spec.method);
+  const activeSpace = ["CASCI", "CASSCF", "NEVPT2"].includes(spec.method);
+  const closedShellTask =
+    correlated ||
+    [
+      "tda",
+      "tddft",
+      "tdhf",
+      "frequencies",
+      "eomccsd",
+      "educational_rhf",
+    ].includes(spec.task);
+  const methods: Method[] =
+    spec.task === "eomccsd"
+      ? ["CCSD"]
+      : spec.domain === "crystal" || spec.task === "tddft"
+        ? ["DFT"]
+        : ["educational_rhf", "tdhf"].includes(spec.task)
+          ? ["HF"]
+          : spec.task === "single_point"
+            ? ["HF", "DFT", ...CORRELATED_METHODS]
+            : ["HF", "DFT"];
+  function chooseTask(task: Task) {
+    const method: Method =
+      task === "eomccsd"
+        ? "CCSD"
+        : ["tdhf", "educational_rhf"].includes(task)
+          ? "HF"
+          : task === "tddft"
+            ? "DFT"
+            : correlated && task !== "single_point"
+              ? "HF"
+              : spec.method;
+    update({
+      task,
+      method,
+      frozen_orbitals: 0,
+      ir_intensities: false,
+      ...([
+        "tda",
+        "tddft",
+        "tdhf",
+        "frequencies",
+        "eomccsd",
+        "educational_rhf",
+      ].includes(task)
+        ? { spin: 0, restricted: true }
+        : {}),
+      ...(task === "frequencies" || task === "educational_rhf"
+        ? { ecp: null }
+        : {}),
+    });
+  }
+  function chooseMethod(method: Method) {
+    update({
+      method,
+      frozen_orbitals: 0,
+      ...(CORRELATED_METHODS.includes(method)
+        ? { spin: 0, restricted: true }
+        : {}),
+    });
+  }
   const selectedFunctional = catalog.functionals.find(
     (item) => itemName(item).toLowerCase() === spec.functional.toLowerCase(),
   );
@@ -296,6 +373,7 @@ export default function Settings({
               type="number"
               min={0}
               aria-label="스핀"
+              disabled={closedShellTask}
               value={spec.spin}
               onChange={(e) =>
                 update({
@@ -316,17 +394,7 @@ export default function Settings({
         <select
           aria-label="계산 작업"
           value={spec.task}
-          onChange={(e) => {
-            const task = e.target.value as Task;
-            update({
-              task,
-              ...(["tda", "tddft"].includes(task)
-                ? { method: "DFT" as const, spin: 0, restricted: true }
-                : task === "educational_rhf"
-                  ? { method: "HF" as const, spin: 0, restricted: true }
-                  : {}),
-            });
-          }}
+          onChange={(e) => chooseTask(e.target.value as Task)}
         >
           {(spec.domain === "molecule"
             ? molecularTasks
@@ -344,14 +412,14 @@ export default function Settings({
           <select
             aria-label="방법론"
             value={spec.method}
-            disabled={
-              spec.domain === "crystal" ||
-              ["tda", "tddft", "educational_rhf"].includes(spec.task)
-            }
-            onChange={(e) => update({ method: e.target.value as "HF" | "DFT" })}
+            disabled={methods.length === 1}
+            onChange={(e) => chooseMethod(e.target.value as Method)}
           >
-            <option value="HF">Hartree–Fock</option>
-            <option value="DFT">DFT</option>
+            {methods.map((method) => (
+              <option key={method} value={method}>
+                {method === "HF" ? "Hartree–Fock" : method}
+              </option>
+            ))}
           </select>
         </label>
         <label className="field">
@@ -386,6 +454,91 @@ export default function Settings({
           </select>
         </label>
       </div>
+      {correlated && (
+        <div className="method-settings">
+          <p className="settings-explanation">
+            닫힌껍질 RHF 기준의 {spec.method} 단일점 계산입니다. 전체 에너지는
+            상관 방법의 결과이며, 표시하는 오비탈·전자밀도·쌍극자는 RHF 기준
+            상태입니다.
+          </p>
+          {["MP2", "CCSD", "CCSD(T)", "CISD"].includes(spec.method) && (
+            <label className="field">
+              동결 점유 오비탈 수
+              <input
+                type="number"
+                aria-label="동결 오비탈 수"
+                min={0}
+                step={1}
+                value={spec.frozen_orbitals ?? 0}
+                onChange={(e) =>
+                  update({ frozen_orbitals: Number(e.target.value) })
+                }
+              />
+              <small>
+                낮은 에너지의 점유 공간 오비탈을 상관 계산에서 제외합니다. 0은
+                전체 전자 상관입니다.
+              </small>
+            </label>
+          )}
+          {activeSpace && (
+            <>
+              <div className="field-row">
+                <label className="field">
+                  활성 전자 수
+                  <input
+                    type="number"
+                    aria-label="활성 전자 수"
+                    min={2}
+                    step={2}
+                    value={spec.active_electrons ?? 2}
+                    onChange={(e) =>
+                      update({ active_electrons: Number(e.target.value) })
+                    }
+                  />
+                </label>
+                <label className="field">
+                  활성 오비탈 수
+                  <input
+                    type="number"
+                    aria-label="활성 오비탈 수"
+                    min={1}
+                    max={spec.method === "NEVPT2" ? 8 : 12}
+                    step={1}
+                    value={spec.active_orbitals ?? 2}
+                    onChange={(e) =>
+                      update({ active_orbitals: Number(e.target.value) })
+                    }
+                  />
+                </label>
+              </div>
+              <p className="settings-explanation">
+                초기 활성 공간은 닫힌껍질 코어 다음의 연속된 정준 RHF
+                오비탈입니다. CASSCF에서는 오비탈도 최적화합니다. 자동 선택이
+                화학적으로 적절한 활성 공간을 보장하지 않습니다.
+              </p>
+            </>
+          )}
+          {spec.method === "NEVPT2" && (
+            <p className="settings-explanation">
+              정준 RHF 오비탈의 CASCI 기준에 strongly-contracted NEVPT2 보정을
+              더합니다. CASSCF 오비탈 최적화를 자동 수행하지 않습니다.
+            </p>
+          )}
+          {spec.task === "eomccsd" && (
+            <p className="settings-explanation">
+              CCSD 바닥상태에서 singlet EOM 여기 에너지와 잔차를 계산합니다.
+              전이 세기·흡수 스펙트럼·NTO는 제공하지 않습니다.
+            </p>
+          )}
+          {spec.method === "FCI" && (
+            <p className="settings-explanation">
+              FCI는 유한한 기저 안의 정확한 전자 풀이입니다. 기저·상대론·핵
+              운동의 오차는 남으며, 큰 determinant 공간은 자원 보호를 위해 실행
+              전에 거부합니다.
+            </p>
+          )}
+        </div>
+      )}
       <div className="catalog-status">
         기저: {supportText(basisInfo)}
         {basisInfo?.description && <small>{basisInfo.description}</small>}
@@ -472,7 +625,7 @@ export default function Settings({
           </label>
         </>
       )}
-      {["tda", "tddft"].includes(spec.task) && (
+      {["tda", "tddft", "tdhf", "eomccsd"].includes(spec.task) && (
         <label className="field">
           계산할 여기 상태 수
           <input
@@ -483,6 +636,53 @@ export default function Settings({
             onChange={(e) => update({ nstates: Number(e.target.value) })}
           />
         </label>
+      )}
+      {spec.task === "frequencies" && (
+        <div className="method-settings">
+          <p className="settings-explanation">
+            입력 구조에서 analytic Hessian을 계산합니다. 먼저 구조를 최적화하고,
+            완료된 최적화 작업의 조건을 복사해 진동 분석을 실행하세요. 허수
+            진동수는 음수로 표시합니다.
+          </p>
+          <label className="check-field">
+            <input
+              type="checkbox"
+              checked={spec.ir_intensities ?? false}
+              onChange={(e) => update({ ir_intensities: e.target.checked })}
+            />
+            IR 세기 계산 (변위 구조의 추가 SCF 필요)
+          </label>
+          <div className="field-row">
+            <label className="field">
+              온도 / K
+              <input
+                type="number"
+                aria-label="열화학 온도"
+                min={1}
+                value={spec.temperature_kelvin ?? 298.15}
+                onChange={(e) =>
+                  update({ temperature_kelvin: Number(e.target.value) })
+                }
+              />
+            </label>
+            <label className="field">
+              압력 / Pa
+              <input
+                type="number"
+                aria-label="열화학 압력"
+                min={1}
+                value={spec.pressure_pa ?? 101325}
+                onChange={(e) =>
+                  update({ pressure_pa: Number(e.target.value) })
+                }
+              />
+            </label>
+          </div>
+          <p className="settings-explanation">
+            이상기체·강체 회전자·조화 진동 근사입니다. 비정상 구조 또는 비양의
+            진동 모드가 있으면 열화학 값을 제공하지 않습니다.
+          </p>
+        </div>
       )}
       {expert && (
         <details className="advanced" open>
@@ -495,6 +695,7 @@ export default function Settings({
                 <input
                   type="checkbox"
                   checked={spec.restricted}
+                  disabled={closedShellTask}
                   onChange={(e) => update({ restricted: e.target.checked })}
                 />
                 제한 궤도 (restricted)
