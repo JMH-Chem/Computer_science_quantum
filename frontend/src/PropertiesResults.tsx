@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowDownToLine, Pause, Play, Waves } from "lucide-react";
+import { ArrowDownToLine, Pause, Play } from "lucide-react";
 import type { Data } from "plotly.js";
 import Chart from "./Chart";
 import Viewer from "./Viewer";
@@ -12,6 +12,21 @@ const number = (value: unknown, digits = 5) =>
   typeof value === "number" && Number.isFinite(value)
     ? value.toFixed(digits)
     : "—";
+
+function CalculationNotes({ notes }: { notes: string[] }) {
+  const unique = [...new Set(notes.filter(Boolean))];
+  if (!unique.length) return null;
+  return (
+    <details className="scientific-details calculation-notes">
+      <summary>계산 조건과 해석</summary>
+      <ul>
+        {unique.map((note) => (
+          <li key={note}>{note}</li>
+        ))}
+      </ul>
+    </details>
+  );
+}
 
 export function DataDownload({
   jobId,
@@ -59,7 +74,7 @@ export function CorrelationResults({
         y: iterations.map((entry) => entry.energy_hartree),
         type: "scatter",
         mode: "lines+markers",
-        line: { color: "#b7a4f4" },
+        line: { color: "#ad6546" },
         connectgaps: false,
       },
     ],
@@ -69,16 +84,14 @@ export function CorrelationResults({
     return (
       <Empty
         label="전자 상관 계산"
-        description="MP2, CCSD, CCSD(T), CISD, FCI, CASCI 또는 CASSCF 단일점 계산을 실행하면 기준 RHF와 상관 에너지, 수렴 정보를 표시합니다."
+        description="MP2·CC·CI·CAS·NEVPT2 계산의 기준 에너지와 상관 에너지, 수렴 정보를 표시합니다."
       />
     );
   return (
     <div className="advanced-results" data-testid="correlation-results">
       <div className="section-header">
         <div>
-          <h2>
-            {correlation?.method ?? "전자 상관"} · 기준 상태에서 상관 에너지로
-          </h2>
+          <h2>{correlation?.method ?? "전자 상관"} 계산 결과</h2>
           <p>
             SCF와 상관 풀이기의 반복은 별도 과정입니다. 반복 번호는 실제 시간이
             아닙니다.
@@ -113,9 +126,7 @@ export function CorrelationResults({
             </div>
           </div>
           <p className="science-note">
-            이 작업의 전자밀도·오비탈·쌍극자는 RHF 기준 상태입니다. 상관
-            에너지로부터 상관 밀도를 계산했다고 해석하지 않습니다. 에너지가
-            낮아졌다는 사실만으로 해당 방법의 정확도를 확정할 수 없습니다.
+            밀도·오비탈·쌍극자는 RHF 기준입니다. 상관 에너지와 구분해 읽으세요.
           </p>
           {correlation.frozen_orbitals > 0 && (
             <p>동결 점유 공간 오비탈: {correlation.frozen_orbitals}개</p>
@@ -187,6 +198,11 @@ export function CorrelationResults({
           </dl>
         </details>
       )}
+      <CalculationNotes
+        notes={[
+          "상관 에너지로부터 상관 밀도를 계산한 것은 아닙니다. 에너지가 낮아졌다는 사실만으로 해당 방법의 정확도를 확정할 수 없습니다.",
+        ]}
+      />
     </div>
   );
 }
@@ -210,14 +226,14 @@ export function MolecularPropertyResults({
               y: properties.mulliken_charges,
               name: "Mulliken",
               type: "bar",
-              marker: { color: "#68dfc5" },
+              marker: { color: "#285f8f" },
             },
             {
               x: atoms.map((atom, index) => `${atom.symbol}${index + 1}`),
               y: properties.lowdin_charges,
               name: "Löwdin",
               type: "bar",
-              marker: { color: "#b7a4f4" },
+              marker: { color: "#ad6546" },
             },
           ]
         : [],
@@ -260,11 +276,6 @@ export function MolecularPropertyResults({
           <strong>{number(properties.spin_square, 6)}</strong>
         </div>
       </div>
-      <p className="science-note">
-        Mulliken·Löwdin 전하는 관측 가능한 고유한 원자 전하가 아닙니다. 음수는
-        전자 과잉, 양수는 전자 부족을 뜻합니다. 오비탈 등가면의 위상 색상과는
-        다른 의미입니다. 이온의 쌍극자는 좌표 원점에 의존합니다.
-      </p>
       <Chart
         data={data}
         xTitle="원자"
@@ -297,11 +308,12 @@ export function MolecularPropertyResults({
           </tbody>
         </table>
       </div>
-      {properties.warnings.map((warning, index) => (
-        <p className="science-note" key={index}>
-          {warning}
-        </p>
-      ))}
+      <CalculationNotes
+        notes={[
+          "Mulliken·Löwdin 전하는 관측 가능한 고유한 원자 전하가 아닙니다. 음수는 전자 과잉, 양수는 전자 부족을 뜻합니다. 오비탈 등가면의 위상 색상과는 다른 의미입니다. 이온의 쌍극자는 좌표 원점에 의존합니다.",
+          ...properties.warnings,
+        ]}
+      />
     </div>
   );
 }
@@ -352,7 +364,8 @@ export function VibrationalResults({
         type: "scatter",
         mode: "lines",
         fill: "tozeroy",
-        line: { color: "#68dfc5" },
+        line: { color: "#285f8f" },
+        fillcolor: "rgba(40,95,143,0.08)",
       },
     ];
   }, [vibrations, width]);
@@ -368,7 +381,7 @@ export function VibrationalResults({
     <div className="advanced-results" data-testid="vibrational-results">
       <div className="section-header">
         <div>
-          <h2>조화 진동 · Harmonic vibrations</h2>
+          <h2>조화 진동</h2>
           <p>
             병진·회전을 제거한 진동 모드입니다. 음수로 표시한 진동수는 허수
             진동수입니다.
@@ -433,10 +446,8 @@ export function VibrationalResults({
               </label>
             </div>
             <p className="science-note">
-              <Waves size={15} />
-              계산된 모드 방향을 사용한 교육용 모식도입니다. 재생 속도와 진폭은
-              보기 위한 설정이며 실제 시간 궤적·열적 진폭을 계산한 것이
-              아닙니다.
+              계산된 모드의 교육용 모식도입니다. 표시 진폭과 재생 속도는 실제
+              시간 궤적·열적 진폭이 아닙니다.
               {mode?.imaginary &&
                 " 허수 모드의 왕복 재생은 안정한 진동을 의미하지 않습니다."}
             </p>
@@ -615,11 +626,7 @@ export function VibrationalResults({
           </p>
         )}
       </div>
-      {vibrations.warnings.map((warning, index) => (
-        <p className="science-note" key={index}>
-          {warning}
-        </p>
-      ))}
+      <CalculationNotes notes={vibrations.warnings} />
     </div>
   );
 }
@@ -644,7 +651,7 @@ export function MaterialResults({
               name: "전체 상태",
               type: "scatter",
               mode: "lines",
-              line: { color: "#b7a4f4" },
+              line: { color: "#ad6546" },
             },
             {
               x: dos.energy_ev,
@@ -653,7 +660,8 @@ export function MaterialResults({
               type: "scatter",
               mode: "lines",
               fill: "tozeroy",
-              line: { color: "#68dfc5" },
+              line: { color: "#285f8f" },
+              fillcolor: "rgba(40,95,143,0.08)",
             },
           ]
         : [],
@@ -670,7 +678,7 @@ export function MaterialResults({
     <div className="advanced-results" data-testid="material-results">
       <div className="section-header">
         <div>
-          <h2>상태 밀도 · Density of states</h2>
+          <h2>상태 밀도 (DOS)</h2>
           <p>
             밴드 경로가 아닌 균일 SCF k점 격자의 고유값과 점유수를 사용합니다.
           </p>
@@ -723,11 +731,6 @@ export function MaterialResults({
               </strong>
             </div>
           </div>
-          {dos.limitations.map((note, index) => (
-            <p className="science-note" key={index}>
-              {note}
-            </p>
-          ))}
         </>
       )}
       {edges && (
@@ -792,6 +795,7 @@ export function MaterialResults({
           </p>
         </div>
       )}
+      {dos && <CalculationNotes notes={dos.limitations} />}
     </div>
   );
 }
@@ -813,7 +817,7 @@ export function EOMResults({
               y: [0, 0],
               type: "scatter",
               mode: "lines",
-              line: { color: "#7f98a7", width: 3 },
+              line: { color: "#677179", width: 2 },
               name: "CCSD 기준",
             },
             ...eom.states
@@ -823,7 +827,7 @@ export function EOMResults({
                 y: [state.energy_ev, state.energy_ev],
                 type: "scatter",
                 mode: "lines",
-                line: { color: "#b7a4f4", width: 3 },
+                line: { color: "#ad6546", width: 2 },
                 text: [`S${state.state}`, `S${state.state}`],
                 hovertemplate: `S${state.state}: %{y:.6f} eV<extra></extra>`,
               })),
@@ -881,11 +885,7 @@ export function EOMResults({
         여기 에너지만 계산합니다. oscillator strength·흡수 스펙트럼·NTO와 상태
         수명은 계산하지 않았습니다. 위 전체 에너지는 CCSD 바닥상태 에너지입니다.
       </p>
-      {eom.notes.map((note, index) => (
-        <p className="science-note" key={index}>
-          {note}
-        </p>
-      ))}
+      <CalculationNotes notes={eom.notes} />
     </div>
   );
 }

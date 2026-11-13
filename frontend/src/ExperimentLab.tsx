@@ -4,10 +4,8 @@ import {
   ArrowDownToLine,
   ArrowRight,
   ArrowUp,
-  BookOpen,
   Check,
   CircleHelp,
-  FlaskConical,
   History,
   Info,
   Layers3,
@@ -443,7 +441,7 @@ export default function ExperimentLab({
         connectgaps: false,
         line: {
           color:
-            metric === "time" || metric === "memory" ? "#b7a4f4" : "#68dfc5",
+            metric === "time" || metric === "memory" ? "#ad6546" : "#285f8f",
           width: 2,
         },
         marker: {
@@ -477,15 +475,12 @@ export default function ExperimentLab({
     <main className="experiment-lab">
       <div className="lab-heading">
         <div>
-          <span className="eyebrow">
-            GUIDED EXPERIMENTS · CALCULATE & COMPARE
-          </span>
           <h1>
             {selectedId && !experiment
               ? "저장된 실험을 불러오는 중"
               : selectedTitle}
           </h1>
-          <p>한 가지 조건만 바꾸고, 직접 계산한 결과에서 차이를 발견합니다.</p>
+          <p>조건별 계산값과 수렴 상태를 비교합니다.</p>
         </div>
         <button
           className="secondary-button"
@@ -613,7 +608,6 @@ export default function ExperimentLab({
           <section className="panel lab-conditions">
             <div className="panel-heading">
               <div>
-                <span className="eyebrow">CONTROLLED CONDITIONS</span>
                 <h2>
                   <LockKeyhole size={16} />
                   고정하는 조건
@@ -845,14 +839,13 @@ export default function ExperimentLab({
         <div className="lab-main">
           {!selectedId ? (
             <section className="panel lab-prediction">
-              <span className="eyebrow">PREDICT BEFORE YOU COMPUTE</span>
               <h2>
                 {presentation?.question ??
                   `${variableLabel}를 바꾸면 에너지는 어떻게 달라질까요?`}
               </h2>
               <p>
-                정답을 맞히는 퀴즈가 아닙니다. 먼저 예상하고 실제 수치와 비교해
-                보세요. 변화가 한 방향이라는 보장은 없습니다.
+                예상한 방향을 기록한 뒤 계산값과 비교하세요. 변화가 한
+                방향이라는 보장은 없습니다.
               </p>
               <div className="lab-prediction-options">
                 {predictions.map(({ id, label, icon: Icon }) => (
@@ -912,7 +905,6 @@ export default function ExperimentLab({
             <section className="panel lab-run-summary">
               <div className="lab-run-title">
                 <div>
-                  <span className="eyebrow">YOUR EXPERIMENT</span>
                   <h2>{experiment?.name ?? "저장된 실험을 불러오는 중"}</h2>
                 </div>
                 {loading ? (
@@ -991,8 +983,7 @@ export default function ExperimentLab({
           <section className="panel lab-observations">
             <div className="panel-heading">
               <div>
-                <span className="eyebrow">OBSERVE THE DIFFERENCE</span>
-                <h2>달라진 결과, 함께 보기</h2>
+                <h2>계산 결과 비교</h2>
               </div>
               <select
                 aria-label="실험 그래프 지표"
@@ -1127,8 +1118,7 @@ export default function ExperimentLab({
               </>
             ) : (
               <div className="lab-empty">
-                <FlaskConical size={30} />
-                <strong>{count}번의 실제 계산으로 채워질 공간입니다.</strong>
+                <strong>계산 결과 대기</strong>
                 <p>
                   에너지, 기저 함수 수, 수렴 반복과 계산 비용을 한눈에
                   비교합니다.
@@ -1143,70 +1133,66 @@ export default function ExperimentLab({
           </section>
           <section className="panel lab-interpretation">
             <div className="panel-heading">
-              <div>
-                <span className="eyebrow">TURN NUMBERS INTO UNDERSTANDING</span>
-                <h2>결과에서 무엇을 읽을 수 있을까요?</h2>
-              </div>
-              <BookOpen size={21} />
+              <h2>관찰과 해석</h2>
             </div>
             <div className="lab-findings" aria-live="polite">
               {experiment?.analysis.messages?.length ? (
-                experiment.analysis.messages.map((message, index) => (
-                  <article
-                    key={`${index}-${message.kind}`}
-                    className={`lab-finding ${message.kind}`}
-                  >
-                    <span>
-                      {message.kind === "observation"
-                        ? "관찰한 사실"
-                        : message.kind === "next"
-                          ? "다음 질문"
-                          : "해석의 범위"}
-                    </span>
-                    <p>{message.text}</p>
-                  </article>
-                ))
+                experiment.analysis.messages
+                  .filter((message) => message.kind !== "limit")
+                  .map((message, index) => (
+                    <p
+                      key={`${index}-${message.kind}`}
+                      className={`lab-finding ${message.kind}`}
+                    >
+                      {message.kind === "next" && <strong>다음 비교 </strong>}
+                      {message.text}
+                    </p>
+                  ))
               ) : (
-                <article className="lab-finding">
-                  <span>관찰할 준비</span>
-                  <p>
-                    계산이 끝나면 실제 에너지 변화량을 사용한 설명이 여기에
-                    나타납니다. 지금은 결과를 미리 가정하지 않습니다.
-                  </p>
-                </article>
+                <p className="lab-finding">
+                  계산 후 실제 에너지 변화와 비교할 수 있는 범위를 표시합니다.
+                </p>
               )}
             </div>
-            <div className="lab-lessons">
-              {(presentation?.lessons ?? []).map((lesson, index) => (
-                <article key={lesson.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{lesson.title}</h3>
-                  <p>{lesson.body}</p>
-                </article>
-              ))}
-            </div>
-            <p className="science-note">
-              <Info size={15} />
-              SCF 수렴과 기저·격자·k점 수렴은 다릅니다. 서로 다른 근사 방법의
-              전체 에너지만으로 정확도 순위를 정하거나 실험값과의 일치를 보장할
-              수 없습니다.
-            </p>
-            {!!presentation?.references?.length && (
-              <div className="lab-references">
-                <span>해설과 계산 방법의 출처</span>
-                {presentation.references.map((reference) => (
-                  <a
-                    key={reference}
-                    href={reference}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {reference}
-                    <ArrowRight size={12} />
-                  </a>
+            <details className="lab-disclosure lab-limitations">
+              <summary>해석 시 확인 사항</summary>
+              {experiment?.analysis.messages
+                ?.filter((message) => message.kind === "limit")
+                .map((message, index) => (
+                  <p key={index}>{message.text}</p>
+                ))}
+              <p>
+                SCF 수렴과 기저·격자·k점 수렴은 다릅니다. 서로 다른 근사 방법의
+                전체 에너지만으로 정확도 순위를 정하거나 실험값과의 일치를
+                보장할 수 없습니다.
+              </p>
+            </details>
+            <details className="lab-disclosure lab-guide">
+              <summary>실험 안내와 출처</summary>
+              <div className="lab-lessons">
+                {(presentation?.lessons ?? []).map((lesson) => (
+                  <article key={lesson.title}>
+                    <h3>{lesson.title}</h3>
+                    <p>{lesson.body}</p>
+                  </article>
                 ))}
               </div>
-            )}
+              {!!presentation?.references?.length && (
+                <div className="lab-references">
+                  {presentation.references.map((reference) => (
+                    <a
+                      key={reference}
+                      href={reference}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {reference}
+                      <ArrowRight size={12} />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </details>
           </section>
           {experiment && (
             <footer className="lab-footer">

@@ -31,28 +31,36 @@ export default function Chart({
       paper_bgcolor: "transparent",
       plot_bgcolor: "transparent",
       font: {
-        family: "Inter, Pretendard, Arial, sans-serif",
-        color: "#93a9b9",
-        size: 11,
+        family:
+          "-apple-system, BlinkMacSystemFont, Segoe UI, Noto Sans KR, sans-serif",
+        color: "#5a656e",
+        size: 12,
       },
       margin: { l: 66, r: 24, t: title ? 40 : 20, b: 48 },
       title: title
-        ? { text: title, font: { size: 13, color: "#d7e4ec" } }
+        ? { text: title, font: { size: 13, color: "#242b30" } }
         : undefined,
       xaxis: {
         title: { text: xTitle },
-        gridcolor: "#21313e",
-        zerolinecolor: "#304453",
+        gridcolor: "#e4e7e7",
+        zerolinecolor: "#aeb7bc",
+        tickfont: { size: 11 },
         automargin: true,
       },
       yaxis: {
         title: { text: yTitle },
-        gridcolor: "#21313e",
-        zerolinecolor: "#304453",
+        gridcolor: "#e4e7e7",
+        zerolinecolor: "#aeb7bc",
+        tickfont: { size: 11 },
         automargin: true,
       },
       showlegend: false,
       hovermode: "closest",
+      hoverlabel: {
+        bgcolor: "#fff",
+        bordercolor: "#c9cfd3",
+        font: { color: "#242b30" },
+      },
       ...layout,
     };
     let disposed = false;
@@ -89,6 +97,7 @@ export default function Chart({
     <div
       className="chart"
       ref={ref}
+      style={{ height, minHeight: height }}
       aria-label={title ?? `${xTitle} 대 ${yTitle} 그래프`}
     />
   );

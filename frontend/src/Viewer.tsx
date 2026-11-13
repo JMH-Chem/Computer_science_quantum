@@ -66,7 +66,7 @@ export default function Viewer({
           imported) as unknown as MolModule;
         host.current.replaceChildren();
         owned = mol.createViewer(host.current, {
-          backgroundColor: "#101e2a",
+          backgroundColor: "#f7f7f4",
           antialias: true,
         });
         view.current = owned;
@@ -176,19 +176,19 @@ export default function Viewer({
             viewer.addLine({
               start: vertex(0, i, j),
               end: vertex(1, i, j),
-              color: "#65b9c9",
+              color: "#87969c",
               linewidth: 1.5,
             });
             viewer.addLine({
               start: vertex(i, 0, j),
               end: vertex(i, 1, j),
-              color: "#65b9c9",
+              color: "#87969c",
               linewidth: 1.5,
             });
             viewer.addLine({
               start: vertex(i, j, 0),
               end: vertex(i, j, 1),
-              color: "#65b9c9",
+              color: "#87969c",
               linewidth: 1.5,
             });
           }
@@ -196,7 +196,7 @@ export default function Viewer({
           viewer.addLabel(axis, {
             position: vertex(i === 0 ? 1 : 0, i === 1 ? 1 : 0, i === 2 ? 1 : 0),
             fontSize: 13,
-            fontColor: "#a8e6df",
+            fontColor: "#536068",
             backgroundOpacity: 0,
           }),
         );
@@ -204,14 +204,14 @@ export default function Viewer({
       if (cube) {
         viewer.addVolumetricData(cube, "cube", {
           isoval: iso,
-          color: "#5edac0",
+          color: "#3d70a2",
           opacity: 0.68,
           smoothness: 2,
         });
         if (kind !== "density")
           viewer.addVolumetricData(cube, "cube", {
             isoval: -iso,
-            color: "#a896f4",
+            color: "#c48146",
             opacity: 0.68,
             smoothness: 2,
           });

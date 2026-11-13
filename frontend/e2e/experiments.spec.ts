@@ -91,6 +91,15 @@ test("guided experiment: real three-basis water run, ordered comparison, reload 
 
   const tableRows = page.getByTestId("experiment-table").locator("tbody tr");
   await expect(tableRows).toHaveCount(3);
+  // A plot can retain valid data while a resize race collapses its visible SVG.
+  await expect
+    .poll(async () =>
+      page
+        .locator(".lab-observations .main-svg")
+        .first()
+        .evaluate((element) => element.getBoundingClientRect().height),
+    )
+    .toBeGreaterThan(200);
   for (let index = 0; index < 3; index += 1) {
     const row = experiment.rows[index];
     const job = experiment.jobs.find(
@@ -470,6 +479,7 @@ test("guided experiment: failed middle result leaves gaps and switching clears s
   await expect
     .poll(async () => (await chartData(page)).y)
     .toEqual([null, null, null]);
+  await page.getByText("해석 시 확인 사항", { exact: true }).click();
   await expect(
     page.getByText("가상 응답으로 실패 표시만 검사합니다.", { exact: true }),
   ).toBeVisible();

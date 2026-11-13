@@ -383,18 +383,10 @@ export default function App() {
     <div className="app-shell">
       <header className="topbar">
         <a className="brand" href="#" onClick={(e) => e.preventDefault()}>
-          <div className="brand-mark">
-            <AtomIcon size={25} />
-          </div>
-          <div>
-            Quantum<span>Lab</span>
-            <small>MOLECULES · MATERIALS · DISCOVERY</small>
-          </div>
+          <span className="brand-wordmark">Quantum Lab</span>
         </a>
         <div className="header-divider" />
-        <span className="workspace-name">
-          개인 연구실 <ChevronDown size={12} />
-        </span>
+        <span className="workspace-name">분자 · 결정 계산</span>
         <div className="header-right">
           <span className={`connection ${online ? "connected" : ""}`}>
             <i />
@@ -440,7 +432,7 @@ export default function App() {
         >
           <FlaskConical size={16} /> 학습 실험
         </button>
-        <span>직접 계산하고, 조건을 비교하며 이해하기</span>
+        <span>로컬 작업 공간</span>
       </nav>
       {error && (
         <div className="error-banner" role="alert">
@@ -481,17 +473,10 @@ export default function App() {
             <div className="workspace-heading">
               <div>
                 <div className="breadcrumb">
-                  WORKSPACE <ChevronDown size={11} />{" "}
-                  {activeSpec.domain === "crystal"
-                    ? "PERIODIC MATERIALS"
-                    : "MOLECULAR SCIENCE"}
+                  {activeSpec.domain === "crystal" ? "결정 계산" : "분자 계산"}
+                  <span> / {job ? "저장된 작업" : "새 작업"}</span>
                 </div>
                 <h1>{job?.spec.name ?? spec.name}</h1>
-                <p>
-                  {activeSpec.domain === "crystal"
-                    ? "주기적 구조에서 전자의 에너지를 탐색합니다."
-                    : "전자 구조를 계산하고, 결과에 담긴 의미를 살펴보세요."}
-                </p>
               </div>
               <div className="heading-actions">
                 {job && (
@@ -628,25 +613,27 @@ export default function App() {
                 {job.error}
               </div>
             )}
-            {result?.warnings?.map((w, i) => (
-              <div className="warning-note" key={i}>
-                {w}
-              </div>
-            ))}
+            {!!result?.warnings?.length && (
+              <details className="result-notes">
+                <summary>
+                  계산 조건과 해석 · {new Set(result.warnings).size}개 확인 사항
+                </summary>
+                <ul>
+                  {[...new Set(result.warnings)].map((warning) => (
+                    <li key={warning}>{warning}</li>
+                  ))}
+                </ul>
+              </details>
+            )}
             <div className="visual-grid">
               <section className="panel structure-panel">
                 <div className="panel-heading">
                   <div>
-                    <span className="eyebrow">
-                      {activeSpec.domain === "crystal"
-                        ? "CRYSTAL STRUCTURE"
-                        : "MOLECULAR STRUCTURE"}
-                    </span>
                     <h2>
                       {activeSpec.domain === "crystal"
                         ? "결정 구조"
                         : "분자 구조"}{" "}
-                      <span className="count-pill">{atoms.length} ATOMS</span>
+                      <span className="count-pill">원자 {atoms.length}개</span>
                     </h2>
                   </div>
                   <span className="small-tag">
@@ -953,38 +940,69 @@ export default function App() {
                 {tab === "convergence" ? (
                   <div className="overview">
                     <div>
-                      <span className="eyebrow">YOUR NEXT QUESTION</span>
-                      <h2>숫자에서 이해로, 한 걸음 더.</h2>
+                      <h2>최근 SCF 반복</h2>
                       <p>
-                        계산 조건을 바꾸면 결과는 어떻게 달라질까요?
-                        <br />
-                        기저와 수치 격자의 수렴을 확인하고, 같은 구조의 결과를
-                        비교해 보세요.
+                        {iterations.length
+                          ? "최근 기록 5개입니다. 반복 번호를 선택하면 그래프에서 해당 지점을 확인할 수 있습니다."
+                          : "계산을 시작하면 반복별 에너지와 수렴 지표가 이곳에 기록됩니다."}
                       </p>
                       <button
                         className="text-button"
                         onClick={() => setTab("learn")}
                       >
-                        계산 개념 살펴보기 <BookOpen size={14} />
+                        SCF와 수렴 기준 설명 <BookOpen size={14} />
                       </button>
                     </div>
-                    <div className="overview-steps">
-                      <div>
-                        <span>01</span>
-                        <strong>구조와 조건</strong>
-                        <small>원자 · 전하 · 방법 · 기저</small>
+                    {iterations.length > 0 && (
+                      <div className="table-wrap recent-iterations">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>반복</th>
+                              <th>에너지 / Eh</th>
+                              <th>ΔE / Eh</th>
+                              <th>밀도 변화</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {iterations.slice(-5).map((event) => (
+                              <tr
+                                key={event.seq}
+                                className={
+                                  selectedEvent === event.seq
+                                    ? "selected-row"
+                                    : ""
+                                }
+                              >
+                                <td>
+                                  <button
+                                    className="text-button"
+                                    onClick={() => selectedIteration(event)}
+                                  >
+                                    {String(event.data.iteration)}
+                                  </button>
+                                </td>
+                                <td>
+                                  {typeof event.data.energy_hartree === "number"
+                                    ? event.data.energy_hartree.toFixed(9)
+                                    : "—"}
+                                </td>
+                                <td>
+                                  {typeof event.data.delta_energy === "number"
+                                    ? event.data.delta_energy.toExponential(3)
+                                    : "—"}
+                                </td>
+                                <td>
+                                  {typeof event.data.density_change === "number"
+                                    ? event.data.density_change.toExponential(3)
+                                    : "—"}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-                      <div>
-                        <span>02</span>
-                        <strong>수렴과 진단</strong>
-                        <small>에너지 · 밀도 · 잔차</small>
-                      </div>
-                      <div>
-                        <span>03</span>
-                        <strong>결과와 의미</strong>
-                        <small>전자 구조 · 스펙트럼 · 밴드</small>
-                      </div>
-                    </div>
+                    )}
                     {optimization.length > 0 && (
                       <div className="optimization-chart">
                         <Chart
@@ -994,7 +1012,7 @@ export default function App() {
                               y: optimization.map((s) => s.energy_hartree),
                               type: "scatter",
                               mode: "lines+markers",
-                              line: { color: "#b0a1fa" },
+                              line: { color: "#285f8f" },
                             },
                           ]}
                           xTitle="구조 최적화 단계 (시간 아님)"
@@ -1103,7 +1121,6 @@ export default function App() {
           <aside className="history-drawer">
             <div className="panel-heading">
               <div>
-                <span className="eyebrow">SAVED LOCALLY</span>
                 <h2>계산 기록</h2>
               </div>
               <button

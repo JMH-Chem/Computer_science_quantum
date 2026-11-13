@@ -39,13 +39,13 @@ export function Convergence({
         type: "scatter",
         mode: "lines+markers",
         line: {
-          color: metric === "energy_hartree" ? "#64dfc4" : "#b0a1fa",
+          color: metric === "energy_hartree" ? "#285f8f" : "#ad6546",
           width: 2,
         },
         marker: {
           size: iterations.map((e) => (e.seq === selected ? 10 : 5)),
           color: iterations.map((e) =>
-            e.seq === selected ? "#ffffff" : "#64dfc4",
+            e.seq === selected ? "#ad6546" : "#285f8f",
           ),
         },
         customdata: iterations.map((e) => [
@@ -64,7 +64,6 @@ export function Convergence({
     <>
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">SELF-CONSISTENT FIELD</span>
           <h2>
             수렴을 따라가다{" "}
             <span className="count-pill">{iterations.length} STEPS</span>
@@ -96,7 +95,7 @@ export function Convergence({
             layout={{
               yaxis: {
                 type: metric === "energy_hartree" ? "linear" : "log",
-                gridcolor: "#21313e",
+                gridcolor: "#e4e7e7",
                 title: {
                   text:
                     metric === "energy_hartree" ? "Energy / Eh" : "Norm (log)",
@@ -161,7 +160,6 @@ export function Orbitals({ result }: { result: Result | null | undefined }) {
     <>
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">MOLECULAR ORBITALS</span>
           <h2>전자 구조</h2>
         </div>
         {unrestricted && (
@@ -183,7 +181,7 @@ export function Orbitals({ result }: { result: Result | null | undefined }) {
             type: "bar",
             marker: {
               color: values.map((_, i) =>
-                (occ?.[i] ?? 0) > 0 ? "#64dfc4" : "#9286ca",
+                (occ?.[i] ?? 0) > 0 ? "#285f8f" : "#ad6546",
               ),
             },
             customdata: values.map((_, i) => occ?.[i] ?? 0),
@@ -242,9 +240,9 @@ export function Excitations({ result }: { result: Result | null | undefined }) {
         type: "scatter",
         mode: "lines",
         name: broadening === "gaussian" ? "Gaussian" : "Lorentzian",
-        line: { color: "#64dfc4" },
+        line: { color: "#285f8f" },
         fill: "tozeroy",
-        fillcolor: "rgba(100,223,196,.09)",
+        fillcolor: "rgba(40,95,143,.08)",
         yaxis: "y2",
       },
       {
@@ -253,7 +251,7 @@ export function Excitations({ result }: { result: Result | null | undefined }) {
         type: "scatter",
         mode: "lines",
         name: "계산된 전이 세기",
-        line: { color: "#bbabfc", width: 2 },
+        line: { color: "#ad6546", width: 2 },
         hovertemplate: "%{x:.4f} eV<br>f=%{y:.6f}<extra></extra>",
       },
     ];
@@ -281,7 +279,6 @@ export function Excitations({ result }: { result: Result | null | undefined }) {
       )}
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">VERTICAL EXCITATIONS</span>
           <h2>흡수 스펙트럼과 상태도</h2>
         </div>
         <span className="small-tag">{states.length} states</span>
@@ -355,7 +352,6 @@ export function Excitations({ result }: { result: Result | null | undefined }) {
           <span className="diagram-label">교육용 모식도 · 시간 궤적 아님</span>
         </div>
         <div className="state-description">
-          <span className="eyebrow">UNDERSTAND THE TRANSITION</span>
           <h3>S₁에서 S₀로 돌아간다는 것</h3>
           <p>
             계산된 값은 현재 구조에서의 수직 여기 에너지입니다. 아래 방향
@@ -430,8 +426,8 @@ export function Bands({ result }: { result: Result | null | undefined }) {
       line: {
         color:
           i < (Number(bands["n_occupied" as keyof typeof bands]) || 4)
-            ? "#64dfc4"
-            : "#ab9bea",
+            ? "#285f8f"
+            : "#ad6546",
         width: 1.6,
       },
       hovertemplate: "k경로 %{x:.3f}<br>%{y:.5f} eV<extra></extra>",
@@ -441,7 +437,6 @@ export function Bands({ result }: { result: Result | null | undefined }) {
     <>
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">PERIODIC ELECTRONIC STRUCTURE</span>
           <h2>밴드 구조</h2>
         </div>
         {typeof bands.gap_ev === "number" && (
@@ -458,13 +453,13 @@ export function Bands({ result }: { result: Result | null | undefined }) {
           xaxis: {
             tickvals: bands.labels.map((l) => l.distance),
             ticktext: bands.labels.map((l) => l.label),
-            gridcolor: "#3a4d5c",
+            gridcolor: "#d2d8dc",
             title: { text: "고대칭 k 경로" },
           },
           yaxis: {
             title: { text: "E − VBM / eV" },
-            gridcolor: "#21313e",
-            zerolinecolor: "#b0a1fa",
+            gridcolor: "#e4e7e7",
+            zerolinecolor: "#ad6546",
             zerolinewidth: 1.5,
           },
         }}
@@ -514,7 +509,6 @@ export function Compare({
     <div className="advanced-results">
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">REPRODUCIBLE COMPARISON</span>
           <h2>같은 구조·모델의 수치 조건 비교</h2>
         </div>
         <Layers size={20} />
@@ -654,7 +648,6 @@ export function Learn({
     <>
       <div className="panel-heading">
         <div>
-          <span className="eyebrow">LEARN WHILE YOU COMPUTE</span>
           <h2>계산 뒤의 물리 이해하기</h2>
         </div>
         <BookOpen size={21} />

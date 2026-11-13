@@ -265,7 +265,7 @@ export default function Settings({
   return (
     <aside className="settings-panel">
       <div className="panel-label">
-        <Settings2 size={15} /> 계산 설정 <span>SETUP</span>
+        <Settings2 size={15} /> 계산 설정
       </div>
       <div className="segmented domain-select">
         <button
@@ -339,6 +339,7 @@ export default function Settings({
         <textarea
           aria-label="원자 좌표"
           className="coordinate-input"
+          wrap="off"
           spellCheck={false}
           rows={5}
           value={coordinates}
@@ -862,7 +863,6 @@ export default function Settings({
       <button className="run-button" onClick={collect} disabled={busy}>
         <Play size={16} fill="currentColor" />
         {busy ? "작업을 등록하는 중…" : "계산 시작"}
-        <span>RUN</span>
       </button>
     </aside>
   );
